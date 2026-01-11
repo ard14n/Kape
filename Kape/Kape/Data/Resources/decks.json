@@ -1,0 +1,433 @@
+{
+  "decks": [
+    {
+      "id": "mix-shqip",
+      "title": "Mix Shqip",
+      "description": "Gjithçka shqip – filma, muzikë, ushqim!",
+      "icon_name": "sparkles",
+      "difficulty": 1,
+      "is_pro": false,
+      "cards": [
+        {
+          "id": "ms-001",
+          "text": "Qebapa"
+        },
+        {
+          "id": "ms-002",
+          "text": "Flija"
+        },
+        {
+          "id": "ms-003",
+          "text": "Skënderbeu"
+        },
+        {
+          "id": "ms-004",
+          "text": "Nënë Tereza"
+        },
+        {
+          "id": "ms-005",
+          "text": "Adem Jashari"
+        },
+        {
+          "id": "ms-006",
+          "text": "Ismail Kadare"
+        },
+        {
+          "id": "ms-007",
+          "text": "Dua Lipa"
+        },
+        {
+          "id": "ms-008",
+          "text": "Rita Ora"
+        },
+        {
+          "id": "ms-009",
+          "text": "Bebe Rexha"
+        },
+        {
+          "id": "ms-010",
+          "text": "Era Istrefi"
+        },
+        {
+          "id": "ms-011",
+          "text": "Noizy"
+        },
+        {
+          "id": "ms-012",
+          "text": "Unikkatil"
+        },
+        {
+          "id": "ms-013",
+          "text": "Tirana"
+        },
+        {
+          "id": "ms-014",
+          "text": "Prishtina"
+        },
+        {
+          "id": "ms-015",
+          "text": "Shkodra"
+        },
+        {
+          "id": "ms-016",
+          "text": "Prizreni"
+        },
+        {
+          "id": "ms-017",
+          "text": "Gjakova"
+        },
+        {
+          "id": "ms-018",
+          "text": "Peja"
+        },
+        {
+          "id": "ms-019",
+          "text": "Tetova"
+        },
+        {
+          "id": "ms-020",
+          "text": "Shkupi"
+        },
+        {
+          "id": "ms-021",
+          "text": "Ulqini"
+        },
+        {
+          "id": "ms-022",
+          "text": "Saranda"
+        },
+        {
+          "id": "ms-023",
+          "text": "Vlora"
+        },
+        {
+          "id": "ms-024",
+          "text": "Durrësi"
+        },
+        {
+          "id": "ms-025",
+          "text": "Rakia"
+        },
+        {
+          "id": "ms-026",
+          "text": "Ajvari"
+        },
+        {
+          "id": "ms-027",
+          "text": "Burek"
+        },
+        {
+          "id": "ms-028",
+          "text": "Pite"
+        },
+        {
+          "id": "ms-029",
+          "text": "Pasuli"
+        },
+        {
+          "id": "ms-030",
+          "text": "Sarma"
+        },
+        {
+          "id": "ms-031",
+          "text": "Trileçe"
+        },
+        {
+          "id": "ms-032",
+          "text": "Bakllava"
+        },
+        {
+          "id": "ms-033",
+          "text": "Kafe Turke"
+        },
+        {
+          "id": "ms-034",
+          "text": "Makiato"
+        },
+        {
+          "id": "ms-035",
+          "text": "Dhallë"
+        },
+        {
+          "id": "ms-036",
+          "text": "Kos"
+        },
+        {
+          "id": "ms-037",
+          "text": "Speca me Mazë"
+        },
+        {
+          "id": "ms-038",
+          "text": "Çiftelia"
+        },
+        {
+          "id": "ms-039",
+          "text": "Lahuta"
+        },
+        {
+          "id": "ms-040",
+          "text": "Plisi"
+        },
+        {
+          "id": "ms-041",
+          "text": "Shota"
+        },
+        {
+          "id": "ms-042",
+          "text": "Vallja e Rugovës"
+        },
+        {
+          "id": "ms-043",
+          "text": "Tallava"
+        },
+        {
+          "id": "ms-044",
+          "text": "Dasma"
+        },
+        {
+          "id": "ms-045",
+          "text": "Kanuni"
+        },
+        {
+          "id": "ms-046",
+          "text": "Besa"
+        },
+        {
+          "id": "ms-047",
+          "text": "Shqiponja"
+        },
+        {
+          "id": "ms-048",
+          "text": "Kuq e Zi"
+        },
+        {
+          "id": "ms-049",
+          "text": "Golf 2"
+        },
+        {
+          "id": "ms-050",
+          "text": "Mercedes 190"
+        }
+      ]
+    },
+    {
+      "id": "gurbet",
+      "title": "Gurbet",
+      "description": "Jeta në mërgim – malli, puna, dhe dasmat në verë.",
+      "icon_name": "airplane.departure",
+      "difficulty": 1,
+      "is_pro": false,
+      "cards": [
+        {
+          "id": "gb-001",
+          "text": "Baustelle"
+        },
+        {
+          "id": "gb-002",
+          "text": "Viza"
+        },
+        {
+          "id": "gb-003",
+          "text": "Pasaporta"
+        },
+        {
+          "id": "gb-004",
+          "text": "Ambasada"
+        },
+        {
+          "id": "gb-005",
+          "text": "Western Union"
+        },
+        {
+          "id": "gb-006",
+          "text": "MoneyGram"
+        },
+        {
+          "id": "gb-007",
+          "text": "Euro"
+        },
+        {
+          "id": "gb-008",
+          "text": "Franga"
+        },
+        {
+          "id": "gb-009",
+          "text": "Dollare"
+        },
+        {
+          "id": "gb-010",
+          "text": "Aeroporti"
+        },
+        {
+          "id": "gb-011",
+          "text": "Bileta"
+        },
+        {
+          "id": "gb-012",
+          "text": "Check-in"
+        },
+        {
+          "id": "gb-013",
+          "text": "Kufiri"
+        },
+        {
+          "id": "gb-014",
+          "text": "Dogana"
+        },
+        {
+          "id": "gb-015",
+          "text": "Mergata"
+        },
+        {
+          "id": "gb-016",
+          "text": "Deri në Shtator"
+        },
+        {
+          "id": "gb-017",
+          "text": "Pushimet"
+        },
+        {
+          "id": "gb-018",
+          "text": "Rruga e Kombit"
+        },
+        {
+          "id": "gb-019",
+          "text": "Kolona"
+        },
+        {
+          "id": "gb-020",
+          "text": "Feriboti"
+        },
+        {
+          "id": "gb-021",
+          "text": "Dasma në Verë"
+        },
+        {
+          "id": "gb-022",
+          "text": "Bakshish"
+        },
+        {
+          "id": "gb-023",
+          "text": "Muzika Live"
+        },
+        {
+          "id": "gb-024",
+          "text": "Shisha"
+        },
+        {
+          "id": "gb-025",
+          "text": "Red Bull"
+        },
+        {
+          "id": "gb-026",
+          "text": "Makiato e madhe"
+        },
+        {
+          "id": "gb-027",
+          "text": "BMW M4"
+        },
+        {
+          "id": "gb-028",
+          "text": "Audi RS6"
+        },
+        {
+          "id": "gb-029",
+          "text": "Mercedes AMG"
+        },
+        {
+          "id": "gb-030",
+          "text": "Targat e Huaja"
+        },
+        {
+          "id": "gb-031",
+          "text": "Shtëpia në Kosovë"
+        },
+        {
+          "id": "gb-032",
+          "text": "Banesa në Prishtinë"
+        },
+        {
+          "id": "gb-033",
+          "text": "Ndërtim"
+        },
+        {
+          "id": "gb-034",
+          "text": "Puna"
+        },
+        {
+          "id": "gb-035",
+          "text": "Shefi"
+        },
+        {
+          "id": "gb-036",
+          "text": "Kolegët"
+        },
+        {
+          "id": "gb-037",
+          "text": "Gjuha"
+        },
+        {
+          "id": "gb-038",
+          "text": "Shkolla Shqipe"
+        },
+        {
+          "id": "gb-039",
+          "text": "Fëmijët"
+        },
+        {
+          "id": "gb-040",
+          "text": "Malli"
+        },
+        {
+          "id": "gb-041",
+          "text": "Mërzija"
+        },
+        {
+          "id": "gb-042",
+          "text": "Skype"
+        },
+        {
+          "id": "gb-043",
+          "text": "Viber"
+        },
+        {
+          "id": "gb-044",
+          "text": "WhatsApp"
+        },
+        {
+          "id": "gb-045",
+          "text": "Video Call"
+        },
+        {
+          "id": "gb-046",
+          "text": "Facebook"
+        },
+        {
+          "id": "gb-047",
+          "text": "Instagram"
+        },
+        {
+          "id": "gb-048",
+          "text": "TikTok"
+        },
+        {
+          "id": "gb-049",
+          "text": "Vali Corleone"
+        },
+        {
+          "id": "gb-050",
+          "text": "Diaspora"
+        }
+      ]
+    },
+    {
+      "id": "muzike",
+      "title": "Muzikë",
+      "description": "Nga tallava te pop – e gjithë muzika shqiptare!",
+      "icon_name": "music.mic",
+      "difficulty": 1,
+      "is_pro": true,
+      "cards": []
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Data/DeckServiceTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckServiceTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckServiceTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckServiceTests.dia",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckServiceTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckServiceTests.swiftdeps"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Data/GameResultTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameResultTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameResultTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameResultTests.dia",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameResultTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameResultTests.swiftdeps"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Data/RankTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankTests.dia",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankTests.swiftdeps"
+  }
+}

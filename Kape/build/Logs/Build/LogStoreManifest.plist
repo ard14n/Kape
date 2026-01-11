@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>12</integer>
+	<key>logs</key>
+	<dict>
+		<key>4CFB995A-2636-4385-9D7D-9CD3F2A208C4</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>4CFB995A-2636-4385-9D7D-9CD3F2A208C4.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>67</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>Kape project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>Kape</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project Kape for testing with scheme Kape</string>
+			<key>timeStartedRecording</key>
+			<real>789806726.20308197</real>
+			<key>timeStoppedRecording</key>
+			<real>789806745.32441199</real>
+			<key>title</key>
+			<string>Building project Kape for testing with scheme Kape</string>
+			<key>uniqueIdentifier</key>
+			<string>4CFB995A-2636-4385-9D7D-9CD3F2A208C4</string>
+		</dict>
+		<key>ED6DCC0E-3EA2-46F7-A0A1-F7D15367719E</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>ED6DCC0E-3EA2-46F7-A0A1-F7D15367719E.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>57</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>Kape project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>Kape</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project Kape for testing with scheme Kape</string>
+			<key>timeStartedRecording</key>
+			<real>789807454.965433</real>
+			<key>timeStoppedRecording</key>
+			<real>789807460.92737103</real>
+			<key>title</key>
+			<string>Building project Kape for testing with scheme Kape</string>
+			<key>uniqueIdentifier</key>
+			<string>ED6DCC0E-3EA2-46F7-A0A1-F7D15367719E</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

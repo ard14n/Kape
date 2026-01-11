@@ -1,0 +1,16 @@
+{
+  "source": "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Core/DesignSystem/Components/KapeCard.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Card word: %@",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 18
+        }
+      }
+    ]
+  },
+  "version": 1
+}

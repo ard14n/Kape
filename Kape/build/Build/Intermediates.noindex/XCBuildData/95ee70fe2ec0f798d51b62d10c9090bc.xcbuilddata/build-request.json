@@ -1,0 +1,77 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "96b72ceaaae68517632f9dcc1298172666ff99acb6b74db6919787a972e3793a"
+    },
+    {
+      "guid" : "96b72ceaaae68517632f9dcc12981726fbb490a4d8f166fdd4cdbac65e2cc716"
+    },
+    {
+      "guid" : "96b72ceaaae68517632f9dcc12981726e6e93f03f6b6ee04309217a5c22e2094"
+    }
+  ],
+  "containerPath" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "arm64",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "platform" : "iphonesimulator",
+      "sdk" : "iphonesimulator26.2",
+      "sdkVariant" : "iphonesimulator",
+      "supportedArchitectures" : [
+        "arm64"
+      ],
+      "targetArchitecture" : "arm64"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Products",
+      "derivedDataPath" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build",
+      "indexDataStoreFolderPath" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ASSETCATALOG_FILTER_FOR_DEVICE_MODEL" : "iPhone18,3",
+          "ASSETCATALOG_FILTER_FOR_DEVICE_OS_VERSION" : "26.2",
+          "ASSETCATALOG_FILTER_FOR_THINNING_DEVICE_CONFIGURATION" : "iPhone18,3",
+          "BUILD_ACTIVE_RESOURCES_ONLY" : "YES",
+          "CLANG_COVERAGE_MAPPING" : "YES",
+          "CLANG_PROFILE_DATA_DIRECTORY" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/ProfileData",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "YES",
+          "ONLY_ACTIVE_ARCH" : "YES",
+          "TARGET_DEVICE_IDENTIFIER" : "3F284B9A-2988-4C0F-B695-3ACCB2E362AA",
+          "TARGET_DEVICE_MODEL" : "iPhone18,3",
+          "TARGET_DEVICE_OS_VERSION" : "26.2",
+          "TARGET_DEVICE_PLATFORM_NAME" : "iphonesimulator"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "test",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

@@ -1,0 +1,6 @@
+Target dependency graph (3 targets)
+Target 'KapeUITests' in project 'Kape'
+➜ Explicit dependency on target 'Kape' in project 'Kape'
+Target 'KapeTests' in project 'Kape'
+➜ Explicit dependency on target 'Kape' in project 'Kape'
+Target 'Kape' in project 'Kape' (no dependencies)

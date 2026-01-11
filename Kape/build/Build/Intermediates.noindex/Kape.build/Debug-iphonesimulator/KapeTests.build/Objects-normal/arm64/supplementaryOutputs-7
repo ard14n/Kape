@@ -1,0 +1,23 @@
+{
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Core/Audio/AudioServiceTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/AudioServiceTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/AudioServiceTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/AudioServiceTests.dia",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/AudioServiceTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/AudioServiceTests.swiftdeps"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Core/Audio/RealAudioServiceTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealAudioServiceTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealAudioServiceTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealAudioServiceTests.dia",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealAudioServiceTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealAudioServiceTests.swiftdeps"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Core/DesignSystem/RankBadgeTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankBadgeTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankBadgeTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankBadgeTests.dia",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankBadgeTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankBadgeTests.swiftdeps"
+  }
+}

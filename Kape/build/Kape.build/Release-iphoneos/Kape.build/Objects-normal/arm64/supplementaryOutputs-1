@@ -1,0 +1,12 @@
+{
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Core/Audio/AudioService.swift" : {
+    "abi-baseline-json" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape.abi.json",
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape-primary.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape-primary.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape-primary.dia",
+    "objc-header" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape-Swift.h",
+    "swiftdoc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape.swiftdoc",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape.swiftmodule",
+    "swiftsourceinfo" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape.swiftsourceinfo"
+  }
+}

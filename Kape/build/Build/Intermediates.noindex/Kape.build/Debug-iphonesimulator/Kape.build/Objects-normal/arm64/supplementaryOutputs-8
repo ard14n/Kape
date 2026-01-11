@@ -1,0 +1,23 @@
+{
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/ContentView.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/ContentView.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/ContentView.dia",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/ContentView.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/ContentView.swiftdeps"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/KapeApp.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/KapeApp.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/KapeApp.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/KapeApp.dia",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/KapeApp.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/KapeApp.swiftdeps"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/Kape.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps"
+  }
+}

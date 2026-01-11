@@ -1,0 +1,40 @@
+{
+  "source": "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Features/Debug/MotionDebugView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Motion Debugger",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 9
+        }
+      },
+      {
+        "comment": "",
+        "key": "Gravity Z",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 14
+        }
+      },
+      {
+        "comment": "",
+        "key": "Calibrate Zero",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 20
+        }
+      },
+      {
+        "comment": "",
+        "key": "Clear Log",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 50
+        }
+      }
+    ]
+  },
+  "version": 1
+}

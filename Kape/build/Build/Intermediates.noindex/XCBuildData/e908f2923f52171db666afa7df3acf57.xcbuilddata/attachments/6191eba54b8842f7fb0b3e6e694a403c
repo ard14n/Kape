@@ -1,0 +1,219 @@
+{
+  "" : {
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/KapeTests-primary.dia",
+    "emit-module-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/KapeTests-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/KapeTests-primary-emit-module.dia",
+    "pch" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/KapeTests-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/KapeTests-primary.swiftdeps"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Core/Audio/AudioServiceTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/AudioServiceTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/AudioServiceTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/AudioServiceTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/AudioServiceTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/AudioServiceTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/AudioServiceTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/AudioServiceTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/AudioServiceTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Core/Audio/RealAudioServiceTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealAudioServiceTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealAudioServiceTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealAudioServiceTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealAudioServiceTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealAudioServiceTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealAudioServiceTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealAudioServiceTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealAudioServiceTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Core/DesignSystem/RankBadgeTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankBadgeTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankBadgeTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankBadgeTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankBadgeTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankBadgeTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankBadgeTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankBadgeTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankBadgeTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Core/Haptics/HapticServiceTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/HapticServiceTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/HapticServiceTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/HapticServiceTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/HapticServiceTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/HapticServiceTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/HapticServiceTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/HapticServiceTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/HapticServiceTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Core/Haptics/RealHapticServiceTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealHapticServiceTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealHapticServiceTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealHapticServiceTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealHapticServiceTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealHapticServiceTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealHapticServiceTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealHapticServiceTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RealHapticServiceTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Core/Motion/MotionManagerTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/MotionManagerTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/MotionManagerTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/MotionManagerTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/MotionManagerTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/MotionManagerTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/MotionManagerTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/MotionManagerTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/MotionManagerTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Data/DeckServiceTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckServiceTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckServiceTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckServiceTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckServiceTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckServiceTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckServiceTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckServiceTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckServiceTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Data/GameResultTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameResultTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameResultTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameResultTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameResultTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameResultTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameResultTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameResultTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameResultTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Data/RankTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/RankTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/DesignSystemTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DesignSystemTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DesignSystemTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DesignSystemTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DesignSystemTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DesignSystemTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DesignSystemTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DesignSystemTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DesignSystemTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Features/Game/GameEngineTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameEngineTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameEngineTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameEngineTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameEngineTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameEngineTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameEngineTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameEngineTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameEngineTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Features/Game/GameModelsTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameModelsTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameModelsTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameModelsTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameModelsTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameModelsTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameModelsTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameModelsTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/GameModelsTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Features/Game/ShuffleTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShuffleTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShuffleTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShuffleTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShuffleTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShuffleTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShuffleTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShuffleTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShuffleTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Features/Game/Views/DeckBrowserViewTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckBrowserViewTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckBrowserViewTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckBrowserViewTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckBrowserViewTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckBrowserViewTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckBrowserViewTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckBrowserViewTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckBrowserViewTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Features/Game/Views/DeckRowViewTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckRowViewTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckRowViewTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckRowViewTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckRowViewTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckRowViewTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckRowViewTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckRowViewTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/DeckRowViewTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Features/ResultScreenTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Features/Summary/ResultImageGeneratorTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultImageGeneratorTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultImageGeneratorTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultImageGeneratorTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultImageGeneratorTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultImageGeneratorTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultImageGeneratorTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultImageGeneratorTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultImageGeneratorTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Features/Summary/ResultScreenShareTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenShareTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenShareTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenShareTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenShareTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenShareTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenShareTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenShareTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ResultScreenShareTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Features/Summary/ShareableImageTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShareableImageTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShareableImageTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShareableImageTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShareableImageTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShareableImageTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShareableImageTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShareableImageTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/ShareableImageTests~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Helpers/Factories.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/Factories.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/Factories.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/Factories.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/Factories.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/Factories.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/Factories.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/Factories.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/Factories~partial.swiftmodule"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/KapeTests.swift" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/KapeTests.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/KapeTests.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/KapeTests.dia",
+    "index-unit-output-path" : "/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/KapeTests.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/KapeTests.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/KapeTests.o",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/KapeTests.swiftdeps",
+    "swiftmodule" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Build/Intermediates.noindex/Kape.build/Debug-iphonesimulator/KapeTests.build/Objects-normal/arm64/KapeTests~partial.swiftmodule"
+  }
+}

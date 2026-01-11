@@ -1,0 +1,81 @@
+{
+  "" : {
+    "const-values" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape-primary.swiftconstvalues",
+    "dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape-primary.d",
+    "diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape-primary.dia",
+    "emit-module-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape-primary-emit-module.dia",
+    "pch" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Kape-primary.swiftdeps"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/ContentView.swift" : {
+    "index-unit-output-path" : "/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/ContentView.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/ContentView.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/ContentView.o"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Core/Audio/AudioService.swift" : {
+    "index-unit-output-path" : "/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/AudioService.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/AudioService.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/AudioService.o"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Core/DesignSystem/Colors.swift" : {
+    "index-unit-output-path" : "/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Colors.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Colors.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Colors.o"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Core/DesignSystem/Modifiers.swift" : {
+    "index-unit-output-path" : "/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Modifiers.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Modifiers.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Modifiers.o"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Core/Haptics/HapticService.swift" : {
+    "index-unit-output-path" : "/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/HapticService.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/HapticService.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/HapticService.o"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Core/Interfaces/ServiceFactory.swift" : {
+    "index-unit-output-path" : "/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/ServiceFactory.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/ServiceFactory.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/ServiceFactory.o"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Core/Interfaces/Services.swift" : {
+    "index-unit-output-path" : "/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Services.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Services.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Services.o"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Core/Motion/MotionManager.swift" : {
+    "index-unit-output-path" : "/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/MotionManager.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/MotionManager.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/MotionManager.o"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Data/Models/Deck.swift" : {
+    "index-unit-output-path" : "/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Deck.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Deck.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/Deck.o"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Features/Debug/MotionDebugView.swift" : {
+    "index-unit-output-path" : "/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/MotionDebugView.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/MotionDebugView.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/MotionDebugView.o"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Features/Game/Logic/GameEngine.swift" : {
+    "index-unit-output-path" : "/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/GameEngine.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/GameEngine.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/GameEngine.o"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Features/Game/Logic/GameModels.swift" : {
+    "index-unit-output-path" : "/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/GameModels.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/GameModels.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/GameModels.o"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/KapeApp.swift" : {
+    "index-unit-output-path" : "/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/KapeApp.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/KapeApp.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/KapeApp.o"
+  },
+  "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "index-unit-output-path" : "/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/build/Kape.build/Release-iphoneos/Kape.build/Objects-normal/arm64/GeneratedAssetSymbols.o"
+  }
+}

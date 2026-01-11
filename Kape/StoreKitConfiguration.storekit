@@ -1,0 +1,38 @@
+{
+  "identifier" : "E2B883F0",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "2.99",
+      "familyShareable" : false,
+      "internalID" : "1D4EF5A2",
+      "localizations" : [
+        {
+          "description" : "Unlock all premium decks",
+          "displayName" : "VIP Deck",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.kape.vip",
+      "referenceName" : "VIP Deck",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "code" : "unknown",
+        "detail" : "Missing this locally",
+        "domain" : "SKErrorDomain"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+
+  ]
+}

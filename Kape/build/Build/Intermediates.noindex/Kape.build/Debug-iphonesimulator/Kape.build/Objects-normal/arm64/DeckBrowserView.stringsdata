@@ -1,0 +1,24 @@
+{
+  "source": "/Users/ardianjahja/Desktop/Projekte/Kape/Kape/Kape/Features/Game/Views/DeckBrowserView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Choose Your Vibe",
+        "location": {
+          "startingColumn": 14,
+          "startingLine": 55
+        }
+      },
+      {
+        "comment": "",
+        "key": "START GAME",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 91
+        }
+      }
+    ]
+  },
+  "version": 1
+}
