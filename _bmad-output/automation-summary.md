@@ -60,7 +60,9 @@
 ### Not Yet UI-Tested (Requires Manual Verification)
 - Game flow strings (VAZHDO, Përfundo Lojën, Koha Mbaroi, Pikët)
 - Purchase sheet strings (Zhblloko VIP, BLEJ, Mbase më vonë)
-- Result screen strings (SAKTË, Luaj Përsëri, Shpërndaj...)
+
+### Fixed in Code Review
+- Result screen strings (SAKTË, Luaj Përsëri, Shpërndaj...) - Localized in ResultScreen.swift
 
 ---
 

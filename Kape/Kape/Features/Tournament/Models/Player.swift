@@ -2,7 +2,7 @@ import Foundation
 
 /// Represents a player in a tournament.
 /// Each player has a unique ID, name, score, and session history.
-struct Player: Identifiable, Equatable, Hashable {
+struct Player: Identifiable, Equatable, Hashable, Codable {
     let id: UUID
     var name: String
     var score: Int
@@ -25,7 +25,7 @@ struct Player: Identifiable, Equatable, Hashable {
 }
 
 /// Represents the result of a single game session for a player.
-struct SessionResult: Identifiable, Equatable, Hashable {
+struct SessionResult: Identifiable, Equatable, Hashable, Codable {
     let id: UUID
     let correctCount: Int
     let passCount: Int

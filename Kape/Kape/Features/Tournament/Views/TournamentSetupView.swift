@@ -4,6 +4,7 @@ import SwiftUI
 /// Presented as a modal sheet from the main menu.
 struct TournamentSetupView: View {
     @Bindable var viewModel: TournamentViewModel
+    var onStart: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focusedPlayerIndex: Int?
     
@@ -130,8 +131,9 @@ struct TournamentSetupView: View {
     
     private var startButton: some View {
         Button {
-            // TODO: Story 6.2 - Navigate to turn management
-            dismiss()
+            viewModel.startTournament()
+            viewModel.dismissSetup()
+            onStart?()
         } label: {
             Text("FILLO TURNEUN")
                 .font(.system(size: 18, weight: .heavy, design: .rounded))

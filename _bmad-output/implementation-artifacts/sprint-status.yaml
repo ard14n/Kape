@@ -1,8 +1,8 @@
-# generated: 2026-01-09T17:20:35+01:00
+# generated: 2026-01-12T13:47:00+01:00
 # project: Kape
 # project_key: KAPE
 # tracking_system: file-system
-# story_location: /Users/ardianjahja/Desktop/Projekte/Kape/_bmad-output/implementation-artifacts
+# story_location: /Users/ardianjahja/Projekte/Kape/_bmad-output/implementation-artifacts
 
 # STATUS DEFINITIONS:
 # ==================
@@ -33,11 +33,11 @@
 # - SM typically creates next story after previous one is 'done' to incorporate learnings
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
-generated: "2026-01-09T17:20:35+01:00"
+generated: "2026-01-12T13:47:00+01:00"
 project: "Kape"
 project_key: "KAPE"
 tracking_system: "file-system"
-story_location: "/Users/ardianjahja/Desktop/Projekte/Kape/_bmad-output/implementation-artifacts"
+story_location: "/Users/ardianjahja/Projekte/Kape/_bmad-output/implementation-artifacts"
 
 development_status:
   epic-1: done
@@ -63,17 +63,21 @@ development_status:
   epic-3-retrospective: done
 
   epic-4: done
-  4-1-storekit-service-configuration: done
+  4-1-storekit-service-strategy-mock-first: done
   4-2-locked-content-ui-strategy: done
   4-3-purchase-flow-state-management: done
   4-4-restore-purchases: done
   4-5-production-storekit-integration: done
   epic-4-retrospective: optional
 
-  epic-5: in-progress
+  epic-5: done
   5-1-ui-polish-modernization: done
-  5-2-navigation-exit-strategy: done
   5-3-ui-albanian-localization: done
   epic-5-retrospective: optional
 
-
+  epic-6: in-progress
+  6-1-tournament-setup-ui: done
+  6-2-turn-management-system: done
+  6-3-tournament-leaderboard: done
+  6-4-tournament-state-persistence: done
+  epic-6-retrospective: optional

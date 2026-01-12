@@ -357,4 +357,27 @@ The "Party Proof" feedback loop requires multi-sensory confirmation for every ac
 *   **Motion Capability:** Wrap the rotation animation in `if !accessibilityReduceMotion`.
 *   **Haptic Engine:** Check `CHHapticEngine.capabilitiesForHardware()` to ensure we don't crash on older devices (iPhone 7/8 support).
 
-<!-- UX design content will be appended sequentially through collaborative workflow steps --><!-- UX design content will be appended sequentially through collaborative workflow steps -->
+<!-- UX design content will be appended sequentially through collaborative workflow steps -->
+
+## Tournament Mode UX (Epic 6)
+
+### 3.1 Tournament Entry & Setup
+**Goal:** Mitigate the "Setup Friction" of entering names in Landscape Mode.
+*   **Entry Point:** A new "Turne" (Tournament) button below "Start Game" on the main menu. Distinct visual style (Gold/Premium?) to differentiate from Quick Play.
+*   **Keyboard Pain:** Typing in Landscape on iOS is intrusive and covers the UI.
+    *   **Solution:** Use a modal sheet. Keep fields high up to avoid keyboard covering them.
+    *   **Defaults:** Auto-fill "Lojtari 1", "Lojtari 2" so users can skip typing if lazy.
+
+### 3.2 The "Pass Device" Interstitial
+**Goal:** Manage the physical hand-off of the device without accidental triggers.
+*   **State:** A "Blocking" screen between rounds.
+*   **Visuals:** High-contrast "Pause" aesthetic (e.g., striped background or pulsing "Waiting").
+*   **Action:** A massive "Gati!" (Ready) button that requires a deliberate tap. This prevents the gyroscope from triggering "Correct/Pass" while the phone is being passed hand-to-hand and ensures the new player is settled.
+
+### 3.3 The Tournament Leaderboard
+**Goal:** The ultimate "Social Proof" moment.
+*   **Visual Hierarchy:**
+    *   **#1 (Legjendë):** Gold, pulsing, confetti animation.
+    *   **#2-#3:** Silver/Bronze styling.
+    *   **#4-5:** Grayed out ("Turist").
+*   **Action:** "Share Podium" button generates a multi-name image for Instagram Stories.

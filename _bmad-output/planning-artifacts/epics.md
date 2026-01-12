@@ -38,6 +38,12 @@ FR19: System explicitly prompts for CoreMotion permissions on first use; if deni
 
 ### NonFunctional Requirements
 
+FR20: User can select "Tournament Mode" and input 2-5 player names.
+FR21: User can define number of rounds (1-5) per player.
+FR22: System manages turn order (Round Robin).
+FR23: System displays "Pass Device onto [Name]" interstitial.
+FR24: System maintains an aggregated Tournament Leaderboard.
+
 NFR1: Instant Launch: App must be playable (< 500ms) from cold launch.
 NFR2: Fluidity: UI and Motion Feedback must maintain 60fps (or 120fps).
 NFR3: Latency: Audio/Haptic feedback must play < 50ms after motion trigger.
@@ -89,6 +95,11 @@ FR16: Epic 1 - Sound Toggle
 FR17: Epic 1 - High Contrast
 FR18: Epic 1 - Buffer State
 FR19: Epic 1 - Permissions
+FR20: Epic 6 - Setup
+FR21: Epic 6 - Setup
+FR22: Epic 6 - Turn Management
+FR23: Epic 6 - Interstitial
+FR24: Epic 6 - Leaderboard
 
 ## Epic List
 
@@ -111,6 +122,13 @@ Goal: Enable users to view their "Legjendë" status and share it socially to dri
 Goal: Enable users to purchase and unlock premium content (VIP Decks).
 **User Value:** "I can access exclusive content to keep the game fresh."
 **FRs covered:** FR13, FR14, FR15
+
+**FRs covered:** FR13, FR14, FR15
+
+### Epic 6: Party Tournament Mode
+Goal: Enable a group of friends to play a structured tournament with tracked scores and a crowned winner.
+**User Value:** "We can finally settle who is the best in the group with a fair competition."
+**FRs covered:** FR20, FR21, FR22, FR23, FR24, NFR5 (Interruption Safety)
 
 ## Epic 1: The Core Vibe Engine
 
@@ -301,7 +319,7 @@ So that I know how well I performed compared to my friends.
 **Given** a finished game session
 **When** the result is calculated
 **Then** it must compute Score (Correct answers) and Accuracy (Correct / Total)
-**And** it must assign a Rank Title based on score (e.g., 0-4 "Mish i Huaj", 5-9 "Shqipe", 10+ "Legjendë")
+**And** it must assign a Rank Title based on score (e.g., 0-4 "Turist", 5-9 "Shqipe", 10+ "Legjendë")
 
 ### Story 3.2: Result Screen UI
 
@@ -459,3 +477,81 @@ So that the experience feels fully authentic to the cultural theme.
 **And** "Settings" must be "Cilësimet"
 **And** "Restore Purchases" must be "Rikthe Blerjet"
 **And** "Back" must be "Mbrapa"
+
+## Epic 6: Party Tournament Mode
+
+Goal: Enable a group of friends to play a structured tournament with tracked scores and a crowned winner.
+
+### Story 6.1: Tournament Setup UI
+
+As a Host,
+I want to enter the names of my friends and set the game length,
+So that we can start a personalized competition.
+
+**Acceptance Criteria:**
+
+**Given** the Main Menu
+**When** "Turne" (Tournament) is tapped
+**Then** show the Tournament Setup **Modal Sheet** (to avoid keyboard covering UI)
+
+**Given** the Setup Screen
+**When** configuring
+**Then** I must be able to add 2 to 5 players
+**And** the system must provide default names ("Lojtari 1", "Lojtari 2") for quick start
+**And** I must input a Name for each (Min 2 chars) if I choose custom names
+**And** I must select "Rounds per Player" (1, 3, 5) defaulting to 3
+**And** "Start Tournament" is disabled until valid
+
+### Story 6.2: Turn Management System
+
+As a Player,
+I want the game to tell me when it is my turn,
+So that I can take the phone and play my round.
+
+**Acceptance Criteria:**
+
+**Given** a Tournament in progress
+**When** a game round finishes
+**Then** show the "Pass the Device" Interstitial (Blocking State)
+**And** display "Radha e [Next Player Name]" (It's [Name]'s turn) in huge text
+**And** require a deliberate "Gati!" (Ready) tap to start the game loop for that player (prevents accidental gyro triggers)
+**And** persist the current state to `current_tournament.json` (Architecture Requirement)
+
+**Given** the Game Loop
+**When** playing in Tournament Mode
+**Then** the score achieved must be assigned to the current active player's session history using `TournamentManager` logic
+
+### Story 6.3: Tournament Leaderboard
+
+As a Group,
+We want to see who won after all rounds are played,
+So that we can celebrate the "Legjendë".
+
+**Acceptance Criteria:**
+
+**Given** all rounds are completed
+**When** the final game finishes
+**Then** show the Tournament Leaderboard
+**And** list players ranked by Total Score (Descending)
+**And** highlight the Winner (Legjendë) clearly from the others (Turist)
+**And** show a "New Tournament" button to restart with same or new players
+**And** allow sharing the "Podium" view to social media
+
+### Story 6.4: Tournament State Persistence (Crash Recovery)
+
+As a Host,
+I want the tournament to resume exactly where we left off if the app crashes,
+So that we don't lose our scores in the middle of a heated party.
+
+**Acceptance Criteria:**
+
+**Given** an active tournament
+**When** the app is terminated (Crash or Force Quit)
+**Then** the `TournamentState` must be saved to disk (`current_tournament.json`)
+
+**Given** the App Launch
+**When** a saved tournament file exists
+**Then** prompt the user: "Resume Tournament?"
+**And** if "Yes", restore all players, scores, and the current round index
+**And** navigate directly to the Interstitial Screen for the correct player
+

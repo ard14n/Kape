@@ -2,7 +2,7 @@ import Foundation
 
 /// Configuration for a tournament game session.
 /// Contains players and rounds per player settings.
-struct TournamentConfig: Equatable {
+struct TournamentConfig: Equatable, Codable {
     /// Players participating in the tournament (2-5)
     var players: [Player]
     

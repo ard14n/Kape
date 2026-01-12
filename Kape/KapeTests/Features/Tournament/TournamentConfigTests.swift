@@ -1,7 +1,7 @@
 import XCTest
 @testable import Kape
 
-final class TournamentConfigTests: XCTestCase {
+@MainActor final class TournamentConfigTests: XCTestCase {
     
     // MARK: - Default Configuration Tests
     

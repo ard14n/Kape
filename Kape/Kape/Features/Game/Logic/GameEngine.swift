@@ -16,11 +16,20 @@ final class GameEngine: Identifiable {
     /// Countdown for the buffer phase (3, 2, 1)
     var bufferCount: Int = 3
     
+    /// Wrapper for game input events to ensure uniqueness (for SwiftUI updates)
+    struct ActionTrigger: Equatable {
+        let event: MotionManager.GameInputEvent
+        let id = UUID()
+    }
+    
     /// Last input action for UI flash triggering (observed by View)
-    var lastAction: MotionManager.GameInputEvent?
+    var lastAction: ActionTrigger?
     
     /// Whether the 10-second warning is active (for UI urgency effects)
     var isWarningActive: Bool = false
+    
+    /// Callback for tournament mode or external handlers when game completes
+    var onGameComplete: ((Int) -> Void)?
     
     // Configuration
     struct Configuration {
@@ -166,14 +175,14 @@ final class GameEngine: Identifiable {
         switch event {
         case .correct:
             round.score += 1
-            lastAction = .correct
+            lastAction = ActionTrigger(event: .correct)
             audioService.playSound("success")
             hapticService.playFeedback(.success)
             nextCard(in: &round)
             
         case .pass:
             round.passed += 1
-            lastAction = .pass
+            lastAction = ActionTrigger(event: .pass)
             audioService.playSound("pass")
             hapticService.playFeedback(.pass)
             nextCard(in: &round)
@@ -235,5 +244,9 @@ final class GameEngine: Identifiable {
         gameTask?.cancel() 
         motionManager.stopMonitoring()
         gameState = .finished
+        
+        if let score = result?.score {
+            onGameComplete?(score)
+        }
     }
 }

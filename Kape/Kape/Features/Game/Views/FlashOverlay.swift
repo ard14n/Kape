@@ -5,19 +5,18 @@ import SwiftUI
 /// Respects `accessibilityReduceMotion` preference.
 struct FlashOverlay: View {
     /// The action that triggered this flash (nil = no flash)
-    let action: MotionManager.GameInputEvent?
+    let action: GameEngine.ActionTrigger?
     
     @State private var isVisible = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     
     private var flashColor: Color {
-        switch action {
+        guard let event = action?.event else { return .clear }
+        switch event {
         case .correct:
             return Color.neonGreen
         case .pass:
             return Color.neonOrange
-        case .none:
-            return .clear
         }
     }
     
@@ -56,12 +55,12 @@ struct FlashOverlay: View {
 }
 
 #Preview("Correct Flash") {
-    FlashOverlay(action: .correct)
+    FlashOverlay(action: GameEngine.ActionTrigger(event: .correct))
         .onAppear {
             // Simulate flash trigger
         }
 }
 
 #Preview("Pass Flash") {
-    FlashOverlay(action: .pass)
+    FlashOverlay(action: GameEngine.ActionTrigger(event: .pass))
 }

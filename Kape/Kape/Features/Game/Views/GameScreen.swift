@@ -17,10 +17,10 @@ struct GameScreen: View {
     @Environment(\.dismiss) private var dismiss
     
     /// Track the previous action to detect changes for flash
-    @State private var previousAction: MotionManager.GameInputEvent?
+    @State private var previousAction: GameEngine.ActionTrigger?
     
     /// Current flash action (triggers FlashOverlay)
-    @State private var flashAction: MotionManager.GameInputEvent?
+    @State private var flashAction: GameEngine.ActionTrigger?
     
     /// Animation ID for card transitions
     @State private var cardId = UUID()
@@ -266,14 +266,14 @@ struct GameScreen: View {
     
     // MARK: - Action Handling
     
-    private func handleActionChange(_ action: MotionManager.GameInputEvent?) {
+    private func handleActionChange(_ action: GameEngine.ActionTrigger?) {
         guard let action = action else { return }
         
         // Trigger flash
         flashAction = action
         
         // Set exit direction for card animation
-        switch action {
+        switch action.event {
         case .correct:
             exitDirection = .bottom // Tilt down = slide down
         case .pass:

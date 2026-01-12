@@ -1,7 +1,7 @@
 import XCTest
 @testable import Kape
 
-final class TournamentSetupViewTests: XCTestCase {
+@MainActor final class TournamentSetupViewTests: XCTestCase {
     
     var viewModel: TournamentViewModel!
     

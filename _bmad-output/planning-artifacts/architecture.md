@@ -23,6 +23,7 @@ The system must support a high-frequency (60hz) game loop driven by hardware sen
 *   **Game Engine:** State machine managing Time(60s) -> Input(Tilt) -> Score.
 *   **Deck System:** Content delivery engine capable of handling localized strings and "Inside Joke" metadata.
 *   **Result Generation:** Logic to calculate "Legjendë" status and generate shareable media assets.
+*   **Tournament Engine:** Managing multi-player turn order, score aggregation, and "Pass Device" blocking states.
 
 **Non-Functional Requirements:**
 *   **Latency:** Input-to-Feedback latency must be near-zero (<16ms) for the "physical prop" illusion.
@@ -108,6 +109,9 @@ The system must support a high-frequency (60hz) game loop driven by hardware sen
 *   **User Data (The History):** SwiftData (iOS 17+).
     *   **Rationale:** Efficient handling of Highscores, Game History, and unlocked achievements.
     *   **Mechanism:** `modelContainer` injected into environment.
+*   **Tournament Persistence:** JSON/FileStorage (MVP).
+    *   **Rationale:** Tournaments are transient session data but must survive a crash.
+    *   **Mechanism:** `TournamentState` serialized to `Documents/current_tournament.json` on every state change.
 
 **2. Data Validation**
 *   **Content:** Schema validation via comprehensive Codable Unit Tests (Fails build if JSON is broken).
@@ -206,6 +210,12 @@ Kape/
 │   └── Resources/
 │       └── decks.json           # Content Source of Truth
 ├── Features/                    # Feature Modules
+│   ├── Tournament/
+│   │   ├── Logic/
+│   │   │   └── TournamentManager.swift # Manages Players, Rounds, Scores
+│   │   └── Views/
+│   │       ├── SetupView.swift
+│   │       └── InterstitialView.swift  # "Pass Device" Screen
 │   ├── Onboarding/
 │   │   └── Views/
 │   │       └── TiltTutorialView.swift
@@ -224,6 +234,10 @@ Kape/
     └── Components/
         ├── KapeCard.swift
         └── NeonButton.swift
+    └── Views/
+        └── Tournament/
+            └── LeaderboardView.swift
+
 ```
 
 ### Architectural Boundaries

@@ -1,0 +1,11 @@
+customModes:
+  - slug: test
+    name: test
+    roleDefinition: dsds
+    groups:
+      - read
+      - edit
+      - browser
+      - command
+      - mcp
+    source: project

@@ -10,6 +10,10 @@ struct DeckBrowserView: View {
     @State private var showSettingsSheet = false
     @State private var isButtonPressed = false // CR-01 FIX: Moved from line 173
     @State private var tournamentViewModel = TournamentViewModel()
+    @State private var showTournamentFlow = false
+    @State private var showResumePrompt = false
+    @State private var resumePromptShown = false
+    @State private var resumeSnapshot: TournamentSnapshot?
     
     // Logic
     @StateObject private var viewModel = DeckBrowserViewModel()
@@ -94,7 +98,12 @@ struct DeckBrowserView: View {
                 SettingsView(storeViewModel: storeViewModel)
             }
             .sheet(isPresented: $tournamentViewModel.isSetupSheetPresented) {
-                TournamentSetupView(viewModel: tournamentViewModel)
+                TournamentSetupView(viewModel: tournamentViewModel) {
+                    showTournamentFlow = true
+                }
+            }
+            .fullScreenCover(isPresented: $showTournamentFlow) {
+                TournamentContainerView(viewModel: tournamentViewModel)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -123,6 +132,23 @@ struct DeckBrowserView: View {
             .task {
                 await storeViewModel.loadProductsAndEntitlements()
             }
+            .onAppear {
+                checkPersistedTournament()
+            }
+            .alert("Turne i papërfunduar u gjet. Dëshiron ta vazhdosh?", isPresented: $showResumePrompt, actions: {
+                Button("Fillo të ri", role: .destructive) {
+                    TournamentPersistenceService.shared.clear()
+                    resumeSnapshot = nil
+                }
+                Button("Vazhdo") {
+                    handleResume()
+                }
+                Button("Anulo", role: .cancel) {
+                    resumeSnapshot = nil
+                }
+            }, message: {
+                Text("Zgjedh 'Vazhdo' për të rifilluar turneun ose 'Fillo të ri' për të nisur nga e para.")
+            })
         }
     }
     
@@ -237,6 +263,29 @@ struct DeckBrowserView: View {
         
         engine.startRound(with: deck)
         self.gameEngine = engine
+    }
+
+    private func checkPersistedTournament() {
+        guard !resumePromptShown else { return }
+        resumePromptShown = true
+
+        guard let snapshot = TournamentPersistenceService.shared.loadSnapshot() else { return }
+        let state = snapshot.toState()
+        guard !state.isComplete else {
+            TournamentPersistenceService.shared.clear()
+            return
+        }
+
+        resumeSnapshot = snapshot
+        showResumePrompt = true
+    }
+
+    private func handleResume() {
+        guard let snapshot = resumeSnapshot else { return }
+        let restored = snapshot.toState()
+        tournamentViewModel.applyRestoredState(restored)
+        showTournamentFlow = true
+        resumeSnapshot = nil
     }
 }
 
