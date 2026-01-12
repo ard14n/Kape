@@ -1,35 +1,43 @@
-# Test Automation Summary - Story 3.2
+# Test Automation Summary
 
-## Workflow Execution: `testarch-automate`
+**Workflow**: testarch-automate
+**Date**: 2026-01-12
+**Story**: 5.2 - Navigation & Exit Strategy
 
-### 1. Strategy Initialization
-- **Target Platform**: iOS Native (Swift/SwiftUI)
-- **Framework**: XCTest (Unit) & XCUITest (UI)
-- **Approach**: Test-Driven Development (TDD) for new features.
+## Coverage Expansion
 
-### 2. Coverage Analysis
-| Component | Status | Test Coverage | Notes |
-|-----------|--------|---------------|-------|
-| `GameResult` (Model) | **Done** | ✅ High | `GameResultTests.swift` covers all logic boundaries. |
-| `Rank` (Enum) | **Done** | ✅ High | `RankTests.swift` covers all cases. |
-| `ResultScreen` (UI) | **Pending** | ❌ None -> 🟡 Planned | Feature not yet implemented. Created TDD specs. |
+### Existing Coverage (Pre-Expansion)
+- `testPauseResume` - Tests pause/resume state transitions
+- `testScenePhaseHandling` - Tests background/foreground pause behavior
 
-### 3. Implemented Automation
-The following test files have been created to guide the implementation of Story 3.2:
+### New Tests Added
 
-#### [ResultScreenUITests.swift](file:///Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeUITests/ResultScreenUITests.swift)
-- **Type**: UI / End-to-End
-- **Scenarios**:
-    - Verifies Result Screen appears after game.
-    - Checks for existence of Score, Rank Badge, "Play Again", and "Share" buttons.
-    - Placeholder assertion logic ready to be enabled once identifiers are added to the View.
+| Test Name | Priority | Coverage |
+|-----------|----------|----------|
+| `testFinishGame_EarlyExit_StopsAndCleansUp` | P1 | AC 4: Exit Logic |
+| `testPause_FromNonPlaying_DoesNothing` | P2 | Edge case: Pause guard |
+| `testResume_FromNonPaused_DoesNothing` | P2 | Edge case: Resume guard |
 
-#### [ResultScreenTests.swift](file:///Users/ardianjahja/Desktop/Projekte/Kape/Kape/KapeTests/Features/ResultScreenTests.swift)
-- **Type**: Unit
-- **Scenarios**:
-    - Validates accuracy string formatting (e.g., "85%").
-    - Verifies Rank title/color consistency (integration with Design System).
+## Test Architecture Notes
 
-## Integration Status
-- **Current State**: Tests are present but will fail/skip until Feature implementation.
-- **Action Required**: Developer should run these tests during implementation of Story 3.2 to ensure Acceptance Criteria are met.
+This is an **iOS/Swift/XCTest** project. The testarch-automate workflow was adapted for XCTest conventions:
+- No Playwright/Cypress (web frameworks not applicable)
+- Tests use async/await with `Task.sleep` for timing
+- Mocks for `AudioServiceProtocol` and `HapticServiceProtocol`
+- Factory pattern for test data (`DeckFactory`, `CardFactory`)
+
+## File Changes
+
+- **Modified**: `KapeTests/Features/Game/GameEngineTests.swift`
+    - Added Story 5.2 test section with 3 new tests
+
+## Validation Status
+
+- [x] Tests added
+- [x] Build succeeded (exit code 0)
+- [x] No regression detected
+
+## Recommendations
+
+1. **UI Tests**: Consider adding XCUITests for the Pause Button and Overlay interactions.
+2. **Accessibility Tests**: Verify `accessibilityIdentifier` values are correctly set on new UI elements.

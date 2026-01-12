@@ -53,7 +53,7 @@ struct ResultScreen: View {
                 
                 // Score Display (AC: 1)
                 VStack(spacing: 8) {
-                    Text("CORRECT")
+                    Text("SAKTË")
                         .font(.system(size: 18, weight: .bold, design: .rounded))
                         .foregroundColor(.white.opacity(0.7))
                         .tracking(Constants.scoreTracking)
@@ -90,7 +90,7 @@ struct ResultScreen: View {
                         playAgainTapped.toggle()
                         onPlayAgain?()
                     } label: {
-                        Text("Play Again")
+                        Text("Luaj Përsëri")
                             .font(.system(size: 20, weight: .bold, design: .rounded))
                             .foregroundColor(.trueBlack)
                             .frame(maxWidth: .infinity)
@@ -136,15 +136,15 @@ struct ResultScreen: View {
         .onAppear {
             animate()
         }
-        .alert("Could not create image", isPresented: $showImageError) {
-            Button("Try Again") {
+        .alert("Nuk u krijua imazhi", isPresented: $showImageError) {
+            Button("Provo Përsëri") {
                 Task {
                     await generateShareImage()
                 }
             }
-            Button("Cancel", role: .cancel) {}
+            Button("Anulo", role: .cancel) {}
         } message: {
-            Text("Please try again.")
+            Text("Provo përsëri.")
         }
         .accessibilityIdentifier("ResultScreen")
         // Story 3.4: Share Sheet presentation
@@ -227,7 +227,7 @@ private struct ShareSheetView: View {
                 ) {
                     HStack(spacing: 8) {
                         Image(systemName: "square.and.arrow.up")
-                        Text("Share to...")
+                        Text("Shpërndaj...")
                     }
                     .font(.system(size: 18, weight: .semibold, design: .rounded))
                     .foregroundColor(.white)
@@ -240,11 +240,11 @@ private struct ShareSheetView: View {
             }
             .padding()
             .background(Color.trueBlack)
-            .navigationTitle("Share Your Score")
+            .navigationTitle("Shpërndaj Rezultatin")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
+                    Button("Mbyll") {
                         dismiss()
                     }
                     .foregroundColor(.neonGreen)

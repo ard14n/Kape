@@ -62,10 +62,18 @@ development_status:
   3-4-native-sharing-integration: done
   epic-3-retrospective: done
 
-  epic-4: in-progress
+  epic-4: done
   4-1-storekit-service-configuration: done
   4-2-locked-content-ui-strategy: done
   4-3-purchase-flow-state-management: done
   4-4-restore-purchases: done
   4-5-production-storekit-integration: done
   epic-4-retrospective: optional
+
+  epic-5: in-progress
+  5-1-ui-polish-modernization: done
+  5-2-navigation-exit-strategy: done
+  5-3-ui-albanian-localization: review
+  epic-5-retrospective: optional
+
+

@@ -49,7 +49,7 @@ enum Rank: Equatable {
     /// Localized title for the rank
     var title: String {
         switch self {
-        case .mishIHuaj: return "Mish i Huaj"
+        case .mishIHuaj: return "Turist"
         case .shqipe: return "Shqipe"
         case .legjende: return "Legjendë"
         }

@@ -13,6 +13,9 @@ struct GameScreen: View {
     /// Accessibility preference for reduced motion
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     
+    /// Handle exit navigation
+    @Environment(\.dismiss) private var dismiss
+    
     /// Track the previous action to detect changes for flash
     @State private var previousAction: MotionManager.GameInputEvent?
     
@@ -82,11 +85,11 @@ struct GameScreen: View {
     
     private var idleView: some View {
         VStack(spacing: 20) {
-            Text("Ready to Play")
+            Text("Gati për Lojë")
                 .font(.system(size: 34, weight: .heavy, design: .rounded))
                 .foregroundStyle(.white)
             
-            Text("Waiting for game to start...")
+            Text("Duke pritur...")
                 .font(.system(size: 20, weight: .medium, design: .rounded))
                 .foregroundStyle(.white.opacity(0.7))
         }
@@ -94,11 +97,17 @@ struct GameScreen: View {
     
     private var gameplayView: some View {
         VStack(spacing: 0) {
-            // Top bar: Timer
-            HStack {
+            // Top bar: Timer and Pause
+            ZStack(alignment: .center) {
+                // Centered Timer
                 timerView
-                Spacer()
-                scoreView
+                
+                // Leading/Trailing controls
+                HStack {
+                    pauseButton
+                    Spacer()
+                    scoreView
+                }
             }
             .padding(.horizontal, 24)
             .padding(.top, 8)
@@ -154,6 +163,22 @@ struct GameScreen: View {
         .accessibilityIdentifier("GameScore")
     }
     
+    private var pauseButton: some View {
+        Button(action: {
+            withAnimation {
+                engine.pause()
+            }
+        }) {
+            Image(systemName: "pause.circle.fill")
+                .font(.system(size: 32))
+                .foregroundStyle(.white.opacity(0.6))
+                .padding(8)
+                .background(Color.black.opacity(0.2))
+                .clipShape(Circle())
+        }
+        .accessibilityIdentifier("PauseButton")
+    }
+    
     private var warningGlow: some View {
         RadialGradient(
             colors: [Color.neonRed.opacity(0.3), .clear],
@@ -167,33 +192,57 @@ struct GameScreen: View {
     
     private var pausedOverlay: some View {
         ZStack {
-            Color.black.opacity(0.7)
+            Rectangle()
+                .fill(.ultraThinMaterial)
                 .ignoresSafeArea()
             
-            VStack(spacing: 20) {
-                Image(systemName: "pause.circle.fill")
-                    .font(.system(size: 80))
-                    .foregroundStyle(Color.neonOrange)
+            VStack(spacing: 32) {
+                // Return to Game Button (Primary)
+                Button(action: {
+                    withAnimation {
+                        engine.resume()
+                    }
+                }) {
+                    VStack(spacing: 16) {
+                        Image(systemName: "play.circle.fill")
+                            .font(.system(size: 80))
+                            .foregroundStyle(Color.neonGreen)
+                            
+                        Text("VAZHDO")
+                            .font(.system(size: 32, weight: .heavy, design: .rounded))
+                            .foregroundStyle(.white)
+                    }
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("ResumeGameButton")
                 
-                Text("PAUSED")
-                    .font(.system(size: 48, weight: .heavy, design: .rounded))
-                    .foregroundStyle(.white)
-                
-                Text("Return to app to continue")
-                    .font(.system(size: 20, weight: .medium, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.7))
+                // End Game Button (Secondary)
+                Button(action: {
+                    handleExit()
+                }) {
+                    HStack {
+                        Image(systemName: "xmark.circle")
+                        Text("Përfundo Lojën")
+                    }
+                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.8))
+                    .padding()
+                    .background(Color.white.opacity(0.1))
+                    .clipShape(Capsule())
+                }
+                .accessibilityIdentifier("EndGameButton")
             }
         }
     }
     
     private var finishedView: some View {
         VStack(spacing: 20) {
-            Text("Time's Up!")
+            Text("Koha Mbaroi!")
                 .font(.system(size: 48, weight: .heavy, design: .rounded))
                 .foregroundStyle(Color.neonRed)
             
             if let round = engine.currentRound {
-                Text("Score: \(round.score)")
+                Text("Pikët: \(round.score)")
                     .font(.system(size: 80, weight: .heavy, design: .rounded))
                     .foregroundStyle(.white)
             }
@@ -240,6 +289,15 @@ struct GameScreen: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
             flashAction = nil
         }
+    }
+    
+    // MARK: - Navigation Actions
+    
+    private func handleExit() {
+        // Stop engine updates
+        engine.finishGame() 
+        // Dismiss view to return to browser
+        dismiss()
     }
 }
 

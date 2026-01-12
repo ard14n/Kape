@@ -422,4 +422,40 @@ So that we can process real money transactions on the App Store.
 **Then** `StoreService` must use real `Product.products(for:)`
 **And** fetch real identifiers from App Store Connect
 **And** verify transaction validity (JWS validation logic if needed, or rely on StoreKit 2 default)
-**And** handle TestFlight sandbox users correctly
+
+## Epic 5: Visual Experience Upgrade
+
+Goal: Modernize the UI to improve readability, contrast, and overall aesthetic quality while maintaining the core "vibe".
+
+### Story 5.1: UI Polish & Modernization
+
+As a User,
+I want a modern, legible, and premium UI,
+So that the game feels high-quality and is easy to use.
+
+**Acceptance Criteria:**
+
+**Given** the Main Menu and Game Views
+**When** displayed
+**Then** text contrast must be WCAG AA compliant (no low-contrast green-on-green or grey-on-black)
+**And** the "glow" effects must be subtle and not reduce readability
+**And** the "Start Game" button must look premium without overbearing effects
+**And** "VIP Decks" label must be readable (adjust red color)
+**And** the overall aesthetic should feel "cleaner" and less "dated neon"
+**And** gradients must be smoother
+
+### Story 5.3: UI Albanian Localization
+
+As a Player,
+I want the entire game interface to be in Albanian,
+So that the experience feels fully authentic to the cultural theme.
+
+**Acceptance Criteria:**
+
+**Given** the App Interface
+**When** displayed
+**Then** all buttons and labels must be in Albanian
+**And** "Play" must be "Luaj"
+**And** "Settings" must be "Cilësimet"
+**And** "Restore Purchases" must be "Rikthe Blerjet"
+**And** "Back" must be "Mbrapa"

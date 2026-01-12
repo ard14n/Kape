@@ -6,6 +6,12 @@ public extension Color {
     static let trueBlack = Color(hex: "#000000")
     static let neonBlue = Color(hex: "#00FFFF") // Generic neon blue for other uses
     static let neonOrange = Color(hex: "#FF9500") // From pass trigger
+    
+    // MARK: - High Contrast Variants (Story 5.1 - WCAG AA Fix)
+    /// Brighter red for VIP labels, better contrast on black (Story 5.1 AC4)
+    static let vipLabel = Color(hex: "#FF6B6B")
+    /// Light gray for secondary text, high contrast on black (Story 5.1 AC1)
+    static let textSecondary = Color(hex: "#CCCCCC")
 }
 
 // Helper for Hex initialization

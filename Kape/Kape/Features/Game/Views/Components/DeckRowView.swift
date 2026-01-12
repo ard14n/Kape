@@ -26,7 +26,7 @@ struct DeckRowView: View {
                 
                 Text(deck.description)
                     .font(.caption)
-                    .foregroundStyle(.gray)
+                    .foregroundStyle(Color.textSecondary) // Story 5.1 AC1: High-contrast text
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
             }
@@ -59,7 +59,7 @@ struct DeckRowView: View {
             RoundedRectangle(cornerRadius: 16)
                 .stroke(isSelected ? Color.neonGreen : Color.clear, lineWidth: 2)
         )
-        .neonGlow(color: isSelected ? .neonGreen : .clear)
+        .neonGlow(color: isSelected ? .neonGreen : .clear, intensity: 0.6) // Story 5.1 AC1: Reduced glow for legibility
         .contentShape(Rectangle())
         .scaleEffect(isSelected ? 1.02 : 1.0)
         .opacity(isLocked ? 0.5 : 1.0)

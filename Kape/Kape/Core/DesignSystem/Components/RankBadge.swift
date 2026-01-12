@@ -42,7 +42,7 @@ struct RankBadge: View {
     }
 }
 
-#Preview("Mish i Huaj") {
+#Preview("Turist") {
     ZStack {
         Color.trueBlack.ignoresSafeArea()
         RankBadge(rank: .mishIHuaj)

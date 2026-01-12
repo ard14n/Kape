@@ -20,7 +20,7 @@ struct BufferView: View {
                 .rotationEffect(.degrees(-90)) // Landscape orientation hint
                 .shadow(color: Color.neonRed.opacity(0.5), radius: 20)
             
-            Text("Place on Forehead")
+            Text("Vendose mbi Ballë")
                 .font(.system(size: 34, weight: .heavy, design: .rounded))
                 .foregroundStyle(.white)
             

@@ -236,5 +236,71 @@ final class GameEngineTests: XCTestCase {
         XCTAssertEqual(engine.result?.passed, 2)
         XCTAssertEqual(engine.result?.total, 7)
     }
+    
+    // MARK: - Story 5.2: Navigation & Exit Strategy Tests
+    
+    func testFinishGame_EarlyExit_StopsAndCleansUp() async {
+        // GIVEN: Game is in playing state
+        let motion = MotionManager()
+        let audio = MockAudioService()
+        let haptic = MockHapticService()
+        let config = GameEngine.Configuration(bufferDuration: 0.1, gameDuration: 60.0)
+        let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic, configuration: config)
+        let deck = DeckFactory.make()
+        
+        engine.startRound(with: deck)
+        engine.startGameLoop()
+        
+        // Wait for playing state
+        try? await Task.sleep(nanoseconds: 200_000_000)
+        XCTAssertEqual(engine.gameState, .playing)
+        
+        // WHEN: User triggers exit (finishGame)
+        engine.finishGame()
+        
+        // THEN: Game state is finished immediately
+        XCTAssertEqual(engine.gameState, .finished)
+        
+        // AND: Result is generated (even if incomplete)
+        XCTAssertNotNil(engine.result)
+    }
+    
+    func testPause_FromNonPlaying_DoesNothing() async {
+        // GIVEN: Game is in idle state
+        let motion = MotionManager()
+        let audio = MockAudioService()
+        let haptic = MockHapticService()
+        let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic)
+        
+        XCTAssertEqual(engine.gameState, .idle)
+        
+        // WHEN: Pause is called from idle state
+        engine.pause()
+        
+        // THEN: State remains idle (pause only works from playing)
+        XCTAssertEqual(engine.gameState, .idle)
+    }
+    
+    func testResume_FromNonPaused_DoesNothing() async {
+        // GIVEN: Game is in playing state (not paused)
+        let motion = MotionManager()
+        let audio = MockAudioService()
+        let haptic = MockHapticService()
+        let config = GameEngine.Configuration(bufferDuration: 0.1, gameDuration: 60.0)
+        let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic, configuration: config)
+        let deck = DeckFactory.make()
+        
+        engine.startRound(with: deck)
+        engine.startGameLoop()
+        
+        try? await Task.sleep(nanoseconds: 200_000_000)
+        XCTAssertEqual(engine.gameState, .playing)
+        
+        // WHEN: Resume is called from playing state
+        engine.resume()
+        
+        // THEN: State remains playing (resume only works from paused)
+        XCTAssertEqual(engine.gameState, .playing)
+    }
 }
 

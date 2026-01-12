@@ -9,14 +9,14 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section("Purchases") {
+                Section("Blerjet") {
                     Button {
                         Task {
                             await storeViewModel.restorePurchases()
                         }
                     } label: {
                         HStack {
-                            Text("Restore Purchases")
+                            Text("Rikthe Blerjet")
                             Spacer()
                             if storeViewModel.isRestoring {
                                 ProgressView()
@@ -27,20 +27,20 @@ struct SettingsView: View {
                     .disabled(storeViewModel.isRestoring)
                 }
                 
-                Section("About") {
+                Section("Rreth") {
                     HStack {
-                        Text("Version")
+                        Text("Versioni")
                         Spacer()
                         Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")
                             .foregroundStyle(.secondary)
                     }
                 }
             }
-            .navigationTitle("Settings")
+            .navigationTitle("Cilësimet")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
+                    Button("Mbyll") {
                         dismiss()
                     }
                     .accessibilityIdentifier("settingsDoneButton")

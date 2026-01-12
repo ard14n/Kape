@@ -39,7 +39,7 @@ final class StoreViewModel: ObservableObject {
         } catch {
             // CR-FIX: User-facing error handling
             print("Failed to fetch products: \(error)")
-            alertMessage = "Failed to load store: \(error.localizedDescription)"
+            alertMessage = "Gabim në ngarkim: \(error.localizedDescription)"
         }
         
         await checkEntitlement()
@@ -66,11 +66,11 @@ final class StoreViewModel: ObservableObject {
             case .pending:
                 // Transaction pending approval (Ask to Buy, etc.)
                 purchaseState = .idle
-                alertMessage = "Purchase is pending approval."
+                alertMessage = "Blerja po pritet."
             }
         } catch {
             purchaseState = .failed(error.localizedDescription)
-            alertMessage = "Purchase failed: \(error.localizedDescription)"
+            alertMessage = "Blerja dështoi: \(error.localizedDescription)"
         }
     }
     
@@ -83,9 +83,9 @@ final class StoreViewModel: ObservableObject {
         do {
             try await storeService.restorePurchases()
             await checkEntitlement()
-            alertMessage = "Purchases restored successfully!"
+            alertMessage = "Blerjet u rikthyen!"
         } catch {
-            alertMessage = "Restore failed: \(error.localizedDescription)"
+            alertMessage = "Rikthimi dështoi: \(error.localizedDescription)"
         }
     }
     

@@ -18,7 +18,7 @@ struct PurchaseSheetView: View {
                     .foregroundStyle(Color.neonRed)
                     .neonGlow(color: .neonRed)
                 
-                Text("Unlock VIP Content")
+                Text("Zhblloko VIP")
                     .font(.system(size: 28, weight: .heavy, design: .rounded))
                     .foregroundStyle(.white)
                 
@@ -43,7 +43,7 @@ struct PurchaseSheetView: View {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .black))
                     } else {
-                        Text("PURCHASE")
+                        Text("BLEJ")
                             .font(.headline)
                             .fontWeight(.heavy)
                     }
@@ -58,7 +58,7 @@ struct PurchaseSheetView: View {
                 .accessibilityIdentifier("PurchaseButton")
                 
                 // Dismiss Button
-                Button("Maybe Later") {
+                Button("Mbase më vonë") {
                     onDismiss()
                 }
                 .foregroundStyle(.gray)

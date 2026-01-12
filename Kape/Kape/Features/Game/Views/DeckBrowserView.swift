@@ -8,6 +8,7 @@ struct DeckBrowserView: View {
     @State private var gameEngine: GameEngine?
     @State private var gameResult: GameResult?
     @State private var showSettingsSheet = false
+    @State private var isButtonPressed = false // CR-01 FIX: Moved from line 173
     
     // Logic
     @StateObject private var viewModel = DeckBrowserViewModel()
@@ -67,13 +68,13 @@ struct DeckBrowserView: View {
                     )
                 } else {
                     // Fallback if product fails to load
-                    Text("Loading Store...")
+                    Text("Duke ngarkuar...")
                         .foregroundStyle(.white)
                         .presentationDetents([.fraction(0.3)])
                 }
             }
             // CR4.4-M3 FIX: Dynamic alert title based on message content
-            .alert(storeViewModel.alertMessage?.contains("restored") == true ? "Success" : "Store", isPresented: Binding(
+            .alert(storeViewModel.alertMessage?.contains("rikthyen") == true ? "Sukses" : "Dyqani", isPresented: Binding(
                 get: { storeViewModel.alertMessage != nil },
                 set: { if !$0 { storeViewModel.alertMessage = nil } }
             )) {
@@ -111,14 +112,15 @@ struct DeckBrowserView: View {
     // MARK: - Subviews
     
     private var headerView: some View {
-        Text("Choose Your Vibe")
+        Text("Zgjidh Viben")
             .font(.system(size: 34, weight: .heavy, design: .rounded))
             .foregroundStyle(.white)
-            .neonGlow(color: .neonBlue)
+            .subtleGlow(color: .neonBlue) // Story 5.1 AC2: Restored subtle glow
             .padding(.top, 20)
+            .padding(.bottom, 8) // Reduced padding here because list now has internal top padding
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal)
-            .accessibilityIdentifier("DeckBrowserHeader") // CR-05 FIX
+            .accessibilityIdentifier("DeckBrowserHeader")
     }
     
     private var deckListView: some View {
@@ -141,11 +143,12 @@ struct DeckBrowserView: View {
                 
                 // VIP Decks Header
                 if !deckService.proDecks.isEmpty {
-                    Text("VIP Decks")
-                        .font(.headline)
-                        .foregroundStyle(Color.neonRed)
+                    Text("Decks VIP")
+                        .font(.system(size: 20, weight: .heavy, design: .rounded)) // Story 5.1 AC4: Match Heading spec
+                        .foregroundStyle(Color.vipLabel) // Story 5.1 AC4: High-contrast VIP label
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.top, 8)
+                        .accessibilityIdentifier("VIPDecksHeader")
                 }
                 
                 // VIP Decks
@@ -164,6 +167,7 @@ struct DeckBrowserView: View {
                 }
             }
             .padding(.horizontal)
+            .padding(.top, 20) // Story 5.1 AC3 FIX: Add top padding INSIDE ScrollView to prevent boundary clipping
             .padding(.bottom, 120)
         }
     }
@@ -173,7 +177,7 @@ struct DeckBrowserView: View {
             Spacer()
             
             Button(action: startGame) {
-                Text("START GAME")
+                Text("FILLO LOJËN")
                     .font(.title3)
                     .fontWeight(.heavy)
                     .foregroundStyle(.black)
@@ -183,8 +187,16 @@ struct DeckBrowserView: View {
                         viewModel.selectedDeck == nil ? Color.gray.opacity(0.3) : Color.neonGreen
                     )
                     .clipShape(Capsule())
-                    .neonGlow(color: viewModel.selectedDeck == nil ? .clear : .neonGreen)
+                    .neonGlow(color: viewModel.selectedDeck == nil ? .clear : .neonGreen, intensity: 0.6) // Story 5.1 AC2: Reduced glow
             }
+            .scaleEffect(isButtonPressed ? 0.95 : 1.0) // Story 5.1 AC2: Scale down on press
+            .animation(.spring(response: 0.2, dampingFraction: 0.6), value: isButtonPressed)
+            .sensoryFeedback(.impact(flexibility: .solid, intensity: 0.8), trigger: isButtonPressed) // Story 5.1: Haptic on press
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in isButtonPressed = true }
+                    .onEnded { _ in isButtonPressed = false }
+            )
             .disabled(viewModel.selectedDeck == nil)
             .accessibilityIdentifier("StartGameButton") // CR-05 FIX
             .padding(.horizontal, 24)
