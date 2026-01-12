@@ -1,7 +1,7 @@
 # Story 5.3: UI Albanian Localization
 
 **Epic:** 5 - Visual Experience Upgrade
-**Status:** review
+**Status:** done
 
 ## User Story
 **As a** Player,

@@ -75,9 +75,9 @@ struct ResultScreen: View {
                 
                 // Stats Display (AC: 1)
                 HStack(spacing: 24) {
-                    StatView(value: "\(Int(result.accuracy * 100))%", label: "Accuracy")
-                    StatView(value: "\(result.total)", label: "Cards")
-                    StatView(value: "\(result.passed)", label: "Passed")
+                    StatView(value: "\(Int(result.accuracy * 100))%", label: "Saktësia")
+                    StatView(value: "\(result.total)", label: "Letra")
+                    StatView(value: "\(result.passed)", label: "Të sakta")
                 }
                 .padding(.top, 16)
                 
@@ -116,7 +116,7 @@ struct ResultScreen: View {
                             } else {
                                 Image(systemName: "square.and.arrow.up")
                             }
-                            Text(isGeneratingImage ? "Generating..." : "Share")
+                            Text(isGeneratingImage ? "Duke gjeneruar..." : "Shpërndaj")
                         }
                         .font(.system(size: 17, weight: .semibold, design: .rounded))
                         .foregroundColor(.white)
