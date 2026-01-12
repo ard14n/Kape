@@ -57,7 +57,7 @@ Kape/
 
 ### Requirements
 - **Platform:** iOS 17.0+
-- **Language:** Swift 6.0 (strict concurrency)
+- **Language:** Swift 5.0
 - **Framework:** SwiftUI
 - **Architecture:** MVVM with feature-based organization
 
@@ -73,8 +73,8 @@ Kape/
 // Colors
 Color.trueBlack          // #000000 - Pure black background
 Color.neonGreen          // #39FF14 - Success actions
-Color.neonRed            // #FF073A - Warnings/Pass
-Color.neonBlue           // #00F0FF - Accents
+Color.neonRed            // #FF003F - Warnings/Pass
+Color.neonBlue           // #00FFFF - Accents
 
 // Components
 KapeCard                 // Card display with neon glow
@@ -116,9 +116,10 @@ xcodebuild test -project Kape/Kape.xcodeproj -scheme Kape -destination 'platform
 ## Game Mechanics
 
 ### Motion Detection
-- **Correct (Tilt Down):** Pitch < -30° = Success feedback + next card
-- **Pass (Tilt Up):** Pitch > 30° = Pass feedback + next card
-- **Debounce:** 400ms cooldown prevents double triggers
+- **Correct (Tilt Down):** Gravity.z delta > +0.6G (~37° tilt) = Success feedback + next card
+- **Pass (Tilt Up):** Gravity.z delta < -0.6G (~37° tilt) = Pass feedback + next card
+- **Debounce:** Returns to neutral range (±0.2G) before next trigger
+- **Auto-Calibration:** Captures baseline position at game start
 
 ### Game Flow
 1. **Deck Selection** - Choose from available decks
