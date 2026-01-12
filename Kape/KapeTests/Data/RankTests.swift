@@ -93,7 +93,7 @@ final class RankTests: XCTestCase {
         let title = rank.title
         
         // Then
-        XCTAssertEqual(title, "Mish i Huaj")
+        XCTAssertEqual(title, "Turist")
     }
     
     func testRankTitle_Shqipe_ReturnsCorrectString() {

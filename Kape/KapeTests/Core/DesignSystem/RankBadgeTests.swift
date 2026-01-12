@@ -25,6 +25,6 @@ final class RankBadgeTests: XCTestCase {
     func testBadgeTitleMapping() {
         XCTAssertEqual(Rank.legjende.title, "Legjendë")
         XCTAssertEqual(Rank.shqipe.title, "Shqipe")
-        XCTAssertEqual(Rank.mishIHuaj.title, "Mish i Huaj")
+        XCTAssertEqual(Rank.mishIHuaj.title, "Turist")
     }
 }

@@ -38,7 +38,7 @@ final class StoreViewModelRestoreTests: XCTestCase {
         await sut.restorePurchases()
         
         // Then
-        XCTAssertEqual(sut.alertMessage, "Purchases restored successfully!")
+        XCTAssertEqual(sut.alertMessage, "Blerjet u rikthyen!")
     }
     
     func testRestorePurchases_SetsIsRestoringDuringOperation() async {
@@ -61,7 +61,7 @@ final class StoreViewModelRestoreTests: XCTestCase {
         
         // Then
         XCTAssertNotNil(sut.alertMessage)
-        XCTAssertTrue(sut.alertMessage!.contains("Restore failed"), "Alert should indicate restore failure")
+        XCTAssertTrue(sut.alertMessage!.contains("Rikthimi dështoi"), "Alert should indicate restore failure")
     }
     
     func testRestorePurchases_WhenError_DoesNotUnlockVIP() async {

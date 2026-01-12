@@ -31,6 +31,6 @@ final class ResultScreenTests: XCTestCase {
         
         XCTAssertEqual(Rank.legjende.title, "Legjendë")
         XCTAssertEqual(Rank.shqipe.title, "Shqipe")
-        XCTAssertEqual(Rank.mishIHuaj.title, "Mish i Huaj")
+        XCTAssertEqual(Rank.mishIHuaj.title, "Turist")
     }
 }
