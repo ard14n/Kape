@@ -9,6 +9,7 @@ struct DeckBrowserView: View {
     @State private var gameResult: GameResult?
     @State private var showSettingsSheet = false
     @State private var isButtonPressed = false // CR-01 FIX: Moved from line 173
+    @State private var tournamentViewModel = TournamentViewModel()
     
     // Logic
     @StateObject private var viewModel = DeckBrowserViewModel()
@@ -92,7 +93,23 @@ struct DeckBrowserView: View {
             .sheet(isPresented: $showSettingsSheet) {
                 SettingsView(storeViewModel: storeViewModel)
             }
+            .sheet(isPresented: $tournamentViewModel.isSetupSheetPresented) {
+                TournamentSetupView(viewModel: tournamentViewModel)
+            }
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        tournamentViewModel.showSetup()
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "trophy.fill")
+                            Text("Turne")
+                                .font(.system(size: 14, weight: .semibold, design: .rounded))
+                        }
+                        .foregroundStyle(Color.neonGreen)
+                    }
+                    .accessibilityIdentifier("tournamentButton")
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         showSettingsSheet = true
