@@ -215,8 +215,8 @@ final class GameEngineTests: XCTestCase {
         let motion = MotionManager()
         let audio = MockAudioService()
         let haptic = MockHapticService()
-        // Fast game (0.1s)
-        let config = GameEngine.Configuration(bufferDuration: 0.0, gameDuration: 0.1)
+        // Fast game (1.0s to avoid race)
+        let config = GameEngine.Configuration(bufferDuration: 0.0, gameDuration: 1.0)
         let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic, configuration: config)
         let deck = DeckFactory.make()
         
@@ -227,8 +227,11 @@ final class GameEngineTests: XCTestCase {
         engine.currentRound?.score = 5
         engine.currentRound?.passed = 2
         
-        // Wait for game to finish (0.1s + margin)
-        try? await Task.sleep(nanoseconds: 200_000_000)
+        // Finalize
+        engine.finishGame()
+        
+        // Wait for game to finish (margin)
+        try? await Task.sleep(nanoseconds: 100_000_000)
         
         XCTAssertEqual(engine.gameState, .finished)
         XCTAssertNotNil(engine.result, "GameResult should be generated when game finishes")

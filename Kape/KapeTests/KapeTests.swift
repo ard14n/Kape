@@ -104,7 +104,7 @@ final class KapeTests: XCTestCase {
         state.currentRound = 2
         
         // When
-        TournamentPersistenceService.shared.saveState(state)
+        TournamentPersistenceService.shared.save(state: state)
         let loaded = TournamentPersistenceService.shared.loadState()
         
         // Then
