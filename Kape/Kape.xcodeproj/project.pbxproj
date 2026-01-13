@@ -398,6 +398,7 @@
 				DEVELOPMENT_TEAM = G42QNVDZRN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_NSMotionUsageDescription = "Kape uses your movement to detect correct answers and passes.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save your score card to photos.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -432,6 +433,7 @@
 				DEVELOPMENT_TEAM = G42QNVDZRN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_NSMotionUsageDescription = "Kape uses your movement to detect correct answers and passes.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save your score card to photos.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
