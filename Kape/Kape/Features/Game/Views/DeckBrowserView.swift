@@ -56,6 +56,9 @@ struct DeckBrowserView: View {
                     },
                     onShare: {
                         // Story 3.3 will implement share functionality
+                    },
+                    onHome: {
+                        gameResult = nil
                     }
                 )
             }

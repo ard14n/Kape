@@ -51,7 +51,10 @@ struct TournamentContainerView: View {
                     }
                 
             case .finished:
-                LeaderboardView(viewModel: viewModel)
+                LeaderboardView(viewModel: viewModel, onExit: {
+                    viewModel.resetTournament(keepPlayers: true, showSetup: false)
+                    dismiss()
+                })
             }
         } else {
             // No active tournament, show Setup

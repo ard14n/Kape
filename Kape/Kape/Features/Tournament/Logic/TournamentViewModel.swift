@@ -199,7 +199,7 @@ final class TournamentViewModel {
     
     /// Resets the tournament state but optionally keeps players
     /// - Parameter keepPlayers: Whether to keep the current player list (default: true)
-    func resetTournament(keepPlayers: Bool = true) {
+    func resetTournament(keepPlayers: Bool = true, showSetup: Bool = true) {
         // Clear active state
         tournamentState = nil
         persistenceService.clear()
@@ -207,18 +207,10 @@ final class TournamentViewModel {
         // Reset config if needed
         if !keepPlayers {
             resetToDefaults()
-        } else {
-            // Reset player scores for next time?
-            // Actually, `players` in config are different from `state.players`.
-            // `config.players` are just the setup definitions.
-            // So we don't need to zero out scores in `config.players` because `Player` struct might have score=0 by default?
-            // Let's check Player struct definition.
         }
         
-        // Go back to setup
-        isSetupSheetPresented = true 
-        // Note: Logic for navigation depends on ContainerView. 
-        // If state is nil, ContainerView shows SetupView.
+        // Optionally reopen setup sheet (disabled when exiting to main menu)
+        isSetupSheetPresented = showSetup
     }
     
     /// Persist current state or clear when finished/absent.
