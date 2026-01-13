@@ -44,11 +44,11 @@ final class MotionManager {
     /// Current state of the motion detection logic.
     private(set) var state: MotionState = .neutral
     
-    /// Current Pitch value (for Debugging).
-    private(set) var livePitch: Double = 0.0
+    /// Current Roll value (for Debugging).
+    private(set) var liveRoll: Double = 0.0
     
-    /// The captured baseline Pitch value when gameplay starts.
-    private var baselinePitch: Double = 0.0
+    /// The captured baseline Roll value when gameplay starts.
+    private var baselineRoll: Double = 0.0
     
     /// Stream of game events.
     private let eventContinuation: AsyncStream<GameInputEvent>.Continuation
@@ -108,30 +108,30 @@ final class MotionManager {
         motionManager.stopDeviceMotionUpdates()
         isMonitoring = false
         state = .neutral
-        livePitch = 0.0
-        baselinePitch = 0.0
+        liveRoll = 0.0
+        baselineRoll = 0.0
     }
     
     /// Captures the current device attitude as the "Neutral" point.
     func calibrate() {
         guard let motion = motionManager.deviceMotion else { return }
-        // Use attitude.pitch for longitudinal tilt (Landscape Long Edge)
-        self.baselinePitch = motion.attitude.pitch
+        // Use attitude.roll for longitudinal tilt in Landscape (Nodding)
+        self.baselineRoll = motion.attitude.roll
     }
     
     // MARK: - Processing Logic
     
     private func processMotion(_ motion: CMDeviceMotion) {
-        // In Landscape, pitch represents the tilt around the long axis.
-        self.processPitch(motion.attitude.pitch)
+        // In Landscape, rotation around the Y-axis (long edge) is Roll.
+        self.processRoll(motion.attitude.roll)
     }
     
-    /// Processes a pitch value. Exposed for Unit Testing.
-    /// - Parameter pitch: The pitch in radians.
-    func processPitch(_ pitch: Double) {
-        self.livePitch = pitch
+    /// Processes a roll value. Exposed for Unit Testing.
+    /// - Parameter roll: The roll in radians.
+    func processRoll(_ roll: Double) {
+        self.liveRoll = roll
         
-        let delta = pitch - baselinePitch
+        let delta = roll - baselineRoll
         
         // 2. State Machine
         switch state {

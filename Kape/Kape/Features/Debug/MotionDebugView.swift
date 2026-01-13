@@ -11,9 +11,9 @@ struct MotionDebugView: View {
             
             // Live Data
             VStack {
-                Text("Pitch (Tilt)")
+                Text("Roll (Tilt)")
                     .foregroundStyle(.secondary)
-                Text(String(format: "%.2f", motionManager.livePitch))
+                Text(String(format: "%.2f", motionManager.liveRoll))
                     .font(.system(size: 60, weight: .black, design: .monospaced))
                     .foregroundStyle(colorForState(motionManager.state))
                 
