@@ -60,6 +60,7 @@ development_status:
   3-2-result-screen-ui: done
   3-3-shareable-image-generation: done
   3-4-native-sharing-integration: done
+  3-5-result-screen-navigation-update: review
   epic-3-retrospective: done
 
   epic-4: done
@@ -80,4 +81,5 @@ development_status:
   6-2-turn-management-system: done
   6-3-tournament-leaderboard: done
   6-4-tournament-state-persistence: done
+  6-5-tournament-leaderboard-exit: review
   epic-6-retrospective: optional

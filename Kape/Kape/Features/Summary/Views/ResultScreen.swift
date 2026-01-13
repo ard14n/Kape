@@ -6,6 +6,7 @@ struct ResultScreen: View {
     let result: GameResult
     var onPlayAgain: (() -> Void)?
     var onShare: (() -> Void)?
+    var onHome: (() -> Void)?
     
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     
@@ -128,6 +129,20 @@ struct ResultScreen: View {
                     .disabled(isGeneratingImage)
                     .sensoryFeedback(.impact, trigger: shareTapped)
                     .accessibilityIdentifier("ShareButton")
+                    
+                    // Home - Tertiary (Story 3.5: Return to Main Menu)
+                    Button {
+                        onHome?()
+                    } label: {
+                        HStack(spacing: 8) {
+                            Image(systemName: "house")
+                            Text("Ballina")
+                        }
+                        .font(.system(size: 16, weight: .medium, design: .rounded))
+                        .foregroundColor(.white.opacity(0.7))
+                        .padding(.top, 8)
+                    }
+                    .accessibilityIdentifier("HomeButton")
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 40)
@@ -276,6 +291,7 @@ private struct StatView: View {
     ResultScreen(
         result: GameResult(score: 8, passed: 3, date: Date()),
         onPlayAgain: { print("Play Again tapped") },
-        onShare: { print("Share tapped") }
+        onShare: { print("Share tapped") },
+        onHome: { print("Home tapped") }
     )
 }

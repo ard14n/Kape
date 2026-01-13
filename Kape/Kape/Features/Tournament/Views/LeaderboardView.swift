@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LeaderboardView: View {
     @Bindable var viewModel: TournamentViewModel
+    var onExit: (() -> Void)?
     @State private var showShareSheet = false
     @State private var podiumImage: UIImage?
     
@@ -58,7 +59,15 @@ struct LeaderboardView: View {
                         viewModel.resetTournament(keepPlayers: true)
                     }
                     .font(.system(size: 16, weight: .bold, design: .rounded))
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
                     .foregroundStyle(Color.textSecondary)
+                    
+                    Button(String(localized: "Mbyll")) {
+                        onExit?()
+                    }
+                    .font(.system(size: 16, weight: .medium, design: .rounded))
+                    .foregroundStyle(Color.textSecondary.opacity(0.8))
+                    .padding(.top, 8)
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 20)
@@ -227,5 +236,6 @@ struct ShareSheet: UIViewControllerRepresentable {
     ]
     // Mock scores need vm running state or direct modification if possible
     // In preview we can just assume `rankedPlayers` works if data exists
-    return LeaderboardView(viewModel: vm)
+    // In preview we can just assume `rankedPlayers` works if data exists
+    return LeaderboardView(viewModel: vm, onExit: {})
 }

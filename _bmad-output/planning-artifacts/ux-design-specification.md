@@ -99,7 +99,7 @@ The core Kape! experience is a high-energy, 60-second social burst. The user (Gu
 ### Transferable UX Patterns
 *   **The "Juicy" Transition (Duolingo):** Correct guesses shouldn't just distinctively increment a number; they should explode with particles/haptics.
 *   **The "Wrapped" Share (Spotify):** Result screens use high-contrast typography and generated imagery (not just screenshots) to make the user look cool.
-*   **The "Infinite Loop" (TikTok):** "Play Again" isn't a question; it's the default state.
+*   **The "Infinite Loop" (TikTok):** "Play Again" is the default highly-prominent state, but a secondary "Exit" path ensures user control.
 
 ### Anti-Patterns to Avoid
 *   **"Tutorial Fatigue":** Do not force users to watch a "How to Play" video. Use a simple, native animation on the "Place on Forehead" screen.

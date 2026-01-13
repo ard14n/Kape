@@ -363,6 +363,20 @@ So that I don't have to take a manual screenshot.
 **Then** the native iOS Share Sheet (`UIActivityViewController` or `ShareLink` in SwiftUI) must present
 **And** the image must be attached
 
+### Story 3.5: Result Screen Navigation Update
+
+As a Player,
+I want to be able to return to the main menu from the result screen,
+So that I am not forced to play again if I want to stop.
+
+**Acceptance Criteria:**
+
+**Given** the Result Screen
+**When** displayed
+**Then** it must show a "Home" / "Exit" button (Small, Secondary Style)
+**And** tapping it must navigate back to the Main Menu
+**And** it must NOT distract from the primary "Play Again" button
+
 ## Epic 4: The Monetization Layer
 
 Goal: Enable users to purchase and unlock premium content (VIP Decks).
@@ -555,3 +569,17 @@ So that we don't lose our scores in the middle of a heated party.
 **And** if "Yes", restore all players, scores, and the current round index
 **And** navigate directly to the Interstitial Screen for the correct player
 
+**And** navigate directly to the Interstitial Screen for the correct player
+
+### Story 6.5: Tournament Leaderboard Exit
+
+As a Group,
+We want to exit the tournament mode after seeing the results,
+So that we can play a normal game or do something else.
+
+**Acceptance Criteria:**
+
+**Given** the Tournament Leaderboard
+**When** displayed
+**Then** it must show a "Close" or "Exit" button
+**And** tapping it must clear the tournament state and return to Main Menu
