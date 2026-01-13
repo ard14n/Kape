@@ -889,6 +889,266 @@
           "text": "Oxygen"
         }
       ]
+    },
+    {
+      "id": "historia",
+      "title": "Historia",
+      "description": "Nga Ilirët te Pavarësia – sa mirë e njeh të kaluarën?",
+      "icon_name": "scroll",
+      "difficulty": 2,
+      "is_pro": false,
+      "cards": [
+        {
+          "id": "hi-001",
+          "text": "Skënderbeu"
+        },
+        {
+          "id": "hi-002",
+          "text": "Adem Jashari"
+        },
+        {
+          "id": "hi-003",
+          "text": "Nënë Tereza"
+        },
+        {
+          "id": "hi-004",
+          "text": "Pavarësia (2008)"
+        },
+        {
+          "id": "hi-005",
+          "text": "Lidhja e Prizrenit"
+        },
+        {
+          "id": "hi-006",
+          "text": "Ismail Qemali"
+        },
+        {
+          "id": "hi-007",
+          "text": "Isa Boletini"
+        },
+        {
+          "id": "hi-008",
+          "text": "Ilirët"
+        },
+        {
+          "id": "hi-009",
+          "text": "Mbretëresha Teuta"
+        },
+        {
+          "id": "hi-010",
+          "text": "UÇK"
+        },
+        {
+          "id": "hi-011",
+          "text": "NATO 1999"
+        },
+        {
+          "id": "hi-012",
+          "text": "Bill Clinton"
+        },
+        {
+          "id": "hi-013",
+          "text": "Ibrahim Rugova"
+        },
+        {
+          "id": "hi-014",
+          "text": "28 Nëntori"
+        },
+        {
+          "id": "hi-015",
+          "text": "17 Shkurti"
+        },
+        {
+          "id": "hi-016",
+          "text": "Hasan Prishtina"
+        },
+        {
+          "id": "hi-017",
+          "text": "Bajram Curri"
+        },
+        {
+          "id": "hi-018",
+          "text": "Azem Galica"
+        },
+        {
+          "id": "hi-019",
+          "text": "Shote Galica"
+        },
+        {
+          "id": "hi-020",
+          "text": "Kongresi i Manastirit"
+        },
+        {
+          "id": "hi-021",
+          "text": "Lufta e Vlorës"
+        },
+        {
+          "id": "hi-022",
+          "text": "Prekazi"
+        },
+        {
+          "id": "hi-023",
+          "text": "Kruja"
+        },
+        {
+          "id": "hi-024",
+          "text": "Dardania"
+        },
+        {
+          "id": "hi-025",
+          "text": "Epiri"
+        },
+        {
+          "id": "hi-026",
+          "text": "Hekurudha"
+        },
+        {
+          "id": "hi-027",
+          "text": "Minatori"
+        },
+        {
+          "id": "hi-028",
+          "text": "Pajtimi i Gjaqeve"
+        },
+        {
+          "id": "hi-029",
+          "text": "Anton Çetta"
+        },
+        {
+          "id": "hi-030",
+          "text": "Beteja e Kosovës"
+        }
+      ]
+    },
+    {
+      "id": "politike",
+      "title": "Politikë",
+      "description": "Skandale, premtime dhe 'Të fala Parisit'!",
+      "icon_name": "building.columns",
+      "difficulty": 2,
+      "is_pro": false,
+      "cards": [
+        {
+          "id": "po-001",
+          "text": "Albin Kurti"
+        },
+        {
+          "id": "po-002",
+          "text": "Edi Rama"
+        },
+        {
+          "id": "po-003",
+          "text": "Hashim Thaçi"
+        },
+        {
+          "id": "po-004",
+          "text": "Vjosa Osmani"
+        },
+        {
+          "id": "po-005",
+          "text": "Sali Berisha"
+        },
+        {
+          "id": "po-006",
+          "text": "Ramush Haradinaj"
+        },
+        {
+          "id": "po-007",
+          "text": "Glauk Konjufca"
+        },
+        {
+          "id": "po-008",
+          "text": "Ali Ahmeti"
+        },
+        {
+          "id": "po-009",
+          "text": "Dritan Abazoviq"
+        },
+        {
+          "id": "po-010",
+          "text": "Parlamenti"
+        },
+        {
+          "id": "po-011",
+          "text": "Kuvendi"
+        },
+        {
+          "id": "po-012",
+          "text": "Zgjedhjet"
+        },
+        {
+          "id": "po-013",
+          "text": "Fushata Zgjedhore"
+        },
+        {
+          "id": "po-014",
+          "text": "Premtimet"
+        },
+        {
+          "id": "po-015",
+          "text": "Asfalti"
+        },
+        {
+          "id": "po-016",
+          "text": "Vizat"
+        },
+        {
+          "id": "po-017",
+          "text": "Dialogu"
+        },
+        {
+          "id": "po-018",
+          "text": "Asociacioni"
+        },
+        {
+          "id": "po-019",
+          "text": "Korrupsioni"
+        },
+        {
+          "id": "po-020",
+          "text": "Tenderi"
+        },
+        {
+          "id": "po-021",
+          "text": "Opozita"
+        },
+        {
+          "id": "po-022",
+          "text": "Ambasadori"
+        },
+        {
+          "id": "po-023",
+          "text": "BE"
+        },
+        {
+          "id": "po-024",
+          "text": "SHBA"
+        },
+        {
+          "id": "po-025",
+          "text": "Lista Serbe"
+        },
+        {
+          "id": "po-026",
+          "text": "Gazlots lotsjellës"
+        },
+        {
+          "id": "po-027",
+          "text": "Protesta"
+        },
+        {
+          "id": "po-028",
+          "text": "Kryeministri"
+        },
+        {
+          "id": "po-029",
+          "text": "Presidenti"
+        },
+        {
+          "id": "po-030",
+          "text": "Kryetari i Komunës"
+        }
+      ]
     }
   ]
 }
