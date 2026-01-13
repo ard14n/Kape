@@ -109,10 +109,10 @@ struct CalibrationView: View {
                 statusMessage = "Duke kontrolluar pozicionin..."
             case .valid:
                 statusMessage = "Pozicioni është i saktë!"
-                // Auto-proceed after a brief moment
+                // Stop timer and auto-proceed after a brief moment
+                validationTimer?.invalidate()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     if isValid {
-                        validationTimer?.invalidate()
                         motionManager.calibrate()
                         onCalibrated()
                     }
