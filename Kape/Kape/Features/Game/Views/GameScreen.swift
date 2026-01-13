@@ -285,8 +285,8 @@ struct GameScreen: View {
             cardId = UUID()
         }
         
-        // Clear flash after brief delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+        // Clear flash after longer delay (0.3s) to allow fade-out animation to complete
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             flashAction = nil
         }
     }

@@ -11,9 +11,9 @@ struct MotionDebugView: View {
             
             // Live Data
             VStack {
-                Text("Gravity Z")
+                Text("Pitch (Tilt)")
                     .foregroundStyle(.secondary)
-                Text(String(format: "%.2f", motionManager.liveGravityZ))
+                Text(String(format: "%.2f", motionManager.livePitch))
                     .font(.system(size: 60, weight: .black, design: .monospaced))
                     .foregroundStyle(colorForState(motionManager.state))
                 

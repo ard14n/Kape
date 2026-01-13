@@ -78,7 +78,7 @@ struct ResultScreen: View {
                 HStack(spacing: 24) {
                     StatView(value: "\(Int(result.accuracy * 100))%", label: "Saktësia")
                     StatView(value: "\(result.total)", label: "Letra")
-                    StatView(value: "\(result.passed)", label: "Të sakta")
+                    StatView(value: "\(result.passed)", label: "Të kaluara")
                 }
                 .padding(.top, 16)
                 
