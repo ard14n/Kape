@@ -161,7 +161,7 @@ extension HapticServiceTests {
         try? await Task.sleep(nanoseconds: 200_000_000)
         
         // When: Trigger correct via motion
-        motion.processGravityZ(0.7) // Tilt down = correct
+        motion.processGravityZ(0.9) // Tilt down = correct (above threshold)
         
         try? await Task.sleep(nanoseconds: 50_000_000)
         
@@ -191,7 +191,7 @@ extension HapticServiceTests {
         try? await Task.sleep(nanoseconds: 200_000_000)
         
         // When: Trigger pass via motion
-        motion.processGravityZ(-0.7) // Tilt up = pass
+        motion.processGravityZ(-0.9) // Tilt up = pass (below threshold)
         
         try? await Task.sleep(nanoseconds: 50_000_000)
         

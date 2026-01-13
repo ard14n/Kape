@@ -68,11 +68,24 @@ struct GameScreen: View {
             handleActionChange(newValue)
         }
         .onAppear {
+            // Force landscape orientation for gameplay
+            AppDelegate.orientationLock = .landscape
+            if #available(iOS 16.0, *) {
+                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                windowScene?.requestGeometryUpdate(.iOS(interfaceOrientations: .landscape))
+            } else {
+                UIDevice.current.setValue(UIInterfaceOrientation.landscapeLeft.rawValue, forKey: "orientation")
+            }
+            
             // Yield to let presentation settle before starting game loop
             Task { @MainActor in
                 await Task.yield()
                 engine.startGameLoop()
             }
+        }
+        .onDisappear {
+            // Restore all orientations when leaving game screen
+            AppDelegate.orientationLock = .all
         }
         .onChange(of: engine.gameState) { oldValue, newValue in
             if newValue == .finished, let round = engine.currentRound {
