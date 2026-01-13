@@ -158,7 +158,7 @@ struct DeckBrowserView: View {
     // MARK: - Subviews
     
     private var headerView: some View {
-        Text("Zgjidh Viben")
+        Text("Zgjidh Kategorinë")
             .font(.system(size: 34, weight: .heavy, design: .rounded))
             .foregroundStyle(.white)
             .subtleGlow(color: .neonBlue) // Story 5.1 AC2: Restored subtle glow

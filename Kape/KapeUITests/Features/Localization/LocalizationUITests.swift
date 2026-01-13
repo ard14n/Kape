@@ -20,7 +20,7 @@ final class LocalizationUITests: XCTestCase {
         // THEN: Header should display "Zgjidh Viben"
         let header = app.staticTexts["DeckBrowserHeader"]
         XCTAssertTrue(header.waitForExistence(timeout: 5))
-        XCTAssertEqual(header.label, "Zgjidh Viben")
+        XCTAssertEqual(header.label, "Zgjidh Kategorinë")
     }
     
     func testDeckBrowser_StartButtonIsAlbanian() {
