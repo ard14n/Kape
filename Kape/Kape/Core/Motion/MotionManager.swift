@@ -11,9 +11,9 @@ import SwiftUI
 final class MotionManager {
     // MARK: - Constants
     
-    /// Threshold in Radians (approx 23 degrees)
-    /// Using attitude pitch for more linear control.
-    private let triggerThreshold: Double = 0.4
+    /// Threshold in Radians (approx 37 degrees)
+    /// Increased from 0.4 to prevent accidental triggers (User requested "stable and reliable").
+    private let triggerThreshold: Double = 0.65
     
     /// The range to reset debounce (approx 8.5 degrees)
     private let neutralThreshold: Double = 0.15
@@ -50,6 +50,9 @@ final class MotionManager {
     /// The captured baseline Roll value when gameplay starts.
     private var baselineRoll: Double = 0.0
     
+    /// Flag to ensure we don't process inputs before calibration.
+    private var isCalibrated: Bool = false
+    
     /// Stream of game events.
     private let eventContinuation: AsyncStream<GameInputEvent>.Continuation
     let eventStream: AsyncStream<GameInputEvent>
@@ -83,6 +86,10 @@ final class MotionManager {
         }
         
         isMonitoring = true
+        // Reset state on start
+        isCalibrated = false
+        state = .neutral
+        
         motionManager.deviceMotionUpdateInterval = 1.0 / 60.0 // 60Hz
         
         // Start updates with a specific reference frame for better stability
@@ -108,6 +115,7 @@ final class MotionManager {
         motionManager.stopDeviceMotionUpdates()
         isMonitoring = false
         state = .neutral
+        isCalibrated = false
         liveRoll = 0.0
         baselineRoll = 0.0
     }
@@ -117,19 +125,17 @@ final class MotionManager {
         guard let motion = motionManager.deviceMotion else { return }
         // Use attitude.roll for longitudinal tilt in Landscape (Nodding)
         self.baselineRoll = motion.attitude.roll
+        self.isCalibrated = true
     }
     
     // MARK: - Processing Logic
     
     private func processMotion(_ motion: CMDeviceMotion) {
-        // In Landscape, rotation around the Y-axis (long edge) is Roll.
-        self.processRoll(motion.attitude.roll)
-    }
-    
-    /// Processes a roll value. Exposed for Unit Testing.
-    /// - Parameter roll: The roll in radians.
-    func processRoll(_ roll: Double) {
+        let roll = motion.attitude.roll
         self.liveRoll = roll
+        
+        // Ignore inputs until calibrated
+        guard isCalibrated else { return }
         
         let delta = roll - baselineRoll
         

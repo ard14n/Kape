@@ -110,7 +110,7 @@ final class GameEngine: Identifiable {
         motionManager.startMonitoring()
         
         // Give sensors a moment to warm up and capture baseline
-        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1s
+        try? await Task.sleep(nanoseconds: 500_000_000) // 0.5s
         motionManager.calibrate()
         
         await withTaskGroup(of: Void.self) { group in
