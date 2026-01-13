@@ -149,7 +149,17 @@ struct ResultScreen: View {
             }
         }
         .onAppear {
+            AppDelegate.orientationLock = .portrait
+            if #available(iOS 16.0, *) {
+                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                windowScene?.requestGeometryUpdate(.iOS(interfaceOrientations: .portrait))
+            } else {
+                UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            }
             animate()
+        }
+        .onDisappear {
+            AppDelegate.orientationLock = .all
         }
         .alert("Nuk u krijua imazhi", isPresented: $showImageError) {
             Button("Provo Përsëri") {

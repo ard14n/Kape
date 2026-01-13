@@ -10,6 +10,8 @@ import SwiftData
 
 @main
 struct KapeApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     /// Shared DeckService instance for the entire app
     @StateObject private var deckService = DeckService()
     
