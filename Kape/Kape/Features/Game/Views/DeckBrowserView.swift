@@ -230,7 +230,7 @@ struct DeckBrowserView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 18)
                     .background(
-                        viewModel.selectedDeck == nil ? Color.gray.opacity(0.3) : Color.neonGreen
+                        viewModel.selectedDeck == nil ? Color(uiColor: .systemGray3) : Color.neonGreen
                     )
                     .clipShape(Capsule())
                     .neonGlow(color: viewModel.selectedDeck == nil ? .clear : .neonGreen, intensity: 0.6) // Story 5.1 AC2: Reduced glow
