@@ -39,10 +39,12 @@ final class GameEngine: Identifiable {
     }
     
     // Dependencies
-    private let motionManager: MotionManager
     private let audioService: AudioServiceProtocol
     private let hapticService: HapticServiceProtocol
     private let configuration: Configuration
+    
+    // Expose motionManager for calibration view
+    let motionManager: MotionManager
     
     // Internal
     private var gameTask: Task<Void, Never>?
@@ -70,7 +72,7 @@ final class GameEngine: Identifiable {
     func startRound(with deck: Deck) {
         gameTask?.cancel()
         currentRound = GameRound(deck: deck, timeRemaining: configuration.gameDuration)
-        gameState = .buffer
+        gameState = .calibrating // Start with calibration instead of buffer
         bufferCount = Int(configuration.bufferDuration)
         lastAction = nil
         isWarningActive = false
@@ -78,10 +80,17 @@ final class GameEngine: Identifiable {
         gameTask = nil // Ensure no task is running initially
     }
     
+    /// Called when calibration is complete and device is properly positioned
+    func onCalibrationComplete() {
+        guard gameState == .calibrating else { return }
+        gameState = .buffer
+    }
+    
     /// Starts the active game loop (Buffer -> Playing).
     /// Call this when the UI is ready (e.g., onAppear).
     func startGameLoop() {
         guard gameTask == nil else { return } // Prevent double start
+        guard gameState == .buffer else { return } // Only start from buffer state (after calibration)
         
         gameTask = Task {
             await runGameLoop()
@@ -109,9 +118,7 @@ final class GameEngine: Identifiable {
         gameState = .playing
         motionManager.startMonitoring()
         
-        // Give sensors a moment to warm up and capture baseline
-        try? await Task.sleep(nanoseconds: 500_000_000) // 0.5s
-        motionManager.calibrate()
+        // Calibration is already done in CalibrationView, so we can start immediately
         
         await withTaskGroup(of: Void.self) { group in
             // 1. Input Listener Loop
