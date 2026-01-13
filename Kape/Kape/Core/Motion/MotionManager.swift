@@ -11,12 +11,13 @@ import SwiftUI
 final class MotionManager {
     // MARK: - Constants
     
-    /// Threshold in Radians (approx 37 degrees)
-    /// Increased from 0.4 to prevent accidental triggers (User requested "stable and reliable").
-    private let triggerThreshold: Double = 0.65
+    /// Threshold in Radians (approx 45 degrees)
+    /// Increased from 0.65 to reduce sensitivity and prevent accidental triggers.
+    private let triggerThreshold: Double = 0.785
     
-    /// The range to reset debounce (approx 8.5 degrees)
-    private let neutralThreshold: Double = 0.15
+    /// The range to reset debounce (approx 11.5 degrees)
+    /// Increased to improve reliability and prevent false neutral detection.
+    private let neutralThreshold: Double = 0.20
     
     // MARK: - State Types
     
@@ -165,5 +166,41 @@ final class MotionManager {
     private func trigger(_ event: GameInputEvent) {
         state = .triggered(event)
         eventContinuation.yield(event)
+    }
+    
+    // MARK: - Testing Support
+    
+    /// Testing-only method to simulate motion input by directly processing a roll delta value.
+    /// This bypasses CMMotionManager and calibration for unit testing purposes.
+    /// - Parameter rollValue: The simulated roll value in radians
+    func processGravityZ(_ rollValue: Double) {
+        // For testing, treat rollValue as delta from baseline (baseline assumed 0)
+        let delta = rollValue
+        
+        // Temporarily mark as calibrated for testing
+        let wasCalibrated = isCalibrated
+        isCalibrated = true
+        
+        // Process using same state machine logic
+        switch state {
+        case .neutral:
+            if delta > triggerThreshold {
+                trigger(.correct)
+            } else if delta < -triggerThreshold {
+                trigger(.pass)
+            }
+            
+        case .triggered, .debouncing:
+            if abs(delta) < neutralThreshold {
+                state = .neutral
+            } else {
+                state = .debouncing
+            }
+        }
+        
+        // Restore calibration state
+        if !wasCalibrated {
+            isCalibrated = wasCalibrated
+        }
     }
 }

@@ -235,8 +235,8 @@ extension AudioServiceTests {
         try? await Task.sleep(nanoseconds: 200_000_000)
         
         // When: Trigger correct via motion
-        // Simulate calibrated motion (0.0 -> 0.7)
-        motion.processGravityZ(0.7) // Tilt down = correct
+        // Simulate calibrated motion (0.0 -> 0.9, above threshold of 0.785)
+        motion.processGravityZ(0.9) // Tilt down = correct
         
         try? await Task.sleep(nanoseconds: 50_000_000)
         
@@ -266,8 +266,8 @@ extension AudioServiceTests {
         try? await Task.sleep(nanoseconds: 200_000_000)
         
         // When: Trigger pass via motion
-        // Simulate calibrated motion (0.0 -> -0.7)
-        motion.processGravityZ(-0.7) // Tilt up = pass
+        // Simulate calibrated motion (0.0 -> -0.9, below threshold of -0.785)
+        motion.processGravityZ(-0.9) // Tilt up = pass
         
         try? await Task.sleep(nanoseconds: 50_000_000)
         
@@ -320,7 +320,7 @@ extension AudioServiceTests {
         try? await Task.sleep(nanoseconds: 200_000_000)
         
         // When
-        motion.processGravityZ(0.7) // Correct
+        motion.processGravityZ(0.9) // Correct (above threshold)
         try? await Task.sleep(nanoseconds: 50_000_000)
         
         // Then

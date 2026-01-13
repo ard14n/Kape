@@ -76,9 +76,9 @@ final class GameEngineTests: XCTestCase {
         
         XCTAssertEqual(engine.gameState, .playing)
         
-        // 1. Trigger Correct (Tilt Down -> Gravity Z increases)
-        // Simulate calibrating at 0, moving to 0.7
-        motion.processGravityZ(0.7)
+        // 1. Trigger Correct (Tilt Down -> Roll delta increases)
+        // Simulate calibrating at 0, moving to 0.9 (above new threshold of 0.785)
+        motion.processGravityZ(0.9)
         
         // Give run loop time to process
         try? await Task.sleep(nanoseconds: 100_000_000)
@@ -90,9 +90,9 @@ final class GameEngineTests: XCTestCase {
         // 2. Reset to Neutral (Debounce)
         motion.processGravityZ(0.0)
         
-        // 3. Trigger Pass (Tilt Up -> Gravity Z decreases)
-        // Simulate moving to -0.7
-        motion.processGravityZ(-0.7)
+        // 3. Trigger Pass (Tilt Up -> Roll delta decreases)
+        // Simulate moving to -0.9 (below new threshold of -0.785)
+        motion.processGravityZ(-0.9)
         try? await Task.sleep(nanoseconds: 100_000_000)
         
         XCTAssertEqual(engine.currentRound?.passed, 1)

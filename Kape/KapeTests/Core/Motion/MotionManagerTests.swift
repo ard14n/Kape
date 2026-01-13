@@ -34,9 +34,9 @@ final class MotionManagerTests: XCTestCase {
     
     func testTriggerCorrectLowScreen() {
         // GIVEN: Baseline 0.0 (Vertical)
-        // Threshold is 0.6
+        // Threshold is 0.785 (approx 45 degrees)
         
-        // WHEN: Gravity Z goes to 0.7 (Screen Down)
+        // WHEN: Roll delta goes to 0.9 (Tilt Down)
         var events: [MotionManager.GameInputEvent] = []
         let exp = expectation(description: "Event Received")
         
@@ -48,7 +48,7 @@ final class MotionManagerTests: XCTestCase {
         }
         
         // Simulate change
-        manager.processGravityZ(0.7)
+        manager.processGravityZ(0.9)
         
         // THEN: Trigger Correct
         wait(for: [exp], timeout: 1.0)
@@ -63,7 +63,7 @@ final class MotionManagerTests: XCTestCase {
     func testTriggerPassHighScreen() {
         // GIVEN: Baseline 0.0
         
-        // WHEN: Gravity Z goes to -0.7 (Screen Up)
+        // WHEN: Roll delta goes to -0.9 (Tilt Up)
         var events: [MotionManager.GameInputEvent] = []
         let exp = expectation(description: "Event Received")
         
@@ -74,7 +74,7 @@ final class MotionManagerTests: XCTestCase {
             }
         }
         
-        manager.processGravityZ(-0.7)
+        manager.processGravityZ(-0.9)
         
         // THEN: Trigger Pass
         wait(for: [exp], timeout: 1.0)
@@ -82,21 +82,21 @@ final class MotionManagerTests: XCTestCase {
     }
     
     func testDebounceLogic() {
-        // 1. Trigger
-        manager.processGravityZ(0.7)
+        // 1. Trigger with value above threshold (0.785)
+        manager.processGravityZ(0.9)
         if case .triggered = manager.state {} else { XCTFail() }
         
-        // 2. Move slightly back (0.19), but not fully neutral (Neutral Threshold 0.2)
-        // Delta = 0.19. Abs(0.19) < 0.2 -> It SHOULD return to neutral!
+        // 2. Move slightly back (0.15), which is below neutral threshold (0.20)
+        // Delta = 0.15. Abs(0.15) < 0.20 -> It SHOULD return to neutral!
         
         manager.processGravityZ(0.15)
         XCTAssertEqual(manager.state, .neutral)
         
         // 3. Trigger again
-        manager.processGravityZ(0.7)
+        manager.processGravityZ(0.9)
         if case .triggered = manager.state {} else { XCTFail() }
         
-        // 4. Move to 0.5 (Still triggered/debouncing range because not < 0.2)
+        // 4. Move to 0.5 (Still triggered/debouncing range because not < 0.20)
         manager.processGravityZ(0.5)
         XCTAssertEqual(manager.state, .debouncing)
     }

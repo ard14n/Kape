@@ -116,9 +116,9 @@ xcodebuild test -project Kape/Kape.xcodeproj -scheme Kape -destination 'platform
 ## Game Mechanics
 
 ### Motion Detection
-- **Correct (Tilt Down):** Gravity.z delta > +0.6G (~37° tilt) = Success feedback + next card
-- **Pass (Tilt Up):** Gravity.z delta < -0.6G (~37° tilt) = Pass feedback + next card
-- **Debounce:** Returns to neutral range (±0.2G) before next trigger
+- **Correct (Tilt Down):** Roll delta > +0.785 rad (~45° tilt) = Success feedback + next card
+- **Pass (Tilt Up):** Roll delta < -0.785 rad (~45° tilt) = Pass feedback + next card
+- **Debounce:** Returns to neutral range (±0.20 rad / ~11.5°) before next trigger
 - **Auto-Calibration:** Captures baseline position at game start
 
 ### Game Flow
