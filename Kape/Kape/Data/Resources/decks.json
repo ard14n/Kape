@@ -427,7 +427,468 @@
       "icon_name": "music.mic",
       "difficulty": 1,
       "is_pro": true,
-      "cards": []
+      "cards": [
+        {
+          "id": "mz-001",
+          "text": "Elvana Gjata"
+        },
+        {
+          "id": "mz-002",
+          "text": "Tayna"
+        },
+        {
+          "id": "mz-003",
+          "text": "Capital T"
+        },
+        {
+          "id": "mz-004",
+          "text": "Ledri Vula"
+        },
+        {
+          "id": "mz-005",
+          "text": "Dhurata Dora"
+        },
+        {
+          "id": "mz-006",
+          "text": "Mozzik"
+        },
+        {
+          "id": "mz-007",
+          "text": "Loredana"
+        },
+        {
+          "id": "mz-008",
+          "text": "Getoar Selimi"
+        },
+        {
+          "id": "mz-009",
+          "text": "Tuna"
+        },
+        {
+          "id": "mz-010",
+          "text": "Dafina Zeqiri"
+        },
+        {
+          "id": "mz-011",
+          "text": "Genta Ismajli"
+        },
+        {
+          "id": "mz-012",
+          "text": "Sabri Fejzullahu"
+        },
+        {
+          "id": "mz-013",
+          "text": "Sinan Vllasaliu"
+        },
+        {
+          "id": "mz-014",
+          "text": "Shkurte Fejza"
+        },
+        {
+          "id": "mz-015",
+          "text": "Shyhrete Behluli"
+        },
+        {
+          "id": "mz-016",
+          "text": "Mahmut Ferati"
+        },
+        {
+          "id": "mz-017",
+          "text": "Meda"
+        },
+        {
+          "id": "mz-018",
+          "text": "Labinot Tahiri"
+        },
+        {
+          "id": "mz-019",
+          "text": "Tallava"
+        },
+        {
+          "id": "mz-020",
+          "text": "Çiftelia"
+        },
+        {
+          "id": "mz-021",
+          "text": "Sharkia"
+        },
+        {
+          "id": "mz-022",
+          "text": "Defi"
+        },
+        {
+          "id": "mz-023",
+          "text": "Eurovision"
+        },
+        {
+          "id": "mz-024",
+          "text": "Festivali i Këngës"
+        },
+        {
+          "id": "mz-025",
+          "text": "Kënga Magjike"
+        },
+        {
+          "id": "mz-026",
+          "text": "Top Fest"
+        },
+        {
+          "id": "mz-027",
+          "text": "Video Festi"
+        },
+        {
+          "id": "mz-028",
+          "text": "BB Poqi"
+        },
+        {
+          "id": "mz-029",
+          "text": "Unikkatil"
+        },
+        {
+          "id": "mz-030",
+          "text": "Noizy"
+        },
+        {
+          "id": "mz-031",
+          "text": "Stresi"
+        },
+        {
+          "id": "mz-032",
+          "text": "Fero"
+        },
+        {
+          "id": "mz-033",
+          "text": "Rina"
+        },
+        {
+          "id": "mz-034",
+          "text": "Melinda"
+        },
+        {
+          "id": "mz-035",
+          "text": "Kida"
+        },
+        {
+          "id": "mz-036",
+          "text": "Yll Limani"
+        },
+        {
+          "id": "mz-037",
+          "text": "Butrint Imeri"
+        },
+        {
+          "id": "mz-038",
+          "text": "Don Xhoni"
+        },
+        {
+          "id": "mz-039",
+          "text": "Luana Vjollca"
+        },
+        {
+          "id": "mz-040",
+          "text": "Flori Mumajesi"
+        },
+        {
+          "id": "mz-041",
+          "text": "Alban Skenderaj"
+        },
+        {
+          "id": "mz-042",
+          "text": "Miriam Cani"
+        },
+        {
+          "id": "mz-043",
+          "text": "Aurela Gaçe"
+        },
+        {
+          "id": "mz-044",
+          "text": "Vaçe Zela"
+        },
+        {
+          "id": "mz-045",
+          "text": "Nexhmije Pagarusha"
+        },
+        {
+          "id": "mz-046",
+          "text": "Ismet Peja"
+        },
+        {
+          "id": "mz-047",
+          "text": "Qamili i Vogël"
+        },
+        {
+          "id": "mz-048",
+          "text": "Këngë për Fëmijë"
+        },
+        {
+          "id": "mz-049",
+          "text": "Rep Shqip"
+        },
+        {
+          "id": "mz-050",
+          "text": "Motrat Mustafa"
+        }
+      ]
+    },
+    {
+      "id": "sport",
+      "title": "Sport",
+      "description": "Heronjtë tanë – nga futbolli te xhudo!",
+      "icon_name": "sportscourt",
+      "difficulty": 1,
+      "is_pro": false,
+      "cards": [
+        {
+          "id": "sp-001",
+          "text": "Granit Xhaka"
+        },
+        {
+          "id": "sp-002",
+          "text": "Xherdan Shaqiri"
+        },
+        {
+          "id": "sp-003",
+          "text": "Milot Rashica"
+        },
+        {
+          "id": "sp-004",
+          "text": "Vedat Muriqi"
+        },
+        {
+          "id": "sp-005",
+          "text": "Kombëtarja"
+        },
+        {
+          "id": "sp-006",
+          "text": "FC Prishtina"
+        },
+        {
+          "id": "sp-007",
+          "text": "KF Ballkani"
+        },
+        {
+          "id": "sp-008",
+          "text": "KF Drita"
+        },
+        {
+          "id": "sp-009",
+          "text": "Tifozat Kuq e Zi"
+        },
+        {
+          "id": "sp-010",
+          "text": "Plisat"
+        },
+        {
+          "id": "sp-011",
+          "text": "Intelektualët"
+        },
+        {
+          "id": "sp-012",
+          "text": "Fadil Vokrri"
+        },
+        {
+          "id": "sp-013",
+          "text": "Majlinda Kelmendi"
+        },
+        {
+          "id": "sp-014",
+          "text": "Distria Krasniqi"
+        },
+        {
+          "id": "sp-015",
+          "text": "Nora Gjakova"
+        },
+        {
+          "id": "sp-016",
+          "text": "Boks"
+        },
+        {
+          "id": "sp-017",
+          "text": "Luan Krasniqi"
+        },
+        {
+          "id": "sp-018",
+          "text": "Robin Krasniqi"
+        },
+        {
+          "id": "sp-019",
+          "text": "Euro 2016"
+        },
+        {
+          "id": "sp-020",
+          "text": "Lorik Cana"
+        },
+        {
+          "id": "sp-021",
+          "text": "Amir Rrahmani"
+        },
+        {
+          "id": "sp-022",
+          "text": "Mërgim Vojvoda"
+        },
+        {
+          "id": "sp-023",
+          "text": "Elseid Hysaj"
+        },
+        {
+          "id": "sp-024",
+          "text": "Thomas Strakosha"
+        },
+        {
+          "id": "sp-025",
+          "text": "Armando Broja"
+        },
+        {
+          "id": "sp-026",
+          "text": "Besim Kabashi"
+        },
+        {
+          "id": "sp-027",
+          "text": "Gjimnastikë"
+        },
+        {
+          "id": "sp-028",
+          "text": "Not"
+        },
+        {
+          "id": "sp-029",
+          "text": "Volejboll"
+        },
+        {
+          "id": "sp-030",
+          "text": "Basketboll"
+        }
+      ]
+    },
+    {
+      "id": "humor-tv",
+      "title": "Humor & TV",
+      "description": "Serialet, show-t dhe batutat legjendare.",
+      "icon_name": "tv",
+      "difficulty": 1,
+      "is_pro": false,
+      "cards": [
+        {
+          "id": "hu-001",
+          "text": "Stupcat"
+        },
+        {
+          "id": "hu-002",
+          "text": "O Sa Mirë"
+        },
+        {
+          "id": "hu-003",
+          "text": "Kafeneja Jonë"
+        },
+        {
+          "id": "hu-004",
+          "text": "Çka ka Shpija"
+        },
+        {
+          "id": "hu-005",
+          "text": "Mahmutovitët"
+        },
+        {
+          "id": "hu-006",
+          "text": "Rexhepovitët"
+        },
+        {
+          "id": "hu-007",
+          "text": "Treshi Persheshi"
+        },
+        {
+          "id": "hu-008",
+          "text": "Cima"
+        },
+        {
+          "id": "hu-009",
+          "text": "Leci"
+        },
+        {
+          "id": "hu-010",
+          "text": "Qumili"
+        },
+        {
+          "id": "hu-011",
+          "text": "Batjar"
+        },
+        {
+          "id": "hu-012",
+          "text": "Zonja e Vjetër"
+        },
+        {
+          "id": "hu-013",
+          "text": "Schengen Visa"
+        },
+        {
+          "id": "hu-014",
+          "text": "Diamanti"
+        },
+        {
+          "id": "hu-015",
+          "text": "Zgjoi"
+        },
+        {
+          "id": "hu-016",
+          "text": "Shok"
+        },
+        {
+          "id": "hu-017",
+          "text": "Martesa"
+        },
+        {
+          "id": "hu-018",
+          "text": "Në Kuadër të Dashurisë"
+        },
+        {
+          "id": "hu-019",
+          "text": "Luizi"
+        },
+        {
+          "id": "hu-020",
+          "text": "Big Brother VIP"
+        },
+        {
+          "id": "hu-021",
+          "text": "Përputhen"
+        },
+        {
+          "id": "hu-022",
+          "text": "Portokalli"
+        },
+        {
+          "id": "hu-023",
+          "text": "Al Pazar"
+        },
+        {
+          "id": "hu-024",
+          "text": "Klan Kosova"
+        },
+        {
+          "id": "hu-025",
+          "text": "Top Channel"
+        },
+        {
+          "id": "hu-026",
+          "text": "RTK"
+        },
+        {
+          "id": "hu-027",
+          "text": "Gezuar 2024"
+        },
+        {
+          "id": "hu-028",
+          "text": "Xing me Ermalin"
+        },
+        {
+          "id": "hu-029",
+          "text": "Shiko Kush Luan"
+        },
+        {
+          "id": "hu-030",
+          "text": "Oxygen"
+        }
+      ]
     }
   ]
 }
