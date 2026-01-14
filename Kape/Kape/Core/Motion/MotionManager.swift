@@ -38,6 +38,13 @@ final class MotionManager {
         case unknown(String)
     }
     
+    enum CalibrationState: Equatable, Sendable {
+        case notStarted
+        case checking
+        case valid
+        case invalid(reason: String)
+    }
+    
     // MARK: - Properties
     
     private let motionManager = CMMotionManager()
@@ -53,6 +60,12 @@ final class MotionManager {
     
     /// Flag to ensure we don't process inputs before calibration.
     private var isCalibrated: Bool = false
+    
+    /// Current calibration validation state
+    private(set) var calibrationState: CalibrationState = .notStarted
+    
+    /// Acceptable range for device position (in radians, ~15 degrees)
+    private let positionTolerance: Double = 0.26
     
     /// Stream of game events.
     private let eventContinuation: AsyncStream<GameInputEvent>.Continuation
@@ -119,14 +132,40 @@ final class MotionManager {
         isCalibrated = false
         liveRoll = 0.0
         baselineRoll = 0.0
+        calibrationState = .notStarted
+    }
+    
+    /// Validates that the device is in the correct position for gameplay.
+    /// The device should be roughly vertical (on forehead) in landscape orientation.
+    /// Returns true if position is valid, false otherwise.
+    func validatePosition() -> Bool {
+        guard let motion = motionManager.deviceMotion else { 
+            calibrationState = .invalid(reason: "Sensor data unavailable")
+            return false 
+        }
+        
+        calibrationState = .checking
+        let roll = motion.attitude.roll
+        
+        // Check if device is roughly upright (roll should be close to 0 when on forehead in landscape)
+        // Allow tolerance of ~15 degrees from vertical
+        if abs(roll) > positionTolerance {
+            calibrationState = .invalid(reason: "Device not upright. Place phone on forehead in landscape.")
+            return false
+        }
+        
+        calibrationState = .valid
+        return true
     }
     
     /// Captures the current device attitude as the "Neutral" point.
+    /// Should only be called after validatePosition() returns true.
     func calibrate() {
         guard let motion = motionManager.deviceMotion else { return }
         // Use attitude.roll for longitudinal tilt in Landscape (Nodding)
         self.baselineRoll = motion.attitude.roll
         self.isCalibrated = true
+        self.calibrationState = .valid
     }
     
     // MARK: - Processing Logic

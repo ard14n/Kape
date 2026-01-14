@@ -46,6 +46,15 @@ struct GameScreen: View {
             switch engine.gameState {
             case .idle:
                 idleView
+            
+            case .calibrating:
+                CalibrationView(
+                    motionManager: engine.motionManager,
+                    onCalibrated: {
+                        engine.onCalibrationComplete()
+                        engine.startGameLoop()
+                    }
+                )
                 
             case .buffer:
                 BufferView(countdown: TimeInterval(engine.bufferCount))
@@ -77,10 +86,10 @@ struct GameScreen: View {
                 UIDevice.current.setValue(UIInterfaceOrientation.landscapeLeft.rawValue, forKey: "orientation")
             }
             
-            // Yield to let presentation settle before starting game loop
+            // Start motion monitoring for calibration
             Task { @MainActor in
                 await Task.yield()
-                engine.startGameLoop()
+                engine.motionManager.startMonitoring()
             }
         }
         .onDisappear {

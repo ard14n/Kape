@@ -2,6 +2,7 @@ import Foundation
 
 enum GameState: Equatable {
     case idle
+    case calibrating
     case buffer
     case playing
     case paused

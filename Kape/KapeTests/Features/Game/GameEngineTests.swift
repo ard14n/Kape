@@ -45,12 +45,18 @@ final class GameEngineTests: XCTestCase {
         let deck = DeckFactory.make()
         
         engine.startRound(with: deck)
-        engine.startGameLoop()
         
-        // Immediate state should be buffer
-        XCTAssertEqual(engine.gameState, .buffer)
-        XCTAssertEqual(engine.bufferCount, 3) // Default config
+        // Immediate state should be calibrating (before buffer)
+        XCTAssertEqual(engine.gameState, .calibrating)
         XCTAssertNotNil(engine.currentRound)
+        
+        // Complete calibration
+        engine.onCalibrationComplete()
+        XCTAssertEqual(engine.gameState, .buffer)
+        
+        // Start game loop after calibration
+        engine.startGameLoop()
+        XCTAssertEqual(engine.bufferCount, 3) // Default config
     }
     
     func testInputHandling() async {
@@ -67,12 +73,13 @@ final class GameEngineTests: XCTestCase {
         ])
         
         engine.startRound(with: deck)
+        
+        // Complete calibration and start game
+        engine.onCalibrationComplete()
         engine.startGameLoop()
         
         // Wait for buffer (0.1s) + margin
         try? await Task.sleep(nanoseconds: 200_000_000)
-        
-        XCTAssertEqual(engine.gameState, .playing)
         
         XCTAssertEqual(engine.gameState, .playing)
         
@@ -109,6 +116,9 @@ final class GameEngineTests: XCTestCase {
         let deck = DeckFactory.make()
         
         engine.startRound(with: deck)
+        
+        // Complete calibration and start game
+        engine.onCalibrationComplete()
         engine.startGameLoop()
         
         // Wait for playing (0.1s buffer)
@@ -148,6 +158,9 @@ final class GameEngineTests: XCTestCase {
         let deck = DeckFactory.make()
         
         engine.startRound(with: deck)
+        
+        // Complete calibration and start game
+        engine.onCalibrationComplete()
         engine.startGameLoop()
         
         // Wait for Buffer (0.05) + Game (1.0) + Margin (0.2)
@@ -167,6 +180,9 @@ final class GameEngineTests: XCTestCase {
         let deck = DeckFactory.make()
         
         engine.startRound(with: deck)
+        
+        // Complete calibration and start game
+        engine.onCalibrationComplete()
         engine.startGameLoop()
         
         // Wait 0.5s (Time ~1.5) -> No warning yet
@@ -188,6 +204,9 @@ final class GameEngineTests: XCTestCase {
         let deck = DeckFactory.make()
         
         engine.startRound(with: deck)
+        
+        // Complete calibration and start game
+        engine.onCalibrationComplete()
         engine.startGameLoop()
         
         // Wait for playing
@@ -221,6 +240,9 @@ final class GameEngineTests: XCTestCase {
         let deck = DeckFactory.make()
         
         engine.startRound(with: deck)
+        
+        // Complete calibration and start game
+        engine.onCalibrationComplete()
         engine.startGameLoop()
         
         // Simulate score
@@ -252,6 +274,9 @@ final class GameEngineTests: XCTestCase {
         let deck = DeckFactory.make()
         
         engine.startRound(with: deck)
+        
+        // Complete calibration and start game
+        engine.onCalibrationComplete()
         engine.startGameLoop()
         
         // Wait for playing state
@@ -294,6 +319,9 @@ final class GameEngineTests: XCTestCase {
         let deck = DeckFactory.make()
         
         engine.startRound(with: deck)
+        
+        // Complete calibration and start game
+        engine.onCalibrationComplete()
         engine.startGameLoop()
         
         try? await Task.sleep(nanoseconds: 200_000_000)
@@ -304,6 +332,63 @@ final class GameEngineTests: XCTestCase {
         
         // THEN: State remains playing (resume only works from paused)
         XCTAssertEqual(engine.gameState, .playing)
+    }
+    
+    // MARK: - Calibration Tests
+    
+    func testCalibrationState_OnStartRound() async {
+        // GIVEN: A new game engine
+        let motion = MotionManager()
+        let audio = MockAudioService()
+        let haptic = MockHapticService()
+        let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic)
+        let deck = DeckFactory.make()
+        
+        // WHEN: Starting a round
+        engine.startRound(with: deck)
+        
+        // THEN: Game should be in calibrating state
+        XCTAssertEqual(engine.gameState, .calibrating)
+    }
+    
+    func testCalibrationComplete_TransitionsToBuffer() async {
+        // GIVEN: Game in calibrating state
+        let motion = MotionManager()
+        let audio = MockAudioService()
+        let haptic = MockHapticService()
+        let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic)
+        let deck = DeckFactory.make()
+        
+        engine.startRound(with: deck)
+        XCTAssertEqual(engine.gameState, .calibrating)
+        
+        // WHEN: Calibration is completed
+        engine.onCalibrationComplete()
+        
+        // THEN: Game transitions to buffer state
+        XCTAssertEqual(engine.gameState, .buffer)
+    }
+    
+    func testGameLoop_DoesNotStart_WithoutCalibration() async {
+        // GIVEN: Game in calibrating state
+        let motion = MotionManager()
+        let audio = MockAudioService()
+        let haptic = MockHapticService()
+        let config = GameEngine.Configuration(bufferDuration: 0.1, gameDuration: 1.0)
+        let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic, configuration: config)
+        let deck = DeckFactory.make()
+        
+        engine.startRound(with: deck)
+        XCTAssertEqual(engine.gameState, .calibrating)
+        
+        // WHEN: Attempting to start game loop without completing calibration
+        engine.startGameLoop()
+        
+        // Wait for what would be buffer time
+        try? await Task.sleep(nanoseconds: 300_000_000)
+        
+        // THEN: Game should still be in calibrating state (not progressed to playing)
+        XCTAssertEqual(engine.gameState, .calibrating)
     }
 }
 

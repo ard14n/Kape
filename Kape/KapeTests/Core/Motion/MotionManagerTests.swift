@@ -100,4 +100,40 @@ final class MotionManagerTests: XCTestCase {
         manager.processGravityZ(0.5)
         XCTAssertEqual(manager.state, .debouncing)
     }
+    
+    // MARK: - Calibration Validation Tests
+    
+    func testCalibrationState_InitiallyNotStarted() {
+        // GIVEN: A fresh motion manager
+        // THEN: Calibration state should be notStarted
+        XCTAssertEqual(manager.calibrationState, .notStarted)
+    }
+    
+    func testValidatePosition_WithoutMotion_ReturnsInvalid() {
+        // GIVEN: MotionManager not monitoring (no motion data)
+        // WHEN: Validating position
+        let valid = manager.validatePosition()
+        
+        // THEN: Should return false and set invalid state
+        XCTAssertFalse(valid)
+        if case .invalid = manager.calibrationState {
+            XCTAssertTrue(true)
+        } else {
+            XCTFail("Expected calibrationState to be invalid")
+        }
+    }
+    
+    func testStopMonitoring_ResetsCalibrationState() {
+        // GIVEN: Manager that has started monitoring
+        manager.startMonitoring()
+        
+        // Simulate a calibration state change
+        _ = manager.validatePosition()
+        
+        // WHEN: Stopping monitoring
+        manager.stopMonitoring()
+        
+        // THEN: Calibration state should be reset to notStarted
+        XCTAssertEqual(manager.calibrationState, .notStarted)
+    }
 }
