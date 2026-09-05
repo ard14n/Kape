@@ -83,7 +83,7 @@ final class StoreViewModel: ObservableObject {
         do {
             try await storeService.restorePurchases()
             await checkEntitlement()
-            alertMessage = "Blerjet u rikthyen!"
+            alertMessage = isVIPUnlocked ? "Blerjet u rikthyen!" : "Nuk u gjetën blerje VIP në këtë llogari."
         } catch {
             alertMessage = "Rikthimi dështoi: \(error.localizedDescription)"
         }
