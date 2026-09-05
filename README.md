@@ -32,13 +32,13 @@ The selected rule appears during handoff, private reading and play. A game keeps
 
 ## Categories
 
-The new free **Për të filluar** starter contains 60 actions, animals and everyday activities. The original seven categories and their 270 words remain: Mix Shqip, Gurbet, Muzikë, Sport, Humor & TV, Historia, Politikë. Only Muzikë currently requires VIP. All categories can be used with any play style. Content and Albanian wording still need a real group review.
+The new free **Për të filluar** starter contains 60 actions, animals and everyday activities. The original seven categories and their 270 words remain: Mix Shqip, Gurbet, Muzikë, Sport, Humor & TV, Historia, Politikë. All eight categories are free and can be used with any play style. The current TestFlight gameplay was accepted by a real group, as confirmed by the owner on 5 September 2026.
 
-## Purchases and saved games
+## Free release and saved games
 
-`com.kape.vip` is the existing non-consumable product. Release uses StoreKit 2 and displays Apple's returned price. Debug uses an in-memory mock; its price, purchase and restore outcomes are test fixtures.
+The first public release has no purchases, subscription or advertising. The active Charades flow does not initialize StoreKit or check entitlements. Legacy store code and its regression tests remain unconnected; old saved games with a paid-category flag remain readable and playable.
 
-Game content is bundled. A current game is stored locally, including completed results and the paused turn. Leaving the app pauses the timer and hides private content; resuming requires a tap. The app-switcher cover is synchronous UIKit UI. The display stays awake only during countdown and acting. Settings provide sound, appearance, help and purchase restoration.
+Game content is bundled. A current game is stored locally, including completed results and the paused turn. Leaving the app pauses the timer and hides private content; resuming requires a tap. The app-switcher cover is synchronous UIKit UI. The display stays awake only during countdown and acting. Settings provide sound, appearance, help and privacy links.
 
 Store/account, privacy/support disclosures, real-device behavior and distribution are separate release checks. A simulator pass is not a real StoreKit purchase or App Store approval.
 
@@ -48,12 +48,12 @@ Store/account, privacy/support disclosures, real-device behavior and distributio
 
 ## Development
 
-- iOS 17+, SwiftUI, Observation, StoreKit 2, AVFoundation.
+- iOS 17+, SwiftUI, Observation, AVFoundation.
 - Current verified toolchain: Xcode 26.5, Swift language mode 5.
 - `Kape/Kape/Features/Charades/` owns the current UI and testable session state machine.
 - `ContentView` starts `CharadesHomeView`; there is no motion/forehead mode in navigation.
 - Legacy Game, Tournament, Summary and neon components remain as unconnected code with regression tests. Removing that legacy code is a separate cleanup.
-- Original audio, haptic and Store services are reused.
+- Original audio and haptic services are reused; legacy Store services are not connected to the current UI.
 
 ```sh
 xcodebuild -project Kape/Kape.xcodeproj -scheme Kape \
@@ -64,7 +64,7 @@ xcodebuild -project Kape/Kape.xcodeproj -scheme Kape \
   -parallel-testing-enabled NO CODE_SIGNING_ALLOWED=NO test
 ```
 
-Use one simulator at a time. Required profiles: iPhone 17 Pro, iPhone 17 Pro Max and iPhone SE (3rd generation); include maximum Dynamic Type and light/dark appearance. The current UI suite is `CharadesUITests`. It replaces tests that navigated the removed motion flow. Existing business-logic tests remain, alongside `CharadesSessionTests` for privacy, timer, scoring, persistence and entitlements.
+Use one simulator at a time. Required profiles: iPhone 17 Pro, iPhone 17 Pro Max and iPhone SE (3rd generation); include maximum Dynamic Type and light/dark appearance. The current UI suite is `CharadesUITests`. It replaces tests that navigated the removed motion flow. Existing business-logic tests remain, alongside `CharadesSessionTests` for privacy, timer, scoring, persistence and migration of formerly restricted categories.
 
 See [Implementation and QA](docs/PANTOMIME.md) for the current evidence and [earlier stabilization](docs/STABILISIERUNG.md) for the historical motion-based milestone.
 

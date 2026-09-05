@@ -483,7 +483,7 @@ final class DeckServiceTests: XCTestCase {
         
         // 3. Verify Muzikë (Placeholder)
         if let muzik = decks.first(where: { $0.id == "muzike" }) {
-            XCTAssertTrue(muzik.isPro, "Muzike must be Pro")
+            XCTAssertFalse(muzik.isPro, "All launch categories, including music, are free")
             XCTAssertGreaterThanOrEqual(muzik.cards.count, 50, "Muzike must contain its playable content")
         } else {
             XCTFail("Production decks.json missing 'muzike' deck")

@@ -2,7 +2,6 @@ import SwiftUI
 
 struct CharadesPlayView: View {
     @Bindable var session: CharadesSession
-    @ObservedObject var store: StoreViewModel
     var close: (_ discard: Bool) -> Void
     @AppStorage("kape.sound") private var sound = true
     @State private var confirmExit = false
@@ -15,10 +14,7 @@ struct CharadesPlayView: View {
         NavigationStack {
             CharadesPage {
                 content
-                if session.accessDenied {
-                    Text("Kjo kategori kërkon VIP. Mund ta fshini këtë lojë nga «Dalje» dhe të zgjidhni një kategori falas, ose ta ruani dhe të riktheni blerjet te Cilësimet.")
-                        .foregroundStyle(CharadesTheme.accent).charadesPanel().accessibilityIdentifier("AccessDenied")
-                }
+
             }
             .id(session.phase)
             .safeAreaInset(edge: .bottom, spacing: 0) {
@@ -154,14 +150,14 @@ struct CharadesPlayView: View {
     @ViewBuilder private var actions: some View {
         switch session.phase {
         case .handoff:
-            primary("Shiko fjalën", id: "RevealWord") { session.reveal(vip: store.isVIPUnlocked) }
+            primary("Shiko fjalën", id: "RevealWord") { session.reveal() }
             if !session.isTournament && session.turnIndex > 0 {
                 secondary("Përfundo lojën", id: "FinishTogether") { session.finishTogether() }
             }
         case .reading:
             primary("Gati – fshihe fjalën", id: "HideWord") { session.ready() }
             secondary(typeSize.isAccessibilitySize ? "Fjalë tjetër" : "Nuk e njeh? Shiko një tjetër", id: "AnotherWord") {
-                session.anotherWord(vip: store.isVIPUnlocked)
+                session.anotherWord()
             }
         case .countdown:
             Text("Loja fillon pas pak").font(.headline).foregroundStyle(CharadesTheme.muted).padding(.vertical, 16)
@@ -170,7 +166,7 @@ struct CharadesPlayView: View {
             secondary("Nuk u gjet", id: "NotGuessed") { record(false) }
         case .paused:
             primary(session.snapshot.resumePhase == .reading ? "Vazhdo – shiko fjalën" : "Vazhdo lojën", id: "ResumeGame") {
-                session.resume(vip: store.isVIPUnlocked)
+                session.resume()
             }
         case .result:
             primary(session.isTournament && session.turnIndex == session.totalTurns ? "Shiko rezultatet" : "Radha tjetër", id: "NextTurn") { session.next() }

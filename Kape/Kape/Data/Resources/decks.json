@@ -426,7 +426,7 @@
       "description": "Nga tallava te pop – e gjithë muzika shqiptare!",
       "icon_name": "music.mic",
       "difficulty": 1,
-      "is_pro": true,
+      "is_pro": false,
       "cards": [
         {
           "id": "mz-001",

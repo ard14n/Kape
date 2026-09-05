@@ -1,6 +1,6 @@
 import XCTest
 
-/// Public UI only. Store service and shortened timer are DEBUG fixtures; no real purchase.
+/// Public UI only. State reset and shortened timers are DEBUG fixtures; gameplay has no store dependency.
 final class CharadesUITests: XCTestCase {
     override func setUpWithError() throws { continueAfterFailure = false }
     private func launch(intro: Bool = false, duration: String = "60") -> XCUIApplication {
@@ -9,6 +9,11 @@ final class CharadesUITests: XCTestCase {
         if intro { app.launchArguments.append("--kape-show-intro") }
         app.launchEnvironment["KAPE_TEST_GAME_DURATION"] = duration
         app.launch()
+        // Release builds ignore DEBUG reset arguments; reopen the real help on subsequent launches.
+        if intro && !app.buttons["DismissHelp"].waitForExistence(timeout: 5),
+           app.buttons["StartTogether"].waitForExistence(timeout: 5) {
+            tap(app, "HelpButton")
+        }
         XCTAssertTrue(app.buttons[intro ? "DismissHelp" : "StartTogether"].waitForExistence(timeout: 10))
         return app
     }
@@ -38,6 +43,8 @@ final class CharadesUITests: XCTestCase {
         }
     }
     private func capture(_ name: String, _ app: XCUIApplication) {
+        // A screenshot must show the settled sheet, not an intermediate animation frame.
+        Thread.sleep(forTimeInterval: 0.8)
         let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         shot.name = name; shot.lifetime = .keepAlways; add(shot)
         let tree = XCTAttachment(string: app.debugDescription)
@@ -181,10 +188,14 @@ final class CharadesUITests: XCTestCase {
         tap(app, "ReturnHome")
     }
 
-    func testSettingsAppearanceAndLockedCategoryOffer() {
+    func testSettingsAppearanceAndMusicAreAvailableWithoutPurchaseUI() {
         let app = launch()
         tap(app, "SettingsButton")
-        capture("16-settings", app)
+        capture("16-settings-free", app)
+        XCTAssertFalse(app.buttons["RestorePurchases"].exists)
+        XCTAssertFalse(app.staticTexts["Blerjet"].exists)
+        XCTAssertTrue(app.descendants(matching: .any)["PrivacyLink"].firstMatch.exists)
+        XCTAssertTrue(app.descendants(matching: .any)["SupportLink"].firstMatch.exists)
         tap(app, "AppearancePicker")
         tap(app, "E errët")
         capture("17-settings-dark", app)
@@ -192,26 +203,30 @@ final class CharadesUITests: XCTestCase {
         capture("18-home-dark", app)
         tap(app, "ChooseCategory")
         capture("19-categories-dark", app)
-        // First existing paid category is the music set.
-        let locked = app.buttons.matching(NSPredicate(format: "label CONTAINS 'e kyçur'")).firstMatch
-        for _ in 0..<12 { if locked.exists && locked.isHittable { break }; scroll(app) }
-        XCTAssertTrue(locked.exists && locked.isHittable)
-        locked.tap()
-        XCTAssertTrue(app.buttons["ClosePurchase"].waitForExistence(timeout: 5))
-        capture("20-vip-offer-dark", app)
-        tap(app, "RestoreInOffer")
-        tap(app, "ClosePurchase")
+        tap(app, "Category-muzike")
+        XCTAssertTrue(app.buttons["StartTogether"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["PurchaseVIP"].exists)
+        XCTAssertFalse(app.buttons["ClosePurchase"].exists)
+        XCTAssertTrue(app.buttons["ChooseCategory"].label.contains("Muzikë"))
+        start(app)
+        _ = revealAndAct(app)
+        capture("20-music-free-dark", app)
+        tap(app, "Guessed"); tap(app, "FinishTogether"); tap(app, "ReturnHome")
     }
 
-    func testVIPMockPurchaseUnlocksCategoryForTournament() {
+    func testEveryCategoryCanBeSelectedAndMusicTournamentNeedsNoPurchase() {
         let app = launch()
+        for id in ["mix-shqip", "gurbet", "muzike", "sport", "humor-tv", "historia", "politike"] {
+            tap(app, "ChooseCategory")
+            XCTAssertFalse(app.buttons.matching(NSPredicate(format: "label CONTAINS 'e kyçur'")).firstMatch.exists)
+            tap(app, "Category-" + id)
+            XCTAssertTrue(app.buttons["StartTournament"].waitForExistence(timeout: 5))
+            XCTAssertFalse(app.buttons["PurchaseVIP"].exists)
+        }
         tap(app, "ChooseCategory")
         tap(app, "Category-muzike")
-        tap(app, "PurchaseVIP")
-        XCTAssertTrue(app.staticTexts["VIP është i hapur"].waitForExistence(timeout: 5))
-        tap(app, "ClosePurchase")
-        tap(app, "Category-muzike")
         tap(app, "StartTournament")
+        capture("21-music-tournament-free", app)
         tap(app, "ConfirmTournament")
         tap(app, "RevealWord")
         XCTAssertTrue(app.staticTexts["SecretWord"].waitForExistence(timeout: 5))
@@ -286,11 +301,75 @@ final class CharadesUITests: XCTestCase {
         for _ in 0..<3 { tap(app, "AddPlayer") }
         XCTAssertTrue(app.textFields["PlayerName-4"].exists)
         XCTAssertFalse(app.buttons["AddPlayer"].exists)
+        app.textFields["PlayerName-4"].tap()
+        app.textFields["PlayerName-4"].typeText("X")
         tap(app, "Hiq lojtarin 5")
         XCTAssertFalse(app.textFields["PlayerName-4"].exists)
         tap(app, "AddPlayer")
+        XCTAssertEqual(app.textFields["PlayerName-4"].value as? String, "Lojtari 5")
+        app.textFields["PlayerName-2"].tap()
+        app.textFields["PlayerName-2"].typeText("X")
+        tap(app, "Hiq lojtarin 3")
+        XCTAssertEqual(app.textFields["PlayerName-2"].value as? String, "Lojtari 4")
+        XCTAssertEqual(app.textFields["PlayerName-3"].value as? String, "Lojtari 5")
+        tap(app, "AddPlayer")
+        XCTAssertEqual(app.textFields["PlayerName-0"].value as? String, "Lojtari 1")
+        XCTAssertEqual(app.textFields["PlayerName-1"].value as? String, "Lojtari 2")
+        XCTAssertEqual(app.textFields["PlayerName-4"].value as? String, "Lojtari 6")
         tap(app, "ConfirmTournament")
         XCTAssertTrue(app.buttons["RevealWord"].waitForExistence(timeout: 5))
         capture("21-five-person-handoff", app)
     }
+    func testTabletRotationKeepsTheWordPrivateAndTheGamePlayable() {
+        let app = launch(intro: true)
+        capture("ipad-01-intro-portrait", app)
+        tap(app, "CloseInstructions")
+        capture("ipad-02-home-portrait", app)
+        tap(app, "ChooseCategory")
+        capture("ipad-03-categories-portrait", app)
+        tap(app, "Category-muzike")
+        start(app)
+        _ = revealAndAct(app)
+        XCUIDevice.shared.orientation = .landscapeLeft
+        defer { XCUIDevice.shared.orientation = .portrait }
+        XCTAssertTrue(app.buttons["Guessed"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["SecretWord"].exists)
+        capture("ipad-04-acting-landscape", app)
+        XCTAssertGreaterThan(app.frame.width, app.frame.height, "The iPad must actually rotate to landscape.")
+        tap(app, "Guessed"); tap(app, "FinishTogether")
+        capture("ipad-05-result-landscape", app)
+        tap(app, "ReturnHome")
+        XCUIDevice.shared.orientation = .portrait
+        tap(app, "SettingsButton")
+        XCTAssertTrue(app.descendants(matching: .any)["PrivacyLink"].firstMatch.exists)
+        capture("ipad-06-settings-portrait", app)
+        tap(app, "CloseSettings")
+    }
+
+    func testStoreScreenshots() {
+        let app = launch(intro: true)
+        capture("store-01-intro", app)
+        tap(app, "CloseInstructions")
+        capture("store-02-home", app)
+        tap(app, "ChooseCategory")
+        XCTAssertTrue(app.buttons["Category-muzike"].waitForExistence(timeout: 5))
+        capture("store-03-categories", app)
+        tap(app, "Category-muzike")
+        tap(app, "StartTournament")
+        XCTAssertTrue(app.buttons["ConfirmTournament"].waitForExistence(timeout: 5))
+        capture("store-04-tournament", app)
+        let picker = app.segmentedControls["RoundsPicker"]
+        for _ in 0..<12 { if picker.isHittable { break }; scroll(app) }
+        picker.buttons["1"].tap()
+        tap(app, "ConfirmTournament")
+        _ = revealAndAct(app)
+        capture("store-05-acting", app)
+        tap(app, "Guessed"); tap(app, "NextTurn")
+        _ = revealAndAct(app)
+        tap(app, "NotGuessed"); tap(app, "NextTurn")
+        XCTAssertTrue(app.buttons["ReturnHome"].waitForExistence(timeout: 5))
+        capture("store-06-results", app)
+        tap(app, "ReturnHome")
+    }
+
 }

@@ -35,7 +35,6 @@ final class CharadesSession: Identifiable {
     }
 
     private(set) var snapshot: Snapshot
-    private(set) var accessDenied = false
     @ObservationIgnored private var deadline: TimeInterval?
     @ObservationIgnored private let now: () -> TimeInterval
     @ObservationIgnored var save: (Snapshot) -> Void = { _ in }
@@ -120,16 +119,13 @@ final class CharadesSession: Identifiable {
             && Set(trimmed.map { $0.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: Locale(identifier: "sq")) }).count == trimmed.count
     }
 
-    func reveal(vip: Bool) {
+    func reveal() {
         guard phase == .handoff else { return }
-        guard !snapshot.deck.isPro || vip else { accessDenied = true; return }
-        accessDenied = false
         draw()
     }
 
-    func anotherWord(vip: Bool) {
+    func anotherWord() {
         guard phase == .reading else { return }
-        guard !snapshot.deck.isPro || vip else { accessDenied = true; pause(); return }
         draw()
     }
 
@@ -180,14 +176,8 @@ final class CharadesSession: Identifiable {
         changed()
     }
 
-    func resume(vip: Bool) {
+    func resume() {
         guard phase == .paused else { return }
-        // A paid word already being performed may be judged. Re-reading requires current access.
-        guard snapshot.resumePhase != .reading || !snapshot.deck.isPro || vip else {
-            accessDenied = true
-            return
-        }
-        accessDenied = false
         snapshot.phase = snapshot.resumePhase
         if isClockRunning { deadline = now() + snapshot.remaining }
         changed()
@@ -219,7 +209,6 @@ final class CharadesSession: Identifiable {
 
     func finishTogether() {
         guard !isTournament, [.result, .handoff, .exhausted].contains(phase) else { return }
-        accessDenied = false
         snapshot.current = nil
         snapshot.phase = .finished
         changed()

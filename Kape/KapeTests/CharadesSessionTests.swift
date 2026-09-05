@@ -11,8 +11,8 @@ final class CharadesSessionTests: XCTestCase {
         return CharadesSession(mode: mode, playStyle: style, names: (1...people).map { "Person \($0)" }, rounds: rounds,
                                deck: deck, shuffled: false, countdownDuration: countdown, now: { self.clock })
     }
-    private func act(_ game: CharadesSession, vip: Bool = false) {
-        game.reveal(vip: vip)
+    private func act(_ game: CharadesSession) {
+        game.reveal()
         game.ready()
         clock += 3
         game.tick()
@@ -22,7 +22,7 @@ final class CharadesSessionTests: XCTestCase {
     func testPrivateHandoffAndReadyNeverExposeTheWordToGuessers() {
         let s = game()
         XCTAssertNil(s.visibleWord)
-        s.reveal(vip: false)
+        s.reveal()
         XCTAssertEqual(s.visibleWord, "Word 0")
         s.ready()
         XCTAssertNil(s.visibleWord)
@@ -34,11 +34,11 @@ final class CharadesSessionTests: XCTestCase {
     }
     func testUnknownWordConsumesNoTurnAndNeverRepeats() {
         let s = game()
-        s.reveal(vip: false)
+        s.reveal()
         var seen = Set<String>()
         for _ in 0..<10 {
             XCTAssertTrue(seen.insert(s.visibleWord!).inserted)
-            s.anotherWord(vip: false)
+            s.anotherWord()
         }
         XCTAssertEqual(s.turnIndex, 0)
         XCTAssertEqual(s.score, 0)
@@ -73,7 +73,7 @@ final class CharadesSessionTests: XCTestCase {
         for index in 0..<25 {
             XCTAssertEqual(s.performerIndex, index % 5)
             XCTAssertEqual(s.round, index / 5 + 1)
-            s.reveal(vip: false)
+            s.reveal()
             XCTAssertTrue(seen.insert(s.visibleWord!).inserted)
             s.ready(); clock += 3; s.tick()
             s.record(guessed: index % 5 < 2)
@@ -84,7 +84,7 @@ final class CharadesSessionTests: XCTestCase {
         XCTAssertEqual(s.standings.map(\.turns), [5, 5, 5, 5, 5])
         XCTAssertEqual(s.standings.map(\.points), [5, 5, 0, 0, 0])
         XCTAssertEqual(s.standings.map(\.rank), [1, 1, 3, 3, 3])
-        s.record(guessed: true); s.next(); s.reveal(vip: false)
+        s.record(guessed: true); s.next(); s.reveal()
         XCTAssertEqual(s.turnIndex, 25)
     }
     func testDeadlineEndsTurnOnceWithoutAutoAwardingPoints() {
@@ -107,7 +107,7 @@ final class CharadesSessionTests: XCTestCase {
         XCTAssertEqual(s.phase, .paused)
         XCTAssertEqual(s.seconds, 48)
         XCTAssertNil(s.visibleWord)
-        s.resume(vip: false)
+        s.resume()
         clock += 47.75; s.tick()
         XCTAssertEqual(s.phase, .timeUp)
     }
@@ -116,13 +116,13 @@ final class CharadesSessionTests: XCTestCase {
         act(s); clock += 70; s.pause()
         XCTAssertEqual(s.phase, .paused)
         XCTAssertEqual(s.snapshot.resumePhase, .timeUp)
-        s.resume(vip: false)
+        s.resume()
         XCTAssertEqual(s.phase, .timeUp)
         XCTAssertEqual(s.turnIndex, 0)
     }
     func testRestoreHidesReadingActingAndResults() throws {
         let s = game()
-        s.reveal(vip: false)
+        s.reveal()
         for expected in [CharadesSession.Phase.reading, .acting, .result] {
             if expected == .acting { s.ready(); clock += 3; s.tick() }
             if expected == .result { s.record(guessed: true) }
@@ -130,7 +130,7 @@ final class CharadesSessionTests: XCTestCase {
             let restored = try XCTUnwrap(CharadesSession(restoring: JSONDecoder().decode(CharadesSession.Snapshot.self, from: encoded), now: { self.clock }))
             XCTAssertEqual(restored.phase, .paused)
             XCTAssertNil(restored.visibleWord)
-            restored.resume(vip: false)
+            restored.resume()
             XCTAssertEqual(restored.phase, expected)
             XCTAssertEqual(restored.turnIndex, s.turnIndex)
         }
@@ -141,7 +141,7 @@ final class CharadesSessionTests: XCTestCase {
         defer { defaults.removePersistentDomain(forName: suite) }
         let s = game()
         act(s); s.record(guessed: true); s.next()
-        s.reveal(vip: false); s.pause()
+        s.reveal(); s.pause()
         CharadesArchive.save(s.snapshot, defaults: defaults)
         let restored = try XCTUnwrap(CharadesArchive.load(defaults: defaults))
         XCTAssertEqual(restored.score, 1)
@@ -151,49 +151,55 @@ final class CharadesSessionTests: XCTestCase {
         CharadesArchive.clear(defaults: defaults)
         XCTAssertNil(CharadesArchive.load(defaults: defaults))
     }
-    func testVIPCannotBeBypassedByTournamentRestoreOrUnknownWord() throws {
-        let s = game(vip: true)
-        s.reveal(vip: false)
-        XCTAssertTrue(s.accessDenied)
-        XCTAssertNil(s.visibleWord)
-        XCTAssertEqual(s.snapshot.pool.count, 60)
-        s.reveal(vip: true)
-        let restored = try XCTUnwrap(CharadesSession(restoring: s.snapshot))
-        restored.resume(vip: false)
-        XCTAssertNil(restored.visibleWord)
-        s.anotherWord(vip: false)
-        XCTAssertEqual(s.phase, .paused)
-        XCTAssertNil(s.visibleWord)
-        XCTAssertEqual(s.snapshot.pool.count, 59)
+    func testLegacyPaidSessionCanResumeReplaceWordsAndFinishWithoutPurchases() throws {
+        for mode in [CharadesSession.Mode.together, .tournament] {
+            let original = game(mode: mode, vip: true)
+            original.reveal()
+            let encoded = try JSONEncoder().encode(original.snapshot)
+            let snapshot = try JSONDecoder().decode(CharadesSession.Snapshot.self, from: encoded)
+            XCTAssertTrue(snapshot.deck.isPro, "Fixture retains the old paid flag")
+            let restored = try XCTUnwrap(CharadesSession(restoring: snapshot, now: { self.clock }))
+            XCTAssertEqual(restored.phase, .paused)
+            XCTAssertNil(restored.visibleWord)
+            restored.resume()
+            XCTAssertEqual(restored.visibleWord, "Word 0")
+            restored.anotherWord()
+            XCTAssertEqual(restored.visibleWord, "Word 1")
+            XCTAssertEqual(restored.turnIndex, 0)
+            restored.ready(); clock += 3; restored.tick()
+            restored.record(guessed: true); restored.next()
+            restored.reveal()
+            XCTAssertEqual(restored.visibleWord, "Word 2")
+            restored.ready(); clock += 3; restored.tick()
+            restored.record(guessed: false)
+            if mode == .tournament { restored.next() } else { restored.finishTogether() }
+            XCTAssertEqual(restored.phase, .finished)
+            XCTAssertEqual(restored.score, 1)
+        }
     }
-    func testVIPRevocationAllowsJudgingCurrentTurnButBlocksNextReveal() {
-        let s = game(vip: true)
-        act(s, vip: true)
-        s.pause(); s.resume(vip: false)
-        s.record(guessed: true); s.next()
-        s.reveal(vip: false)
-        XCTAssertEqual(s.score, 1)
-        XCTAssertEqual(s.phase, .handoff)
-        XCTAssertTrue(s.accessDenied)
-        XCTAssertNil(s.visibleWord)
+    func testLegacyPaidTimerRestoresRemainingTimeWithNewMonotonicClock() throws {
+        let original = game(vip: true)
+        act(original)
+        clock += 11
+        original.pause()
+        XCTAssertEqual(original.seconds, 49)
+        let state = try JSONDecoder().decode(CharadesSession.Snapshot.self, from: JSONEncoder().encode(original.snapshot))
+        clock = 2 // A new device boot has a different system uptime.
+        let restored = try XCTUnwrap(CharadesSession(restoring: state, now: { self.clock }))
+        restored.resume()
+        XCTAssertEqual(restored.seconds, 49)
+        clock += 49; restored.tick()
+        XCTAssertEqual(restored.phase, .timeUp)
+        restored.record(guessed: true)
+        XCTAssertEqual(restored.score, 1)
     }
     func testPoolExhaustionDoesNotDeclareUnfairWinnerOrRepeatWords() {
         let s = game(count: 1)
-        act(s); s.record(guessed: true); s.next(); s.reveal(vip: false)
+        act(s); s.record(guessed: true); s.next(); s.reveal()
         XCTAssertEqual(s.phase, .exhausted)
         XCTAssertFalse(s.isComplete)
         XCTAssertEqual(s.turnIndex, 1)
         XCTAssertNil(s.visibleWord)
-    }
-    func testFinishingTogetherAfterVIPDenialClearsTheObsoleteWarning() {
-        let s = game(mode: .together, vip: true)
-        act(s, vip: true); s.record(guessed: true); s.next()
-        s.reveal(vip: false)
-        XCTAssertTrue(s.accessDenied)
-        s.finishTogether()
-        XCTAssertEqual(s.phase, .finished)
-        XCTAssertEqual(s.score, 1)
-        XCTAssertFalse(s.accessDenied)
     }
     func testTogetherModeFinishesOnRequestWithGroupScore() {
         let s = game(mode: .together)
@@ -227,14 +233,14 @@ final class CharadesSessionTests: XCTestCase {
             for style in CharadesPlayStyle.allCases {
                 let s = game(mode: mode, style: style)
                 act(s); s.record(guessed: true); s.next()
-                s.reveal(vip: false); s.pause()
+                s.reveal(); s.pause()
                 let data = try JSONEncoder().encode(s.snapshot)
                 let state = try JSONDecoder().decode(CharadesSession.Snapshot.self, from: data)
                 let restored = try XCTUnwrap(CharadesSession(restoring: state, now: { self.clock }))
                 XCTAssertEqual(restored.playStyle, style)
                 XCTAssertEqual(restored.score, 1)
                 XCTAssertNil(restored.visibleWord)
-                restored.resume(vip: false)
+                restored.resume()
                 XCTAssertEqual(restored.visibleWord, "Word 1")
                 restored.ready(); clock += 3; restored.tick()
                 XCTAssertNil(restored.visibleWord)
@@ -247,7 +253,7 @@ final class CharadesSessionTests: XCTestCase {
     }
     func testLegacyArchiveWithoutStyleKeepsPantomimeAndPrivateState() throws {
         let s = game()
-        s.reveal(vip: false)
+        s.reveal()
         let data = try JSONEncoder().encode(s.snapshot)
         var json = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
         json.removeValue(forKey: "playStyle")
@@ -259,7 +265,7 @@ final class CharadesSessionTests: XCTestCase {
         let restored = try XCTUnwrap(CharadesArchive.load(defaults: defaults))
         XCTAssertEqual(restored.playStyle, .pantomime)
         XCTAssertNil(restored.visibleWord)
-        restored.resume(vip: false)
+        restored.resume()
         XCTAssertEqual(restored.visibleWord, "Word 0")
         CharadesArchive.save(restored.snapshot, defaults: defaults)
         XCTAssertEqual(CharadesArchive.load(defaults: defaults)?.playStyle, .pantomime)

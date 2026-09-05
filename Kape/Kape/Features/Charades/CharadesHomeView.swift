@@ -4,7 +4,6 @@ struct CharadesHomeView: View {
     private enum Sheet: String, Identifiable { case help, settings, categories, tournament, playStyle; var id: String { rawValue } }
     @Environment(\.dynamicTypeSize) private var typeSize
     @EnvironmentObject private var decks: DeckService
-    @StateObject private var store = StoreViewModel()
     @AppStorage("kape.intro.play-styles.seen") private var introSeen = false
     @AppStorage("kape.appearance") private var appearance = "system"
     @AppStorage("kape.play-style") private var playStyleRaw = CharadesPlayStyle.freeChoice.rawValue
@@ -93,9 +92,9 @@ struct CharadesHomeView: View {
                 case .help:
                     CharadesInstructions(firstTime: !introSeen) { introSeen = true; sheet = nil }
                 case .settings:
-                    CharadesSettings(store: store)
+                    CharadesSettings()
                 case .categories:
-                    CharadesCategories(decks: decks.decks, selected: $selectedDeck, store: store)
+                    CharadesCategories(decks: decks.decks, selected: $selectedDeck)
                 case .playStyle:
                     CharadesStylePicker(selected: selectedStyle) { playStyleRaw = $0.rawValue; sheet = nil }
                 case .tournament:
@@ -106,7 +105,7 @@ struct CharadesHomeView: View {
             }
             .fullScreenCover(isPresented: $showingGame) {
                 if let session {
-                    CharadesPlayView(session: session, store: store) { discard in
+                    CharadesPlayView(session: session) { discard in
                         if discard { self.session = nil; CharadesArchive.clear() }
                         showingGame = false
                     }
@@ -127,7 +126,6 @@ struct CharadesHomeView: View {
                 session = restored
             }
             if !introSeen { sheet = .help }
-            await store.loadProductsAndEntitlements()
         }
     }
 
@@ -141,11 +139,6 @@ struct CharadesHomeView: View {
     }
 
     private func start(mode: CharadesSession.Mode, names: [String] = ["Së bashku"], rounds: Int = 3, fromSheet: Bool = false) {
-        guard !selectedDeck.isPro || store.isVIPUnlocked else {
-            selectedDeck = CharadesCatalog.starter
-            sheet = .categories
-            return
-        }
         var duration: TimeInterval = 60
         var countdown: TimeInterval = 3
         #if DEBUG
@@ -220,9 +213,7 @@ struct CharadesInstructions: View {
 struct CharadesCategories: View {
     let decks: [Deck]
     @Binding var selected: Deck
-    @ObservedObject var store: StoreViewModel
     @Environment(\.dismiss) private var dismiss
-    @State private var showPurchase = false
     var body: some View {
         NavigationStack {
             CharadesPage {
@@ -235,27 +226,26 @@ struct CharadesCategories: View {
             }
             .navigationTitle("Kategoritë").navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("Mbyll") { dismiss() } } }
-            .sheet(isPresented: $showPurchase) { CharadesPurchase(store: store, decks: decks.filter(\.isPro)) }
         }.tint(CharadesTheme.accent)
     }
     private func row(_ deck: Deck) -> some View {
-        let locked = deck.isPro && !store.isVIPUnlocked
         return Button {
-            if locked { showPurchase = true } else { selected = deck; dismiss() }
+            selected = deck
+            dismiss()
         } label: {
             HStack(alignment: .top, spacing: 14) {
                 Image(systemName: deck.iconName).font(.system(size: 24, weight: .medium)).foregroundStyle(CharadesTheme.accent).frame(width: 30)
                 VStack(alignment: .leading, spacing: 8) {
                     Text(deck.title).font(.system(.headline, design: .rounded))
                     Text(deck.description).font(.subheadline).foregroundStyle(CharadesTheme.muted)
-                    Text("\(deck.cards.count) fjalë" + (locked ? " · VIP" : "")).font(.caption.bold()).foregroundStyle(CharadesTheme.accent)
+                    Text("\(deck.cards.count) fjalë").font(.caption.bold()).foregroundStyle(CharadesTheme.accent)
                 }.frame(maxWidth: .infinity, alignment: .leading)
-                Image(systemName: locked ? "lock" : selected.id == deck.id ? "checkmark.circle.fill" : "circle")
+                Image(systemName: selected.id == deck.id ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 20))
                     .foregroundStyle(selected.id == deck.id ? CharadesTheme.accent : CharadesTheme.muted)
             }.charadesPanel()
         }.buttonStyle(.plain).accessibilityIdentifier("Category-\(deck.id)")
-        .accessibilityLabel("\(deck.title), \(deck.cards.count) fjalë" + (locked ? ", e kyçur, VIP" : selected.id == deck.id ? ", e zgjedhur" : ""))
+        .accessibilityLabel("\(deck.title), \(deck.cards.count) fjalë" + (selected.id == deck.id ? ", e zgjedhur" : ""))
         .accessibilityAddTraits(selected.id == deck.id ? .isSelected : [])
     }
 }
@@ -265,7 +255,12 @@ struct CharadesTournamentSetup: View {
     let playStyle: CharadesPlayStyle
     var start: ([String], Int) -> Void
     @Environment(\.dismiss) private var dismiss
-    @State private var names = ["Lojtari 1", "Lojtari 2"]
+    private struct Player: Identifiable {
+        let id = UUID()
+        var name: String
+    }
+    @State private var players = [Player(name: "Lojtari 1"), Player(name: "Lojtari 2")]
+    private var names: [String] { players.map(\.name) }
     @State private var rounds = 3
     private var valid: Bool { CharadesSession.validNames(names) && deck.cards.count >= names.count * rounds }
     var body: some View {
@@ -276,14 +271,15 @@ struct CharadesTournamentSetup: View {
                     .accessibilityIdentifier("TournamentPlayStyle")
                 Text(playStyle.summary).foregroundStyle(CharadesTheme.muted)
                 VStack(alignment: .leading, spacing: 14) {
-                    ForEach(names.indices, id: \.self) { index in
+                    ForEach(players) { player in
+                        let index = players.firstIndex { $0.id == player.id } ?? 0
                         HStack(alignment: .firstTextBaseline, spacing: 10) {
                             Text("\(index + 1)").font(.headline).foregroundStyle(CharadesTheme.accent).frame(width: 24)
-                            TextField("Emri", text: $names[index]).textInputAutocapitalization(.words)
+                            TextField("Emri", text: nameBinding(for: player.id)).textInputAutocapitalization(.words)
                                 .autocorrectionDisabled().textFieldStyle(.roundedBorder)
                                 .accessibilityLabel("Emri i lojtarit \(index + 1)").accessibilityIdentifier("PlayerName-\(index)")
                             if names.count > 2 {
-                                Button { names.remove(at: index) } label: { Image(systemName: "minus.circle").frame(minWidth: 44, minHeight: 44) }
+                                Button { players.removeAll { $0.id == player.id } } label: { Image(systemName: "minus.circle").frame(minWidth: 44, minHeight: 44) }
                                     .accessibilityLabel("Hiq lojtarin \(index + 1)")
                             }
                         }
@@ -292,7 +288,7 @@ struct CharadesTournamentSetup: View {
                         Button {
                             var n = names.count + 1
                             while names.contains("Lojtari \(n)") { n += 1 }
-                            names.append("Lojtari \(n)")
+                            players.append(Player(name: "Lojtari \(n)"))
                         } label: { Label("Shto një person", systemImage: "plus.circle").frame(minHeight: 44) }
                             .accessibilityIdentifier("AddPlayer")
                     }
@@ -317,5 +313,16 @@ struct CharadesTournamentSetup: View {
             .navigationTitle("Turne").navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("Mbyll") { dismiss() } } }
         }.tint(CharadesTheme.accent)
+    }
+
+    // A focused field can briefly outlive its row while SwiftUI dismisses the keyboard.
+    // Resolve by identity so a removed row cannot index or edit a different player.
+    private func nameBinding(for id: UUID) -> Binding<String> {
+        Binding {
+            players.first { $0.id == id }?.name ?? ""
+        } set: { value in
+            guard let index = players.firstIndex(where: { $0.id == id }) else { return }
+            players[index].name = value
+        }
     }
 }
