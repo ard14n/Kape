@@ -4,11 +4,11 @@ import XCTest
 @MainActor
 final class CharadesSessionTests: XCTestCase {
     private var clock: TimeInterval = 100
-    private func game(mode: CharadesSession.Mode = .tournament, people: Int = 2, rounds: Int = 1,
+    private func game(mode: CharadesSession.Mode = .tournament, style: CharadesPlayStyle = .freeChoice, people: Int = 2, rounds: Int = 1,
                       count: Int = 60, vip: Bool = false, countdown: TimeInterval = 3) -> CharadesSession {
         let deck = Deck(id: "test", title: "Test", description: "", iconName: "star", difficulty: 1,
                         isPro: vip, cards: (0..<count).map { Card(id: "\($0)", text: "Word \($0)") })
-        return CharadesSession(mode: mode, names: (1...people).map { "Person \($0)" }, rounds: rounds,
+        return CharadesSession(mode: mode, playStyle: style, names: (1...people).map { "Person \($0)" }, rounds: rounds,
                                deck: deck, shuffled: false, countdownDuration: countdown, now: { self.clock })
     }
     private func act(_ game: CharadesSession, vip: Bool = false) {
@@ -185,6 +185,16 @@ final class CharadesSessionTests: XCTestCase {
         XCTAssertEqual(s.turnIndex, 1)
         XCTAssertNil(s.visibleWord)
     }
+    func testFinishingTogetherAfterVIPDenialClearsTheObsoleteWarning() {
+        let s = game(mode: .together, vip: true)
+        act(s, vip: true); s.record(guessed: true); s.next()
+        s.reveal(vip: false)
+        XCTAssertTrue(s.accessDenied)
+        s.finishTogether()
+        XCTAssertEqual(s.phase, .finished)
+        XCTAssertEqual(s.score, 1)
+        XCTAssertFalse(s.accessDenied)
+    }
     func testTogetherModeFinishesOnRequestWithGroupScore() {
         let s = game(mode: .together)
         for success in [true, false, true] {
@@ -211,6 +221,55 @@ final class CharadesSessionTests: XCTestCase {
         state = game().snapshot
         state.version = 999
         XCTAssertNil(CharadesSession(restoring: state))
+    }
+    func testEveryPlayStyleSurvivesPrivateResumeAndCompletedTurnsInBothScoringModes() throws {
+        for mode in [CharadesSession.Mode.together, .tournament] {
+            for style in CharadesPlayStyle.allCases {
+                let s = game(mode: mode, style: style)
+                act(s); s.record(guessed: true); s.next()
+                s.reveal(vip: false); s.pause()
+                let data = try JSONEncoder().encode(s.snapshot)
+                let state = try JSONDecoder().decode(CharadesSession.Snapshot.self, from: data)
+                let restored = try XCTUnwrap(CharadesSession(restoring: state, now: { self.clock }))
+                XCTAssertEqual(restored.playStyle, style)
+                XCTAssertEqual(restored.score, 1)
+                XCTAssertNil(restored.visibleWord)
+                restored.resume(vip: false)
+                XCTAssertEqual(restored.visibleWord, "Word 1")
+                restored.ready(); clock += 3; restored.tick()
+                XCTAssertNil(restored.visibleWord)
+                restored.record(guessed: false); restored.next()
+                XCTAssertEqual(restored.score, 1)
+                XCTAssertEqual(restored.playStyle, style)
+                XCTAssertEqual(restored.phase, mode == .tournament ? .finished : .handoff)
+            }
+        }
+    }
+    func testLegacyArchiveWithoutStyleKeepsPantomimeAndPrivateState() throws {
+        let s = game()
+        s.reveal(vip: false)
+        let data = try JSONEncoder().encode(s.snapshot)
+        var json = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        json.removeValue(forKey: "playStyle")
+        let legacy = try JSONSerialization.data(withJSONObject: json)
+        let suite = "kape-legacy-\(UUID())"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        defaults.set(legacy, forKey: CharadesArchive.key)
+        let restored = try XCTUnwrap(CharadesArchive.load(defaults: defaults))
+        XCTAssertEqual(restored.playStyle, .pantomime)
+        XCTAssertNil(restored.visibleWord)
+        restored.resume(vip: false)
+        XCTAssertEqual(restored.visibleWord, "Word 0")
+        CharadesArchive.save(restored.snapshot, defaults: defaults)
+        XCTAssertEqual(CharadesArchive.load(defaults: defaults)?.playStyle, .pantomime)
+    }
+    func testUnknownArchivedStyleIsRejectedInsteadOfChangingTheRules() throws {
+        let data = try JSONEncoder().encode(game().snapshot)
+        var json = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        json["playStyle"] = "unknown-future-rule"
+        let invalid = try JSONSerialization.data(withJSONObject: json)
+        XCTAssertThrowsError(try JSONDecoder().decode(CharadesSession.Snapshot.self, from: invalid))
     }
     func testStarterContainsEnoughUniqueWordsForLargestTournament() {
         let starter = CharadesCatalog.starter

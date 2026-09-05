@@ -1,16 +1,26 @@
 # Kape! 🇦🇱
 
-An Albanian-language party game for classic charades. One person privately reads a word, hides it, puts the phone down and acts without speaking. Everyone else guesses.
+An Albanian-language party game: act out or explain a secret word while everyone else guesses. Read it privately, hide it and put the phone down.
 
 ## Playing
 
-1. Choose a category and either **Luaj së bashku** (play together) or **Turne me pikë** (tournament).
+1. Choose a category and a play style, then **Luaj së bashku** (play together) or **Turne me pikë** (tournament).
 2. Pass the phone to the next performer. **Shiko fjalën** reveals their word privately.
 3. **Gati – fshihe fjalën** hides it and gives three seconds to put the phone down.
-4. Act with gestures for up to 60 seconds. Mark **U gjet** (guessed) or **Nuk u gjet** (not guessed).
+4. Act out or explain the word according to the selected rule, for up to 60 seconds. Mark **U gjet** (guessed) or **Nuk u gjet** (not guessed).
 5. Correct the result if necessary, then pass the phone to the next person.
 
 The introductory instructions are available again from the question-mark button. The app uses a warm coral palette, follows the phone's light/dark appearance and supports an explicit appearance preference. iPhone play uses portrait orientation.
+
+## Play styles
+
+Choose one rule for the whole game. It applies to everyone, including in tournaments:
+
+- **Zgjedhje e lirë — Free choice** (default): choose gestures or explanation for each word, without another screen or button.
+- **Pantomimë — Pantomime:** gestures only, without speech or sounds.
+- **Shpjegim — Explanation:** describe the word without saying it or parts of it.
+
+The selected rule appears during handoff, private reading and play. A game keeps its rule when paused or restored. Older saved games without a play-style field retain pantomime; newly started games use the selected preference. The updated introduction is shown once and can always be reopened.
 
 ## Modes and scoring
 
@@ -22,7 +32,7 @@ The introductory instructions are available again from the question-mark button.
 
 ## Categories
 
-The new free **Pantomimë** starter contains 60 actions, animals and everyday activities. The original seven categories and their 270 words remain: Mix Shqip, Gurbet, Muzikë, Sport, Humor & TV, Historia, Politikë. Only Muzikë currently requires VIP. Existing names/cultural references are labelled as more challenging for silent acting. Content and Albanian wording still need a real group review.
+The new free **Për të filluar** starter contains 60 actions, animals and everyday activities. The original seven categories and their 270 words remain: Mix Shqip, Gurbet, Muzikë, Sport, Humor & TV, Historia, Politikë. Only Muzikë currently requires VIP. All categories can be used with any play style. Content and Albanian wording still need a real group review.
 
 ## Purchases and saved games
 
@@ -52,7 +62,7 @@ xcodebuild -project Kape/Kape.xcodeproj -scheme Kape \
 
 Use one simulator at a time. Required profiles: iPhone 17 Pro, iPhone 17 Pro Max and iPhone SE (3rd generation); include maximum Dynamic Type and light/dark appearance. The current UI suite is `CharadesUITests`. It replaces tests that navigated the removed motion flow. Existing business-logic tests remain, alongside `CharadesSessionTests` for privacy, timer, scoring, persistence and entitlements.
 
-See [Pantomime implementation and QA](docs/PANTOMIME.md) for the current evidence and [earlier stabilization](docs/STABILISIERUNG.md) for the historical motion-based milestone.
+See [Implementation and QA](docs/PANTOMIME.md) for the current evidence and [earlier stabilization](docs/STABILISIERUNG.md) for the historical motion-based milestone.
 
 ## Ownership
 

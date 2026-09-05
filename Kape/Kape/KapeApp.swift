@@ -17,7 +17,8 @@ struct KapeApp: App {
             CharadesArchive.clear()
             UserDefaults.standard.removeObject(forKey: "kape.appearance")
             UserDefaults.standard.removeObject(forKey: "kape.sound")
-            UserDefaults.standard.set(!ProcessInfo.processInfo.arguments.contains("--kape-show-intro"), forKey: "kape.intro.seen")
+            UserDefaults.standard.removeObject(forKey: "kape.play-style")
+            UserDefaults.standard.set(!ProcessInfo.processInfo.arguments.contains("--kape-show-intro"), forKey: "kape.intro.play-styles.seen")
         }
         #endif
     }

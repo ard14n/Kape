@@ -12,7 +12,7 @@ struct CharadesSettings: View {
                 CharadesHeading(eyebrow: "Cilësimet", title: "Sipas dëshirës.", detail: "Rregullojeni për grupin tuaj.")
                 VStack(alignment: .leading, spacing: 20) {
                     Toggle("Tingujt e lojës", isOn: $sound).accessibilityIdentifier("SoundToggle")
-                    Text("Tingull kur fillon ose mbaron koha dhe kur shënohet rezultati. Respekton mënyrën pa zë të telefonit.")
+                    Text("Tingull kur fillon ose mbaron koha. Respekton mënyrën pa zë të telefonit.")
                         .font(.footnote).foregroundStyle(CharadesTheme.muted)
                     Picker("Pamja", selection: $appearance) {
                         Text("Si telefoni").tag("system")
@@ -50,7 +50,7 @@ struct CharadesPurchase: View {
                 ForEach(decks) { deck in
                     Label("\(deck.title) · \(deck.cards.count) fjalë", systemImage: deck.iconName).font(.headline).charadesPanel()
                 }
-                Text("Kategoritë VIP përmbajnë emra dhe tema shqiptare që mund të jenë më sfiduese për pantomimë.")
+                Text("Emra dhe tema shqiptare për të luajtur me pantomimë ose shpjegim.")
                     .foregroundStyle(CharadesTheme.muted)
                 if store.isVIPUnlocked {
                     Label("VIP është i hapur", systemImage: "checkmark.circle").foregroundStyle(CharadesTheme.accent)

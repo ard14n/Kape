@@ -78,14 +78,17 @@ struct CharadesPlayView: View {
         switch session.phase {
         case .handoff:
             CharadesHeading(eyebrow: progress, title: session.isTournament ? "Radha e\n\(session.performer)" : "Kush e ka radhën?",
-                            detail: "Kalojani telefonin personit që do të luajë me gjeste. Vetëm ai person duhet ta shohë fjalën.",
+                            detail: "Kalojani telefonin personit që ka radhën. Vetëm ai person duhet ta shohë fjalën.",
                             symbol: "iphone.and.arrow.forward")
             Label(session.snapshot.deck.title, systemImage: session.snapshot.deck.iconName)
                 .font(.headline).charadesPanel()
+            Label(session.playStyle.title, systemImage: session.playStyle.symbol)
+                .font(.headline).foregroundStyle(CharadesTheme.accent).accessibilityIdentifier("SessionPlayStyle")
+            Text(session.playStyle.summary).foregroundStyle(CharadesTheme.muted)
             if session.isTournament {
                 Text("Nëse grupi e gjen fjalën, \(session.performer) merr 1 pikë.").foregroundStyle(CharadesTheme.muted)
             } else if session.turnIndex > 0 {
-                Text("\(session.score) fjalë të gjetura deri tani").font(.headline).foregroundStyle(CharadesTheme.accent)
+                Text(session.score == 1 ? "1 fjalë e gjetur deri tani" : "\(session.score) fjalë të gjetura deri tani").font(.headline).foregroundStyle(CharadesTheme.accent)
             }
         case .reading:
             if typeSize.isAccessibilitySize {
@@ -100,15 +103,17 @@ struct CharadesPlayView: View {
                     .multilineTextAlignment(.center).padding(.vertical, 26).charadesPanel()
                     .accessibilityIdentifier("SecretWord")
             }
-            Text("Mos e thuaj me zë. Paraqite me gjeste, pa folur.").foregroundStyle(CharadesTheme.muted)
+            Label(session.playStyle.title, systemImage: session.playStyle.symbol).font(.headline)
+                .accessibilityIdentifier("ReadingPlayStyle")
+            Text(session.playStyle.rule).foregroundStyle(CharadesTheme.muted).accessibilityIdentifier("PlayStyleRule")
         case .countdown:
             CharadesHeading(eyebrow: "Fjala u fsheh", title: typeSize.isAccessibilitySize ? "Lëre telefonin." : "Lëre telefonin\nmbi tavolinë.",
-                            detail: typeSize.isAccessibilitySize ? "" : "Bëhu gati të luash me gjeste.", symbol: typeSize.isAccessibilitySize ? nil : "hand.raised.slash")
+                            detail: typeSize.isAccessibilitySize ? "" : "Bëhu gati. Grupi do të gjejë fjalën.", symbol: typeSize.isAccessibilitySize ? nil : "hand.raised.slash")
             timer
         case .acting:
-            CharadesHeading(eyebrow: typeSize.isAccessibilitySize ? "Pa folur" : "Pa folur · vetëm me gjeste",
-                            title: typeSize.isAccessibilitySize ? "Luaj me gjeste." : "Tani radha\nështë e jotja.",
-                            detail: typeSize.isAccessibilitySize ? "" : "Grupi përpiqet të gjejë fjalën.")
+            CharadesHeading(eyebrow: session.playStyle.title,
+                            title: session.playStyle.action,
+                            detail: typeSize.isAccessibilitySize ? "" : session.playStyle.rule)
             timer
             if !typeSize.isAccessibilitySize {
                 Text("Shtypni «U gjet» sapo ta gjejë grupi.").foregroundStyle(CharadesTheme.muted)
@@ -134,8 +139,8 @@ struct CharadesPlayView: View {
             }
         case .finished:
             CharadesHeading(eyebrow: session.isTournament ? "Turneu përfundoi" : "Sa bukur së bashku!",
-                            title: session.isTournament ? winnerTitle : "\(session.score) fjalë\ntë gjetura.",
-                            detail: session.isTournament ? "Të gjithë luajtën \(session.snapshot.rounds) herë. Çdo fjalë e gjetur vlen 1 pikë." : "\(session.turnIndex) radhë, shumë gjeste. Gati për një lojë tjetër?",
+                            title: session.isTournament ? winnerTitle : session.score == 1 ? "1 fjalë\ne gjetur." : "\(session.score) fjalë\ntë gjetura.",
+                            detail: session.isTournament ? "Të gjithë luajtën \(session.snapshot.rounds) herë. Çdo fjalë e gjetur vlen 1 pikë." : "\(session.turnIndex) radhë së bashku. Gati për një lojë tjetër?",
                             symbol: "hands.clap")
             if session.isTournament { leaderboard(final: true) }
         case .exhausted:
@@ -194,7 +199,8 @@ struct CharadesPlayView: View {
         if session.isTournament {
             return "\(session.snapshot.names[outcome.performer]): \(outcome.guessed ? "+1 pikë" : "0 pikë"). Mund ta ndryshoni rezultatin para radhës tjetër."
         }
-        return "\(session.score) fjalë të gjetura nga grupi. Kalojani telefonin personit tjetër."
+        let found = session.score == 1 ? "1 fjalë e gjetur" : "\(session.score) fjalë të gjetura"
+        return "\(found) nga grupi. Kalojani telefonin personit tjetër."
     }
     private func leaderboard(final: Bool) -> some View {
         VStack(alignment: .leading, spacing: 16) {

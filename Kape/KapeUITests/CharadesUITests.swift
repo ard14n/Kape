@@ -16,15 +16,26 @@ final class CharadesUITests: XCTestCase {
         let button = app.buttons[id]
         XCTAssertTrue(button.waitForExistence(timeout: 5), id, file: file, line: line)
         for _ in 0..<10 {
-            if button.isHittable && button.frame.maxY <= app.frame.maxY { break }
+            let footer: String? = ["ChooseCategory", "ChoosePlayStyle"].contains(id) ? "StartTogether"
+                : id == "CorrectResult" ? "NextTurn" : nil
+            let visibleBottom = min(footer.map { app.buttons[$0].frame.minY - 14 } ?? app.frame.maxY, app.frame.maxY)
+            if button.isHittable && button.frame.maxY <= visibleBottom { break }
             scroll(app)
         }
         XCTAssertTrue(button.isHittable, id, file: file, line: line)
+        if ["ChooseCategory", "ChoosePlayStyle", "CorrectResult"].contains(id) {
+            let footer = id == "CorrectResult" ? "NextTurn" : "StartTogether"
+            XCTAssertLessThanOrEqual(button.frame.maxY, min(app.buttons[footer].frame.minY - 14, app.frame.maxY), id + " must be visibly above the actions", file: file, line: line)
+        }
         button.tap()
     }
     private func scroll(_ app: XCUIApplication) {
         let scroll = app.scrollViews.allElementsBoundByIndex.first { $0.isHittable }
-        scroll?.swipeUp()
+        // Begin inside the reading area, above fixed bottom actions.
+        if let scroll {
+            scroll.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.55))
+                .press(forDuration: 0.05, thenDragTo: scroll.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)))
+        }
     }
     private func capture(_ name: String, _ app: XCUIApplication) {
         let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
@@ -48,14 +59,17 @@ final class CharadesUITests: XCTestCase {
         return value
     }
 
-    func testPrivateLoopCorrectionAndNextPerson() {
+    func testPrivateLoopAndVisibleResultCorrection() {
         let app = launch()
         capture("01-home", app)
+        XCTAssertEqual(app.buttons["ChoosePlayStyle"].value as? String, "Zgjedhje e lirë")
         start(app)
+        XCTAssertEqual(app.staticTexts["SessionPlayStyle"].label, "Zgjedhje e lirë")
         capture("02-handoff", app)
         tap(app, "RevealWord")
         XCTAssertTrue(app.staticTexts["SecretWord"].waitForExistence(timeout: 5))
         capture("03-private-word", app)
+        XCTAssertTrue(app.staticTexts["PlayStyleRule"].label.contains("gjeste pa folur ose shpjegim"))
         let first = app.staticTexts["SecretWord"].label
         tap(app, "AnotherWord")
         XCTAssertNotEqual(app.staticTexts["SecretWord"].label, first)
@@ -85,6 +99,9 @@ final class CharadesUITests: XCTestCase {
         tap(app, "CloseInstructions")
         tap(app, "HelpButton")
         XCTAssertTrue(app.buttons["DismissHelp"].waitForExistence(timeout: 5))
+        let rule = app.descendants(matching: .any)["HelpStyle-explaining"].firstMatch
+        for _ in 0..<12 { if rule.isHittable { break }; scroll(app) }
+        XCTAssertTrue(rule.isHittable)
         capture("08-help", app)
         tap(app, "CloseInstructions")
         XCTAssertTrue(app.buttons["StartTogether"].waitForExistence(timeout: 5))
@@ -199,6 +216,68 @@ final class CharadesUITests: XCTestCase {
         tap(app, "RevealWord")
         XCTAssertTrue(app.staticTexts["SecretWord"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.staticTexts["AccessDenied"].exists)
+    }
+
+    func testPantomimeSelectionUsesSilentRulesAndVisibleTimer() {
+        let app = launch()
+        tap(app, "ChoosePlayStyle")
+        XCTAssertTrue(app.buttons["PlayStyle-freeChoice"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["PlayStyle-freeChoice"].isHittable)
+        capture("22-play-style-picker", app)
+        tap(app, "PlayStyle-pantomime")
+        XCTAssertEqual(app.buttons["ChoosePlayStyle"].value as? String, "Pantomimë")
+        start(app)
+        XCTAssertEqual(app.staticTexts["SessionPlayStyle"].label, "Pantomimë")
+        tap(app, "RevealWord")
+        XCTAssertEqual(app.staticTexts["PlayStyleRule"].label, "Vetëm me gjeste. Mos fol dhe mos bëj tinguj.")
+        capture("23-pantomime-private", app)
+        tap(app, "HideWord")
+        XCTAssertTrue(app.buttons["Guessed"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Luaj me gjeste."].exists)
+        XCTAssertLessThanOrEqual(app.staticTexts["CharadesTimer"].frame.maxY, app.buttons["Guessed"].frame.minY)
+        capture("24-pantomime-acting", app)
+        tap(app, "Guessed"); tap(app, "FinishTogether"); tap(app, "ReturnHome")
+        XCTAssertEqual(app.buttons["ChoosePlayStyle"].value as? String, "Pantomimë")
+    }
+
+    func testExplainingTournamentPreservesRulesAndPointsAfterRelaunch() {
+        let app = launch()
+        tap(app, "ChoosePlayStyle"); tap(app, "PlayStyle-explaining")
+        tap(app, "StartTournament")
+        XCTAssertEqual(app.staticTexts["TournamentPlayStyle"].label, "Shpjegim")
+        let picker = app.segmentedControls["RoundsPicker"]
+        for _ in 0..<12 { if picker.isHittable { break }; scroll(app) }
+        picker.buttons["1"].tap()
+        tap(app, "ConfirmTournament")
+        _ = revealAndAct(app)
+        XCTAssertTrue(app.staticTexts["Shpjego."].exists)
+        capture("25-explaining-acting", app)
+        tap(app, "Guessed"); tap(app, "NextTurn")
+        tap(app, "RevealWord")
+        let word = app.staticTexts["SecretWord"].label
+        XCTAssertEqual(app.staticTexts["ReadingPlayStyle"].label, "Shpjegim")
+        XCTAssertEqual(app.staticTexts["PlayStyleRule"].label, "Shpjegoje pa e thënë fjalën apo pjesë të saj.")
+        capture("26-explaining-private", app)
+        tap(app, "ExitGame"); tap(app, "Ruaje dhe dil")
+        app.terminate()
+        app.launchArguments = ["--kape-ui-tests", "--kape-keep-state"]
+        app.launch()
+        tap(app, "ResumeSavedGame")
+        XCTAssertFalse(app.staticTexts["SecretWord"].exists)
+        tap(app, "ResumeGame")
+        XCTAssertEqual(app.staticTexts["SecretWord"].label, word)
+        XCTAssertEqual(app.staticTexts["ReadingPlayStyle"].label, "Shpjegim")
+        tap(app, "HideWord")
+        XCTAssertTrue(app.buttons["Guessed"].waitForExistence(timeout: 5))
+        XCTAssertLessThanOrEqual(app.staticTexts["CharadesTimer"].frame.maxY, app.buttons["Guessed"].frame.minY)
+        tap(app, "NotGuessed"); tap(app, "NextTurn")
+        XCTAssertTrue(app.buttons["ReturnHome"].waitForExistence(timeout: 5))
+        let first = app.descendants(matching: .any)["Standing-0"].firstMatch
+        XCTAssertTrue(first.label.contains("1 pikë"))
+        tap(app, "ReturnHome")
+        XCTAssertEqual(app.buttons["ChoosePlayStyle"].value as? String, "Shpjegim")
+        tap(app, "ChoosePlayStyle"); tap(app, "PlayStyle-freeChoice")
+        XCTAssertEqual(app.buttons["ChoosePlayStyle"].value as? String, "Zgjedhje e lirë")
     }
 
     func testTournamentSupportsFivePeopleAndRemoval() {

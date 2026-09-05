@@ -3,7 +3,7 @@ import Foundation
 /// A separate, free starter set; original decks and purchase identifiers are preserved.
 enum CharadesCatalog {
     static let starter = Deck(
-        id: "pantomime", title: "Pantomimë", description: "Veprime dhe kafshë për t’u futur në lojë.",
+        id: "pantomime", title: "Për të filluar", description: "Veprime dhe kafshë për t’u futur në lojë.",
         iconName: "theatermasks", difficulty: 1, isPro: false,
         cards: [
             "Not", "Boks", "Vrapim", "Vallëzim", "Peshkim", "Gatim", "Këndim", "Futboll",

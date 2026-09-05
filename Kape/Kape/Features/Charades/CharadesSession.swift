@@ -19,6 +19,8 @@ final class CharadesSession: Identifiable {
         var version = 1
         var id = UUID()
         var mode: Mode
+        // Missing in v1 archives made before play styles; those remain pantomime.
+        var playStyle: CharadesPlayStyle? = nil
         var names: [String]
         var rounds: Int
         var deck: Deck
@@ -40,6 +42,7 @@ final class CharadesSession: Identifiable {
 
     var id: UUID { snapshot.id }
     var phase: Phase { snapshot.phase }
+    var playStyle: CharadesPlayStyle { snapshot.playStyle ?? .pantomime }
     var isClockRunning: Bool { phase == .countdown || phase == .acting }
     var isTournament: Bool { snapshot.mode == .tournament }
     var turnIndex: Int { snapshot.outcomes.count }
@@ -71,13 +74,13 @@ final class CharadesSession: Identifiable {
         }.sorted { $0.points == $1.points ? $0.id < $1.id : $0.points > $1.points }
     }
 
-    init(mode: Mode, names: [String] = ["Së bashku"], rounds: Int = 3, deck: Deck,
+    init(mode: Mode, playStyle: CharadesPlayStyle = .freeChoice, names: [String] = ["Së bashku"], rounds: Int = 3, deck: Deck,
          shuffled: Bool = true, turnDuration: TimeInterval = 60, countdownDuration: TimeInterval = 3,
          now: @escaping () -> TimeInterval = { ProcessInfo.processInfo.systemUptime }) {
         let players = mode == .tournament ? names.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) } : ["Së bashku"]
         precondition(Self.validNames(players, tournament: mode == .tournament))
         precondition([1, 3, 5].contains(rounds))
-        snapshot = Snapshot(mode: mode, names: players, rounds: rounds, deck: deck,
+        snapshot = Snapshot(mode: mode, playStyle: playStyle, names: players, rounds: rounds, deck: deck,
                             pool: shuffled ? deck.cards.shuffled() : deck.cards,
                             remaining: turnDuration, turnDuration: turnDuration,
                             countdownDuration: countdownDuration)
@@ -216,6 +219,7 @@ final class CharadesSession: Identifiable {
 
     func finishTogether() {
         guard !isTournament, [.result, .handoff, .exhausted].contains(phase) else { return }
+        accessDenied = false
         snapshot.current = nil
         snapshot.phase = .finished
         changed()
