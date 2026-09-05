@@ -42,6 +42,10 @@ Game content is bundled. A current game is stored locally, including completed r
 
 Store/account, privacy/support disclosures, real-device behavior and distribution are separate release checks. A simulator pass is not a real StoreKit purchase or App Store approval.
 
+## Privacy declaration
+
+`Kape/Kape/PrivacyInfo.xcprivacy` declares app-local UserDefaults storage (CA92.1) and monotonic timer calculations using systemUptime (35F9.1). The release bundle includes the manifest. It declares no developer data collection or tracking for the current implementation. Reassess these declarations if networking, SDKs or data processing change. A public privacy policy and an accessible in-app link remain separate App Store requirements.
+
 ## Development
 
 - iOS 17+, SwiftUI, Observation, StoreKit 2, AVFoundation.
