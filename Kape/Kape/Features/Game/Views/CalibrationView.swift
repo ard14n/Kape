@@ -1,137 +1,75 @@
 import SwiftUI
 
-/// Calibration screen that guides the user to position the device correctly
-/// before starting the game. Ensures the device is on the forehead in landscape
-/// orientation to prevent accidental tilts during gameplay.
+/// Validates the neutral pose before a new round and after interruptions.
 struct CalibrationView: View {
-    /// The motion manager to validate positioning
     let motionManager: MotionManager
-    
-    /// Callback when calibration is successful
     let onCalibrated: () -> Void
-    
-    /// Timer to continuously check position
-    @State private var validationTimer: Timer?
-    
-    /// Current validation state for UI feedback
-    @State private var isValid: Bool = false
-    @State private var statusMessage: String = "Position device on forehead"
-    
+    @State private var isValid = false
+    @State private var statusMessage = "Vendose telefonin horizontalisht mbi ballë."
+
     var body: some View {
-        VStack(spacing: 40) {
-            // Phone icon with positioning indicator
-            ZStack {
-                Circle()
-                    .fill(isValid ? Color.neonGreen.opacity(0.2) : Color.neonRed.opacity(0.2))
-                    .frame(width: 200, height: 200)
-                    .animation(.easeInOut(duration: 0.3), value: isValid)
-                
-                Image(systemName: isValid ? "checkmark.circle.fill" : "iphone")
-                    .font(.system(size: 80))
-                    .foregroundStyle(isValid ? Color.neonGreen : Color.neonRed)
-                    .rotationEffect(.degrees(-90)) // Landscape orientation hint
-                    .shadow(color: (isValid ? Color.neonGreen : Color.neonRed).opacity(0.5), radius: 20)
-                    .animation(.easeInOut(duration: 0.3), value: isValid)
-            }
-            
-            VStack(spacing: 16) {
-                Text("Kalibrimi")
-                    .font(.system(size: 34, weight: .heavy, design: .rounded))
-                    .foregroundStyle(.white)
-                
-                Text(statusMessage)
-                    .font(.system(size: 20, weight: .medium, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.8))
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 40)
-                    .animation(.easeInOut(duration: 0.3), value: statusMessage)
-            }
-            
-            if isValid {
-                VStack(spacing: 12) {
-                    Image(systemName: "hand.point.up.left.fill")
-                        .font(.system(size: 40))
-                        .foregroundStyle(Color.neonGreen)
-                    
-                    Text("Pozita e Saktë!")
-                        .font(.system(size: 24, weight: .bold, design: .rounded))
-                        .foregroundStyle(Color.neonGreen)
+        GeometryReader { geometry in
+            ScrollView {
+                if geometry.size.width > geometry.size.height {
+                    HStack(spacing: 24) { indicator; instructions }
+                        .padding(.horizontal, 32)
+                        .padding(.vertical, 24)
+                        .frame(minHeight: geometry.size.height)
+                } else {
+                    VStack(spacing: 24) { indicator; instructions }
+                        .padding(24)
+                        .padding(.top, 40)
+                        .frame(minHeight: geometry.size.height)
                 }
-                .transition(.scale.combined(with: .opacity))
-            } else {
-                VStack(spacing: 8) {
-                    Text("📱 Mbaje telefonin në mënyrë vertikale")
-                        .font(.system(size: 16, weight: .medium, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.7))
-                    
-                    Text("🔄 Ktheje në landscape (horizontal)")
-                        .font(.system(size: 16, weight: .medium, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.7))
-                    
-                    Text("👤 Vendose mbi ballë")
-                        .font(.system(size: 16, weight: .medium, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.7))
-                }
-                .transition(.opacity)
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .onAppear {
-            startValidation()
-        }
-        .onDisappear {
-            validationTimer?.invalidate()
-        }
-    }
-    
-    // MARK: - Validation Logic
-    
-    private func startValidation() {
-        // Check position immediately
-        checkPosition()
-        
-        // Then check every 0.5 seconds
-        validationTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
-            checkPosition()
-        }
-    }
-    
-    private func checkPosition() {
-        let valid = motionManager.validatePosition()
-        
-        withAnimation {
-            isValid = valid
-            
-            switch motionManager.calibrationState {
-            case .notStarted:
-                statusMessage = "Duke filluar kalibrimin..."
-            case .checking:
-                statusMessage = "Duke kontrolluar pozicionin..."
-            case .valid:
-                statusMessage = "Pozicioni është i saktë!"
-                // Stop timer and auto-proceed after a brief moment
-                validationTimer?.invalidate()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    if isValid {
-                        motionManager.calibrate()
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("CalibrationScreen")
+        .task {
+            while !Task.isCancelled {
+                isValid = motionManager.validatePosition()
+                if isValid {
+                    statusMessage = "Pozicioni është i saktë!"
+                    // Revalidate after the settling period; never start from a stale pose.
+                    do { try await Task.sleep(for: .milliseconds(500)) } catch { return }
+                    guard !Task.isCancelled else { return }
+                    if motionManager.calibrate() {
                         onCalibrated()
+                        return
+                    }
+                } else {
+                    statusMessage = "Vendose telefonin horizontalisht mbi ballë."
+                    if case .invalid(let reason) = motionManager.calibrationState,
+                       reason == "Sensor data unavailable" {
+                        statusMessage = "Sensori i lëvizjes nuk është gati. Provo përsëri ose kthehu te kategoritë."
                     }
                 }
-            case .invalid(let reason):
-                statusMessage = "Rikontrollo pozicionin"
+                do { try await Task.sleep(for: .milliseconds(250)) } catch { return }
             }
         }
     }
-}
 
-// MARK: - Previews
+    private var indicator: some View {
+        Image(systemName: isValid ? "checkmark.circle.fill" : "iphone")
+            .font(.system(size: 56))
+            .foregroundStyle(isValid ? Color.neonGreen : Color.neonRed)
+            .rotationEffect(.degrees(isValid ? 0 : -90))
+            .frame(width: 104, height: 104)
+            .background((isValid ? Color.neonGreen : Color.neonRed).opacity(0.15), in: Circle())
+            .accessibilityHidden(true)
+    }
 
-#Preview("Calibrating") {
-    ZStack {
-        Color.trueBlack.ignoresSafeArea()
-        CalibrationView(
-            motionManager: MotionManager(),
-            onCalibrated: {}
-        )
+    private var instructions: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Kalibrimi").font(.title.bold()).foregroundStyle(.white)
+                .accessibilityIdentifier("CalibrationTitle")
+            Text(statusMessage).font(.body).foregroundStyle(.white.opacity(0.85))
+                .fixedSize(horizontal: false, vertical: true)
+                .accessibilityIdentifier("CalibrationStatus")
+            Text("Mbaje ekranin nga miqtë dhe prit një çast.")
+                .font(.callout).foregroundStyle(.white.opacity(0.7))
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

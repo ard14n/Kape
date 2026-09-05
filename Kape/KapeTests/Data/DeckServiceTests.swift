@@ -455,7 +455,7 @@ final class DeckServiceTests: XCTestCase {
         // If we can't find the file in the test environment, we print a warning but don't fail
         // This avoids false negatives in limited CI environments
         guard let validUrl = url else {
-            print("⚠️ WARNING: decks.json not found in test bundles - skipping production content verification")
+            XCTFail("Bundled decks.json is required for the production content check")
             return
         }
         
@@ -484,7 +484,7 @@ final class DeckServiceTests: XCTestCase {
         // 3. Verify Muzikë (Placeholder)
         if let muzik = decks.first(where: { $0.id == "muzike" }) {
             XCTAssertTrue(muzik.isPro, "Muzike must be Pro")
-            XCTAssertTrue(muzik.cards.isEmpty, "Muzike must be empty placeholder for now")
+            XCTAssertGreaterThanOrEqual(muzik.cards.count, 50, "Muzike must contain its playable content")
         } else {
             XCTFail("Production decks.json missing 'muzike' deck")
         }

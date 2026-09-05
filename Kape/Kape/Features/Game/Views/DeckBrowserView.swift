@@ -7,6 +7,8 @@ struct DeckBrowserView: View {
     // State (CR-06 FIX: Grouped at top)
     @State private var gameEngine: GameEngine?
     @State private var gameResult: GameResult?
+    @State private var pendingResult: GameResult?
+    @State private var pendingDeck: Deck?
     @State private var showSettingsSheet = false
     @State private var isButtonPressed = false // CR-01 FIX: Moved from line 173
     @State private var tournamentViewModel = TournamentViewModel()
@@ -26,33 +28,37 @@ struct DeckBrowserView: View {
             ZStack {
                 Color.trueBlack.ignoresSafeArea()
                 
-                VStack(spacing: 24) {
-                    // Header
-                    headerView
-                    
-                    // Deck List (AC1: vertical list implementation)
-                    deckListView
+                VStack(spacing: 0) {
+                    VStack(spacing: 24) {
+                        headerView
+                        deckListView
+                    }
+                    startButtonBar
+                        .padding(.top, 8)
+                        .background(Color.trueBlack)
                 }
-                
-                // Floating Start Button
-                startButtonOverlay
             }
-            .fullScreenCover(item: $gameEngine) { engine in
+            .fullScreenCover(item: $gameEngine, onDismiss: {
+                gameResult = pendingResult
+                pendingResult = nil
+            }) { engine in
                 GameScreen(engine: engine) { round in
                     // Convert round to GameResult and show ResultScreen
-                    gameResult = GameResult.from(round)
+                    pendingResult = GameResult.from(round)
                     gameEngine = nil
                 }
             }
-            .fullScreenCover(item: $gameResult) { result in
+            .fullScreenCover(item: $gameResult, onDismiss: {
+                if let deck = pendingDeck {
+                    pendingDeck = nil
+                    startNewGame(with: deck)
+                }
+            }) { result in
                 ResultScreen(
                     result: result,
                     onPlayAgain: {
+                        pendingDeck = viewModel.selectedDeck
                         gameResult = nil
-                        // Optionally restart with same deck
-                        if let deck = viewModel.selectedDeck {
-                            startNewGame(with: deck)
-                        }
                     },
                     onShare: {
                         // Story 3.3 will implement share functionality
@@ -214,14 +220,12 @@ struct DeckBrowserView: View {
             }
             .padding(.horizontal)
             .padding(.top, 20) // Story 5.1 AC3 FIX: Add top padding INSIDE ScrollView to prevent boundary clipping
-            .padding(.bottom, 120)
+            .padding(.bottom, 24)
         }
     }
     
-    private var startButtonOverlay: some View {
+    private var startButtonBar: some View {
         VStack {
-            Spacer()
-            
             Button(action: startGame) {
                 Text("FILLO LOJËN")
                     .font(.title3)
@@ -258,11 +262,7 @@ struct DeckBrowserView: View {
     }
     
     private func startNewGame(with deck: Deck) {
-        let engine = GameEngine(
-            motionManager: MotionManager(),
-            audioService: AudioService(),
-            hapticService: HapticService()
-        )
+        let engine = ServiceFactory.makeGameEngine()
         
         engine.startRound(with: deck)
         self.gameEngine = engine

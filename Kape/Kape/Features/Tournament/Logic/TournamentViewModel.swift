@@ -6,6 +6,10 @@ import Observation
 @Observable
 @MainActor
 final class TournamentViewModel {
+    // Explicit nonisolated teardown avoids Swift isolated-deinit back-deployment crashes
+    // on iOS 26.2 and earlier (swiftlang/swift#88036); no actor state is accessed.
+    nonisolated deinit {}
+
     private let persistenceService = TournamentPersistenceService.shared
     // MARK: - Published State
     

@@ -171,6 +171,7 @@ struct ResultScreen: View {
         } message: {
             Text("Provo përsëri.")
         }
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("ResultScreen")
         // Story 3.4: Share Sheet presentation
         .sheet(isPresented: $showShareSheet, onDismiss: {

@@ -92,12 +92,14 @@ final class StoreViewModel: ObservableObject {
     // MARK: - Transaction Listener
     
     private func startListeningForTransactions() {
-        transactionTask?.cancel()
+        guard transactionTask == nil else { return }
+        // Read synchronously before returning; updates can arrive before this task first runs.
+        let updates = storeService.transactionUpdates
         transactionTask = Task { [weak self] in
-            guard let self = self else { return }
-            for await productId in self.storeService.transactionUpdates {
+            for await productId in updates {
+                guard !Task.isCancelled else { break }
                 if productId == Self.vipProductId {
-                    await self.checkEntitlement()
+                    await self?.checkEntitlement()
                 }
             }
         }

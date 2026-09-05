@@ -22,7 +22,16 @@ final class MockStoreService: StoreServiceProtocol, @unchecked Sendable {
     var shouldThrowOnRestore: StoreServiceError?
     
     /// Continuation for the transaction stream
-    private var transactionContinuation: AsyncStream<String>.Continuation?
+    private let transactionContinuation: AsyncStream<String>.Continuation
+    let transactionUpdates: AsyncStream<String>
+
+    init() {
+        let channel = AsyncStream<String>.makeStream(bufferingPolicy: .bufferingNewest(16))
+        transactionUpdates = channel.stream
+        transactionContinuation = channel.continuation
+    }
+
+    deinit { transactionContinuation.finish() }
     
     // MARK: - Protocol Implementation
     
@@ -57,7 +66,7 @@ final class MockStoreService: StoreServiceProtocol, @unchecked Sendable {
         case .success:
             purchasedProductIds.insert(productId)
             // Emit update to stream
-            transactionContinuation?.yield(productId)
+            transactionContinuation.yield(productId)
             return .success
         case .cancelled, .pending:
             return simulatedResult
@@ -66,12 +75,6 @@ final class MockStoreService: StoreServiceProtocol, @unchecked Sendable {
     
     func isEntitled(productId: String) async -> Bool {
         return purchasedProductIds.contains(productId)
-    }
-    
-    var transactionUpdates: AsyncStream<String> {
-        AsyncStream { continuation in
-            self.transactionContinuation = continuation
-        }
     }
     
     func restorePurchases() async throws {
@@ -94,6 +97,6 @@ final class MockStoreService: StoreServiceProtocol, @unchecked Sendable {
     }
     /// Helper to manually emit a transaction update
     func emitTransaction(_ productId: String) {
-        transactionContinuation?.yield(productId)
+        transactionContinuation.yield(productId)
     }
 }

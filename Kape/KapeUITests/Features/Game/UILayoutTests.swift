@@ -5,6 +5,7 @@ final class UILayoutTests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
+        app.launchArguments = ["--kape-ui-tests"]
         app.launch()
     }
 
@@ -39,9 +40,12 @@ final class UILayoutTests: XCTestCase {
         
         // Note: If no VIP decks, this will exist but not be visible/exist in hierarchy if logic holds.
         // Assuming current mock data has VIP decks.
-        if vipHeader.waitForExistence(timeout: 2) {
-            XCTAssertTrue(vipHeader.isHittable, "VIP Header should be visible and hittable")
+        // Very large type makes each full description taller; the list must remain scrollable.
+        for _ in 0..<12 {
+            if vipHeader.exists && vipHeader.isHittable { break }
+            app.swipeUp()
         }
+        XCTAssertTrue(vipHeader.exists && vipHeader.isHittable, "VIP section must be reachable by scrolling")
     }
     
     // MARK: - AC-02: Start Button Refinement
@@ -52,9 +56,11 @@ final class UILayoutTests: XCTestCase {
         let startButton = app.buttons["StartGameButton"]
         XCTAssertTrue(startButton.waitForExistence(timeout: 5), "Start button should be present")
         
+        XCTAssertLessThanOrEqual(app.scrollViews.firstMatch.frame.maxY, startButton.frame.minY, "Start control must not cover category rows")
+
         // Initially it might be disabled if no deck is selected
         // We can select a deck and check if it becomes hittable
-        let firstRow = app.otherElements["DeckRow_1"]
+        let firstRow = app.staticTexts["Mix Shqip"]
         if firstRow.exists {
             firstRow.tap()
             XCTAssertTrue(startButton.isHittable, "Start button should be hittable after deck selection")
