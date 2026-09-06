@@ -49,7 +49,9 @@ Store/account, privacy/support disclosures, real-device behavior and distributio
 ## Development
 
 - iOS 17+, SwiftUI, Observation, AVFoundation.
-- Current verified toolchain: Xcode 26.5, Swift language mode 5.
+- Development checks used Xcode 26.5, Swift language mode 5. The shared `Kape` scheme includes both test targets and archives in Release configuration.
+- App Store archives require a supported **released macOS and Xcode combination**. Xcode 26.5 on macOS 27 beta produced build 18, which Apple rejected with ITMS-90111 despite successful upload and initial review submission. Do not submit archives from that host or edit their build-provenance metadata.
+- The prepared replacement uses Xcode Cloud with Xcode 26.6 (17F113) on macOS 26.6.2 (25G83), App Store distribution preparation, and a fresh build number starting at 19. Verify the actual source commit, tests, archive metadata and App Store processing before claiming acceptance. Preparation is not a completed replacement build.
 - `Kape/Kape/Features/Charades/` owns the current UI and testable session state machine.
 - `ContentView` starts `CharadesHomeView`; there is no motion/forehead mode in navigation.
 - Legacy Game, Tournament, Summary and neon components remain as unconnected code with regression tests. Removing that legacy code is a separate cleanup.
