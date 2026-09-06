@@ -187,10 +187,10 @@
 				};
 			};
 			buildConfigurationList = 5461A20F2F116408001C1FFC /* Build configuration list for PBXProject "Kape" */;
-			developmentRegion = en;
+			developmentRegion = sq;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				sq,
 				Base,
 			);
 			mainGroup = 5461A20B2F116408001C1FFC;
