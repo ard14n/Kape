@@ -22,8 +22,8 @@ enum CharadesPlayStyle: String, Codable, CaseIterable, Identifiable {
     var summary: String {
         switch self {
         case .freeChoice: "Pantomimë ose shpjegim – ti zgjedh për çdo fjalë."
-        case .pantomime: "Paraqite fjalën vetëm me gjeste, pa folur."
-        case .explaining: "Përshkruaje me fjalë, pa e thënë fjalën apo pjesë të saj."
+        case .pantomime: "Paraqite fjalën vetëm me gjeste, pa folë."
+        case .explaining: "Përshkruaje me fjalë, pa e thanë fjalën apo pjesë të saj."
         }
     }
     var shortSummary: String {
@@ -35,15 +35,15 @@ enum CharadesPlayStyle: String, Codable, CaseIterable, Identifiable {
     }
     var rule: String {
         switch self {
-        case .freeChoice: "Zgjidh gjeste pa folur ose shpjegim pa e thënë fjalën apo pjesë të saj."
-        case .pantomime: "Vetëm me gjeste. Mos fol dhe mos bëj tinguj."
-        case .explaining: "Shpjegoje pa e thënë fjalën apo pjesë të saj."
+        case .freeChoice: "Zgjidh gjeste pa folë ose shpjegim pa e thanë fjalën apo pjesë të saj."
+        case .pantomime: "Vetëm me gjeste. Mos fol dhe mos bo tinguj."
+        case .explaining: "Shpjegoje pa e thanë fjalën apo pjesë të saj."
         }
     }
     var action: String {
         switch self {
         case .freeChoice: "Ti zgjedh."
-        case .pantomime: "Luaj me gjeste."
+        case .pantomime: "Luj me gjeste."
         case .explaining: "Shpjego."
         }
     }
@@ -57,7 +57,7 @@ struct CharadesStylePicker: View {
     var body: some View {
         NavigationStack {
             CharadesPage {
-                CharadesHeading(eyebrow: "Mënyra e lojës", title: "Si doni të luani?",
+                CharadesHeading(eyebrow: "Mënyra e lojës", title: "Si doni me lujt?",
                                 detail: "Zgjidhni një rregull për të gjithë, për këtë lojë.")
                 ForEach(CharadesPlayStyle.allCases) { style in
                     Button { choose(style) } label: {

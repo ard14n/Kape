@@ -32,7 +32,7 @@ The selected rule appears during handoff, private reading and play. A game keeps
 
 ## Categories
 
-The free **Për të filluar** starter contains 64 actions, animals and everyday activities. The seven themed categories hold 302 words: Mix Shqip, Gurbet, Muzikë, Sport, Humor & TV, Historia, Politikë. The September 2026 content revision replaced 27 outdated, duplicate or mislabeled cards, corrected two card texts and added 36 current cards across all categories; card IDs of retained cards are unchanged. All eight categories are free and can be used with any play style. The current TestFlight gameplay was accepted by a real group, as confirmed by the owner on 5 September 2026.
+The free **Për të filluar** starter contains 64 actions, animals and everyday activities. The ten themed categories hold 372 words: Mix Shqip, Gurbet, Muzikë, Sport, Humor & TV, Dasma & Tradita, Fëmijëria, Nëna shqiptare, Historia, Politikë. The September 2026 content revision replaced 27 outdated, duplicate or mislabeled cards, corrected two card texts and added 36 current cards across all categories; card IDs of retained cards are unchanged. It also added three owner-curated categories: Dasma & Tradita (30), Fëmijëria (25) and Nëna shqiptare (15). A tournament needs one word per turn, so Nëna shqiptare allows at most 15 turns and the setup explains when fewer people or rounds are needed. All eleven categories are free and can be used with any play style. The current TestFlight gameplay was accepted by a real group, as confirmed by the owner on 5 September 2026.
 
 ## Free release and saved games
 

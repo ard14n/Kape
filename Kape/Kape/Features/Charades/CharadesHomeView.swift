@@ -21,7 +21,7 @@ struct CharadesHomeView: View {
                 CharadesPage {
                     if !typeSize.isAccessibilitySize && geometry.size.height >= 700 {
                         CharadesHeading(eyebrow: "Gjeni fjalën në shqip", title: "Një fjalë.\nPlot të qeshura.",
-                                        detail: "Me gjeste apo me fjalë?\nZgjidhni si doni të luani.", symbol: "hands.sparkles")
+                                        detail: "Me gjeste apo me fjalë?\nZgjidhni si doni me lujt.", symbol: "hands.sparkles")
                     }
                     if session != nil {
                         VStack(alignment: .leading, spacing: 12) {
@@ -131,7 +131,7 @@ struct CharadesHomeView: View {
 
     private var startButtons: some View {
         VStack(spacing: 10) {
-            Button("Luaj së bashku") { start(mode: .together) }
+            Button("Lujmë bashkë") { start(mode: .together) }
                 .buttonStyle(CharadesButtonStyle()).accessibilityIdentifier("StartTogether")
             Button("Turne me pikë") { sheet = .tournament }
                 .buttonStyle(CharadesButtonStyle(prominent: false)).accessibilityIdentifier("StartTournament")
@@ -163,11 +163,11 @@ struct CharadesInstructions: View {
         NavigationStack {
             CharadesPage {
                 CharadesHeading(eyebrow: "Si luhet?", title: "Telefoni në tavolinë.\nDuart të lira.",
-                                detail: "Mjaftojnë 3 hapa për të filluar.", symbol: "theatermasks")
+                                detail: "Mjaftojnë 3 hapa për me fillu.", symbol: "theatermasks")
                 VStack(alignment: .leading, spacing: 24) {
-                    step("1", "Lexoje vetëm ti", "Shiko fjalën fshehurazi. Të tjerët nuk duhet ta shohin.")
-                    step("2", "Fshihe dhe lëre telefonin", "Shtyp «Gati». Fjala fshihet dhe ke 3 sekonda për ta lënë telefonin mbi tavolinë.")
-                    step("3", "Ndihmo grupin ta gjejë", "Luaj me gjeste ose shpjego, sipas mënyrës që keni zgjedhur. Grupi ka 60 sekonda për ta gjetur. Shënoni rezultatin dhe kalojani telefonin personit tjetër.")
+                    step("1", "Lexoje vetëm ti", "Shiko fjalën mshehtas. Të tjerët s’duhet me e pa.")
+                    step("2", "Fshihe dhe lëre telefonin", "Shtyp «Gati». Fjala fshihet dhe ke 3 sekonda me e lanë telefonin në tavolinë.")
+                    step("3", "Ndihmo grupin me e gjetë", "Luj me gjeste ose shpjego, sipas mënyrës që keni zgjedhë. Grupi ka 60 sekonda me e gjetë. Shënoni rezultatin dhe kalojani telefonin personit tjetër.")
                 }.charadesPanel()
                 VStack(alignment: .leading, spacing: 18) {
                     Text("Ju zgjidhni si luhet").font(.title2.bold()).accessibilityAddTraits(.isHeader)
@@ -183,7 +183,7 @@ struct CharadesInstructions: View {
                 }.charadesPanel()
             }
             .safeAreaInset(edge: .bottom, spacing: 0) {
-                Button(firstTime ? "E kuptova – le të luajmë" : "U kuptua", action: close)
+                Button(firstTime ? "E kuptova – hajde me lujt" : "U kuptua", action: close)
                     .buttonStyle(CharadesButtonStyle()).accessibilityIdentifier("CloseInstructions")
                     .frame(maxWidth: 560).padding(.horizontal, 24).padding(.vertical, 14)
                     .frame(maxWidth: .infinity).background(CharadesTheme.background)
@@ -217,7 +217,7 @@ struct CharadesCategories: View {
     var body: some View {
         NavigationStack {
             CharadesPage {
-                CharadesHeading(eyebrow: "Zgjidhni fjalët", title: "Nga e lehta\nte sfida.", detail: "Filloni me veprime e kafshë, ose zgjidhni një temë që ju pëlqen.")
+                CharadesHeading(eyebrow: "Zgjidhni fjalët", title: "Prej së lehtës\nte sfida.", detail: "Filloni me veprime e kafshë, ose zgjidhni një temë që ju pëlqen.")
                 row(CharadesCatalog.starter)
                 Text("Kategoritë e tjera").font(.title2.bold()).accessibilityAddTraits(.isHeader)
                 Text("Emra dhe tema shqiptare për pantomimë ose shpjegim.")
@@ -266,7 +266,7 @@ struct CharadesTournamentSetup: View {
     var body: some View {
         NavigationStack {
             CharadesPage {
-                CharadesHeading(eyebrow: "Turne me pikë", title: "Kush do të luajë?", detail: "2–5 persona · \(deck.title)", symbol: "person.2")
+                CharadesHeading(eyebrow: "Turne me pikë", title: "Kush don me lujt?", detail: "2–5 persona · \(deck.title)", symbol: "person.2")
                 Label(playStyle.title, systemImage: playStyle.symbol).font(.headline)
                     .accessibilityIdentifier("TournamentPlayStyle")
                 Text(playStyle.summary).foregroundStyle(CharadesTheme.muted)
@@ -303,8 +303,13 @@ struct CharadesTournamentSetup: View {
                     }.pickerStyle(.segmented).accessibilityIdentifier("RoundsPicker")
                     Text("\(names.count * rounds) fjalë gjithsej · deri në 60 sekonda për fjalë")
                         .font(.subheadline).foregroundStyle(CharadesTheme.muted)
+                    if deck.cards.count < names.count * rounds {
+                        Text("Kjo kategori ka vetëm \(deck.cards.count) fjalë. Zgjidhni më pak radhë ose persona.")
+                            .font(.footnote).foregroundStyle(CharadesTheme.accent)
+                            .accessibilityIdentifier("TournamentTooFewWords")
+                    }
                 }
-                Text("1 fjalë për radhë. Kur grupi e gjen, personi që ka radhën merr 1 pikë. Kur nuk e gjen, 0 pikë. Të gjithë luajnë po aq herë; pikët e barabarta ndajnë të njëjtin vend.")
+                Text("1 fjalë për radhë. Kur grupi e gjen, personi që ka radhën merr 1 pikë. Kur nuk e gjen, 0 pikë. Të gjithë lujnë po aq herë; pikët e barabarta ndajnë të njëjtin vend.")
                     .foregroundStyle(CharadesTheme.muted)
                 Button("Fillo turneun") { start(names, rounds) }
                     .buttonStyle(CharadesButtonStyle()).disabled(!valid).accessibilityIdentifier("ConfirmTournament")

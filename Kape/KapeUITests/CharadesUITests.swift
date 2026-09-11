@@ -76,7 +76,7 @@ final class CharadesUITests: XCTestCase {
         tap(app, "RevealWord")
         XCTAssertTrue(app.staticTexts["SecretWord"].waitForExistence(timeout: 5))
         capture("03-private-word", app)
-        XCTAssertTrue(app.staticTexts["PlayStyleRule"].label.contains("gjeste pa folur ose shpjegim"))
+        XCTAssertTrue(app.staticTexts["PlayStyleRule"].label.contains("gjeste pa folë ose shpjegim"))
         let first = app.staticTexts["SecretWord"].label
         tap(app, "AnotherWord")
         XCTAssertNotEqual(app.staticTexts["SecretWord"].label, first)
@@ -181,7 +181,7 @@ final class CharadesUITests: XCTestCase {
             let row = app.descendants(matching: .any)["Standing-\(index)"].firstMatch
             XCTAssertTrue(row.exists)
             XCTAssertTrue(row.label.contains("1 pikë"))
-            XCTAssertTrue(row.label.contains("1 nga 1 radhë"))
+            XCTAssertTrue(row.label.contains("1 prej 1 radhë"))
             XCTAssertTrue(row.label.contains("vendi 1"))
         }
         _ = standings
@@ -216,7 +216,7 @@ final class CharadesUITests: XCTestCase {
 
     func testEveryCategoryCanBeSelectedAndMusicTournamentNeedsNoPurchase() {
         let app = launch()
-        for id in ["mix-shqip", "gurbet", "muzike", "sport", "humor-tv", "historia", "politike"] {
+        for id in ["mix-shqip", "gurbet", "muzike", "sport", "humor-tv", "dasma-tradita", "femijeria", "nena-shqiptare", "historia", "politike"] {
             tap(app, "ChooseCategory")
             XCTAssertFalse(app.buttons.matching(NSPredicate(format: "label CONTAINS 'e kyçur'")).firstMatch.exists)
             tap(app, "Category-" + id)
@@ -233,6 +233,21 @@ final class CharadesUITests: XCTestCase {
         XCTAssertFalse(app.staticTexts["AccessDenied"].exists)
     }
 
+    func testSmallCategoryExplainsTournamentLimit() {
+        let app = launch()
+        tap(app, "ChooseCategory")
+        tap(app, "Category-nena-shqiptare")
+        tap(app, "StartTournament")
+        tap(app, "AddPlayer")
+        tap(app, "AddPlayer")
+        tap(app, "5")
+        XCTAssertTrue(app.staticTexts["TournamentTooFewWords"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["ConfirmTournament"].isEnabled)
+        tap(app, "3")
+        XCTAssertFalse(app.staticTexts["TournamentTooFewWords"].exists)
+        XCTAssertTrue(app.buttons["ConfirmTournament"].isEnabled)
+    }
+
     func testPantomimeSelectionUsesSilentRulesAndVisibleTimer() {
         let app = launch()
         tap(app, "ChoosePlayStyle")
@@ -244,11 +259,11 @@ final class CharadesUITests: XCTestCase {
         start(app)
         XCTAssertEqual(app.staticTexts["SessionPlayStyle"].label, "Pantomimë")
         tap(app, "RevealWord")
-        XCTAssertEqual(app.staticTexts["PlayStyleRule"].label, "Vetëm me gjeste. Mos fol dhe mos bëj tinguj.")
+        XCTAssertEqual(app.staticTexts["PlayStyleRule"].label, "Vetëm me gjeste. Mos fol dhe mos bo tinguj.")
         capture("23-pantomime-private", app)
         tap(app, "HideWord")
         XCTAssertTrue(app.buttons["Guessed"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Luaj me gjeste."].exists)
+        XCTAssertTrue(app.staticTexts["Luj me gjeste."].exists)
         XCTAssertLessThanOrEqual(app.staticTexts["CharadesTimer"].frame.maxY, app.buttons["Guessed"].frame.minY)
         capture("24-pantomime-acting", app)
         tap(app, "Guessed"); tap(app, "FinishTogether"); tap(app, "ReturnHome")
@@ -271,7 +286,7 @@ final class CharadesUITests: XCTestCase {
         tap(app, "RevealWord")
         let word = app.staticTexts["SecretWord"].label
         XCTAssertEqual(app.staticTexts["ReadingPlayStyle"].label, "Shpjegim")
-        XCTAssertEqual(app.staticTexts["PlayStyleRule"].label, "Shpjegoje pa e thënë fjalën apo pjesë të saj.")
+        XCTAssertEqual(app.staticTexts["PlayStyleRule"].label, "Shpjegoje pa e thanë fjalën apo pjesë të saj.")
         capture("26-explaining-private", app)
         tap(app, "ExitGame"); tap(app, "Ruaje dhe dil")
         app.terminate()
