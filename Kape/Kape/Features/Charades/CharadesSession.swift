@@ -46,7 +46,7 @@ final class CharadesSession: Identifiable {
     var isTournament: Bool { snapshot.mode == .tournament }
     var turnIndex: Int { snapshot.outcomes.count }
     var performerIndex: Int { turnIndex % snapshot.names.count }
-    var performer: String { isTournament ? snapshot.names[performerIndex] : "Personi që do të luajë" }
+    var performer: String { isTournament ? snapshot.names[performerIndex] : "Personi që ka me lujt" }
     var round: Int { min(snapshot.rounds, turnIndex / snapshot.names.count + 1) }
     var totalTurns: Int { snapshot.names.count * snapshot.rounds }
     var seconds: Int { max(0, Int(ceil(snapshot.remaining))) }

@@ -3,7 +3,7 @@
     {
       "id": "mix-shqip",
       "title": "Mix Shqip",
-      "description": "Gjithçka shqip – filma, muzikë, ushqim!",
+      "description": "Krejt shqip – qytete, muzikë, ushqim!",
       "icon_name": "sparkles",
       "difficulty": 1,
       "is_pro": false,
@@ -138,7 +138,7 @@
         },
         {
           "id": "ms-033",
-          "text": "Kafe Turke"
+          "text": "Kafja turke"
         },
         {
           "id": "ms-034",
@@ -154,7 +154,7 @@
         },
         {
           "id": "ms-037",
-          "text": "Speca me Mazë"
+          "text": "Speca me maz"
         },
         {
           "id": "ms-038",
@@ -229,7 +229,7 @@
     {
       "id": "gurbet",
       "title": "Gurbet",
-      "description": "Jeta në mërgim – malli, puna, dhe dasmat në verë.",
+      "description": "Jeta n’gurbet – malli, puna e dasmat n’verë.",
       "icon_name": "airplane.departure",
       "difficulty": 1,
       "is_pro": false,
@@ -292,7 +292,7 @@
         },
         {
           "id": "gb-015",
-          "text": "Mergata"
+          "text": "Mërgata"
         },
         {
           "id": "gb-016",
@@ -316,7 +316,7 @@
         },
         {
           "id": "gb-021",
-          "text": "Dasma në Verë"
+          "text": "Dasma n’verë"
         },
         {
           "id": "gb-022",
@@ -324,7 +324,7 @@
         },
         {
           "id": "gb-023",
-          "text": "Muzika Live"
+          "text": "Muzika live"
         },
         {
           "id": "gb-024",
@@ -352,15 +352,15 @@
         },
         {
           "id": "gb-030",
-          "text": "Targat e Huaja"
+          "text": "Tabelat e huaja"
         },
         {
           "id": "gb-031",
-          "text": "Shtëpia në Kosovë"
+          "text": "Shpija n’Kosovë"
         },
         {
           "id": "gb-032",
-          "text": "Banesa në Prishtinë"
+          "text": "Banesa n’Prishtinë"
         },
         {
           "id": "gb-033",
@@ -384,11 +384,11 @@
         },
         {
           "id": "gb-038",
-          "text": "Shkolla Shqipe"
+          "text": "Shkolla shqipe"
         },
         {
           "id": "gb-039",
-          "text": "Fëmijët"
+          "text": "Fmijt"
         },
         {
           "id": "gb-040",
@@ -451,7 +451,7 @@
     {
       "id": "muzike",
       "title": "Muzikë",
-      "description": "Nga tallava te pop – e gjithë muzika shqiptare!",
+      "description": "Prej tallavës te popi – krejt muzika shqipe!",
       "icon_name": "music.mic",
       "difficulty": 1,
       "is_pro": false,
@@ -618,7 +618,7 @@
         },
         {
           "id": "mz-041",
-          "text": "Alban Skenderaj"
+          "text": "Alban Skënderaj"
         },
         {
           "id": "mz-042",
@@ -650,7 +650,7 @@
         },
         {
           "id": "mz-049",
-          "text": "Rep Shqip"
+          "text": "Rep shqip"
         },
         {
           "id": "mz-050",
@@ -693,7 +693,7 @@
     {
       "id": "sport",
       "title": "Sport",
-      "description": "Heronjtë tanë – nga futbolli te xhudo!",
+      "description": "Heronjt tonë – prej futbollit te xhudoja!",
       "icon_name": "sportscourt",
       "difficulty": 1,
       "is_pro": false,
@@ -839,7 +839,7 @@
     {
       "id": "humor-tv",
       "title": "Humor & TV",
-      "description": "Serialet, show-t dhe batutat legjendare.",
+      "description": "Serialet, show-t e batutat legjendare.",
       "icon_name": "tv",
       "difficulty": 1,
       "is_pro": false,
@@ -950,7 +950,7 @@
         },
         {
           "id": "hu-027",
-          "text": "Programi i Vitit të Ri"
+          "text": "Programi i Vitit t’Ri"
         },
         {
           "id": "hu-028",
@@ -989,7 +989,7 @@
     {
       "id": "dasma-tradita",
       "title": "Dasma & Tradita",
-      "description": "Nga fejesa te dasma – zakonet që i njeh çdo familje.",
+      "description": "Prej fejesës te dasma – adetet që i njeh çdo familje.",
       "icon_name": "heart",
       "difficulty": 1,
       "is_pro": false,
@@ -1000,7 +1000,7 @@
         },
         {
           "id": "dt-002",
-          "text": "Kërkimi i nuses"
+          "text": "Me lyp nusen"
         },
         {
           "id": "dt-003",
@@ -1020,7 +1020,7 @@
         },
         {
           "id": "dt-007",
-          "text": "Hedhja e parave"
+          "text": "Me hjedhë pare"
         },
         {
           "id": "dt-008",
@@ -1040,7 +1040,7 @@
         },
         {
           "id": "dt-012",
-          "text": "Dhëndri"
+          "text": "Dhandri"
         },
         {
           "id": "dt-013",
@@ -1056,7 +1056,7 @@
         },
         {
           "id": "dt-016",
-          "text": "Rakia e shtëpisë"
+          "text": "Rakia e shpisë"
         },
         {
           "id": "dt-017",
@@ -1068,7 +1068,7 @@
         },
         {
           "id": "dt-019",
-          "text": "Nata e Vitit të Ri"
+          "text": "Nata e Vitit t’Ri"
         },
         {
           "id": "dt-020",
@@ -1080,7 +1080,7 @@
         },
         {
           "id": "dt-022",
-          "text": "Vizita e të sëmurit"
+          "text": "Me shku te i smuni"
         },
         {
           "id": "dt-023",
@@ -1088,7 +1088,7 @@
         },
         {
           "id": "dt-024",
-          "text": "Kafeja e mëngjesit"
+          "text": "Kafja e mëngjesit"
         },
         {
           "id": "dt-025",
@@ -1096,11 +1096,11 @@
         },
         {
           "id": "dt-026",
-          "text": "Këpucët në derë"
+          "text": "Këpucët te dera"
         },
         {
           "id": "dt-027",
-          "text": "Puthja e dorës"
+          "text": "Me ia puthë dorën"
         },
         {
           "id": "dt-028",
@@ -1108,18 +1108,18 @@
         },
         {
           "id": "dt-029",
-          "text": "Fotografi me familjen"
+          "text": "Foto me familje"
         },
         {
           "id": "dt-030",
-          "text": "Dhurata për fëmijët"
+          "text": "Dhurata për fmi"
         }
       ]
     },
     {
       "id": "femijeria",
       "title": "Fëmijëria",
-      "description": "Nostalgji e viteve ’90 dhe 2000 – lojëra, shkolla dhe ëmbëlsira.",
+      "description": "Nostalgji e viteve ’90 e 2000 – lojna, shkolla e ëmbëlsira.",
       "icon_name": "gamecontroller",
       "difficulty": 1,
       "is_pro": false,
@@ -1138,7 +1138,7 @@
         },
         {
           "id": "fe-004",
-          "text": "Bicikleta BMX"
+          "text": "Biçikleta BMX"
         },
         {
           "id": "fe-005",
@@ -1166,11 +1166,11 @@
         },
         {
           "id": "fe-011",
-          "text": "Ora e edukatës fizike"
+          "text": "Ora e fizkulturës"
         },
         {
           "id": "fe-012",
-          "text": "Kasetat VHS"
+          "text": "Videokasetat"
         },
         {
           "id": "fe-013",
@@ -1198,19 +1198,19 @@
         },
         {
           "id": "fe-019",
-          "text": "Ujitja e bahçes"
+          "text": "Me ujit bahçen"
         },
         {
           "id": "fe-020",
-          "text": "Autobusi për në shkollë"
+          "text": "Autobusi për n’shkollë"
         },
         {
           "id": "fe-021",
-          "text": "Detyrat e shtëpisë"
+          "text": "Detyrat e shpisë"
         },
         {
           "id": "fe-022",
-          "text": "Gomat e fshirjes me erë"
+          "text": "Gomat me erë"
         },
         {
           "id": "fe-023",
@@ -1218,7 +1218,7 @@
         },
         {
           "id": "fe-024",
-          "text": "Lojërat në rrugë"
+          "text": "Lojnat n’rrugë"
         },
         {
           "id": "fe-025",
@@ -1228,27 +1228,27 @@
     },
     {
       "id": "nena-shqiptare",
-      "title": "Nëna shqiptare",
-      "description": "Fjalët dhe zakonet që i njeh çdo fëmijë shqiptar.",
+      "title": "Nana shqiptare",
+      "description": "Fjalët që i ka ndi çdo fmi shqiptar.",
       "icon_name": "house",
       "difficulty": 1,
       "is_pro": false,
       "cards": [
         {
           "id": "ns-001",
-          "text": "Vish xhaketën"
+          "text": "Vishe jaknën!"
         },
         {
           "id": "ns-002",
-          "text": "Ke ngrënë?"
+          "text": "A ke hangër?"
         },
         {
           "id": "ns-003",
-          "text": "Mos rri para kompjuterit"
+          "text": "Mos rri te kompjuteri"
         },
         {
           "id": "ns-004",
-          "text": "Papuçet e nënës"
+          "text": "Papuçet e nanës"
         },
         {
           "id": "ns-005",
@@ -1256,23 +1256,23 @@
         },
         {
           "id": "ns-006",
-          "text": "Ruaje qesen"
+          "text": "Ruje qesen"
         },
         {
           "id": "ns-007",
-          "text": "Mbylle derën"
+          "text": "Mshele derën"
         },
         {
           "id": "ns-008",
-          "text": "Ku ishe?"
+          "text": "Ku ke kanë?"
         },
         {
           "id": "ns-009",
-          "text": "Hajde në shtëpi"
+          "text": "Hajde n’shpi"
         },
         {
           "id": "ns-010",
-          "text": "Ftohja nga dritarja"
+          "text": "Rryma prej penxheres"
         },
         {
           "id": "ns-011",
@@ -1280,7 +1280,7 @@
         },
         {
           "id": "ns-012",
-          "text": "Rakia si ilaç"
+          "text": "Rakia si barnë"
         },
         {
           "id": "ns-013",
@@ -1288,18 +1288,18 @@
         },
         {
           "id": "ns-014",
-          "text": "Telefonata në orën 7"
+          "text": "Telefonata n’ora 7"
         },
         {
           "id": "ns-015",
-          "text": "Kush është ai/ajo?"
+          "text": "Kush o ai/ajo?"
         }
       ]
     },
     {
       "id": "historia",
       "title": "Historia",
-      "description": "Nga Ilirët te Pavarësia – sa mirë e njeh të kaluarën?",
+      "description": "Prej Ilirëve te Pavarësia – sa mirë e njeh historinë?",
       "icon_name": "scroll",
       "difficulty": 2,
       "is_pro": false,
@@ -1441,7 +1441,7 @@
     {
       "id": "politike",
       "title": "Politikë",
-      "description": "Skandale, premtime dhe 'Të fala Parisit'!",
+      "description": "Skandale, premtime e zgjedhje!",
       "icon_name": "building.columns",
       "difficulty": 2,
       "is_pro": false,
@@ -1496,7 +1496,7 @@
         },
         {
           "id": "po-013",
-          "text": "Fushata Zgjedhore"
+          "text": "Fushata zgjedhore"
         },
         {
           "id": "po-014",
@@ -1564,7 +1564,7 @@
         },
         {
           "id": "po-030",
-          "text": "Kryetari i Komunës"
+          "text": "Kryetari i komunës"
         },
         {
           "id": "po-031",
@@ -1584,7 +1584,7 @@
         },
         {
           "id": "po-035",
-          "text": "Sherri në Parlament"
+          "text": "Sherri n’Kuvend"
         }
       ]
     }
