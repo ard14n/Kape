@@ -15,6 +15,7 @@ struct GameScreen: View {
     
     /// Handle exit navigation
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.scenePhase) private var scenePhase
     
     /// Track the previous action to detect changes for flash
     @State private var previousAction: GameEngine.ActionTrigger?
@@ -69,6 +70,24 @@ struct GameScreen: View {
                 finishedView
             }
         }
+        .safeAreaInset(edge: .top, alignment: .leading, spacing: 0) {
+            if engine.gameState == .calibrating || engine.gameState == .buffer {
+                Button {
+                    engine.stop()
+                    dismiss()
+                } label: {
+                    Label("Kthehu", systemImage: "chevron.left")
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(.white)
+                        .padding(12)
+                        .background(.black.opacity(0.75), in: Capsule())
+                }
+                .accessibilityIdentifier("ExitCalibrationButton")
+                .padding(8)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color.trueBlack)
+            }
+        }
         .statusBarHidden()
         .persistentSystemOverlays(.hidden)
         .accessibilityElement(children: .contain)
@@ -86,13 +105,15 @@ struct GameScreen: View {
                 UIDevice.current.setValue(UIInterfaceOrientation.landscapeLeft.rawValue, forKey: "orientation")
             }
             
-            // Start motion monitoring for calibration
-            Task { @MainActor in
-                await Task.yield()
-                engine.motionManager.startMonitoring()
-            }
+        }
+        .task {
+            engine.motionManager.startMonitoring()
+        }
+        .onChange(of: scenePhase) { _, phase in
+            engine.handleScenePhase(phase)
         }
         .onDisappear {
+            engine.stop()
             // Restore all orientations when leaving game screen
             AppDelegate.orientationLock = .all
         }

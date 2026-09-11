@@ -48,29 +48,27 @@ final class GameEngine: Identifiable {
     
     // Internal
     private var gameTask: Task<Void, Never>?
+    private var roundHasStarted = false
     
     // MARK: - Initialization
     
     init(motionManager: MotionManager, 
          audioService: AudioServiceProtocol, 
          hapticService: HapticServiceProtocol,
-         configuration: Configuration = Configuration()) {
+         configuration: Configuration? = nil) {
         self.motionManager = motionManager
         self.audioService = audioService
         self.hapticService = hapticService
-        self.configuration = configuration
+        self.configuration = configuration ?? Configuration()
     }
-    
-    // MARK: - Cleanup
-    
-    // Note: deinit cannot access MainActor-isolated properties.
-    // Task auto-cancels when GameEngine is deallocated.
-    // Call cleanup() explicitly before releasing if needed.
     
     // MARK: - Game Logic
     
     func startRound(with deck: Deck) {
         gameTask?.cancel()
+        motionManager.prepareForNewRound()
+        result = nil
+        roundHasStarted = false
         currentRound = GameRound(deck: deck, timeRemaining: configuration.gameDuration)
         gameState = .calibrating // Start with calibration instead of buffer
         bufferCount = Int(configuration.bufferDuration)
@@ -83,7 +81,7 @@ final class GameEngine: Identifiable {
     /// Called when calibration is complete and device is properly positioned
     func onCalibrationComplete() {
         guard gameState == .calibrating else { return }
-        gameState = .buffer
+        gameState = roundHasStarted ? .playing : .buffer
     }
     
     /// Starts the active game loop (Buffer -> Playing).
@@ -99,12 +97,12 @@ final class GameEngine: Identifiable {
     
     private func runGameLoop() async {
         // Buffer Phase: Count down explicitly
-        while bufferCount > 0 {
+        while bufferCount > 0 || gameState != .buffer {
             try? await Task.sleep(nanoseconds: 1_000_000_000) // 1 sec
             guard !Task.isCancelled else { return }
             
             // Decrement (if >0)
-            if bufferCount > 0 {
+            if gameState == .buffer && bufferCount > 0 {
                 bufferCount -= 1
             }
         }
@@ -115,6 +113,8 @@ final class GameEngine: Identifiable {
     }
     
     private func startGameplay() async {
+        let events = motionManager.beginInputStream()
+        roundHasStarted = true
         gameState = .playing
         motionManager.startMonitoring()
         
@@ -123,7 +123,7 @@ final class GameEngine: Identifiable {
         await withTaskGroup(of: Void.self) { group in
             // 1. Input Listener Loop
             group.addTask { @MainActor in
-                for await event in self.motionManager.eventStream {
+                for await event in events {
                     guard !Task.isCancelled else { break }
                     self.handleInput(event)
                 }
@@ -134,7 +134,7 @@ final class GameEngine: Identifiable {
             var warningTriggered = false
             var lastTick = Date.now
             
-            while await (currentRound?.timeRemaining ?? 0) > 0 {
+            while (currentRound?.timeRemaining ?? 0) > 0 {
                  try? await Task.sleep(nanoseconds: UInt64(tick * 1_000_000_000))
                  
                  let now = Date.now
@@ -142,7 +142,7 @@ final class GameEngine: Identifiable {
                  if Task.isCancelled { break }
                  
                  // Pause Check
-                 if gameState == .paused { 
+                 if gameState != .playing {
                      lastTick = now // Advance lastTick so we don't count paused time
                      continue 
                  }
@@ -169,6 +169,7 @@ final class GameEngine: Identifiable {
             group.cancelAll()
         }
         
+        guard !Task.isCancelled else { return }
         finishGame()
     }
     
@@ -196,6 +197,7 @@ final class GameEngine: Identifiable {
         }
         
         currentRound = round
+        if round.currentCard == nil { finishGame() }
     }
     
     private func nextCard(in round: inout GameRound) {
@@ -203,52 +205,43 @@ final class GameEngine: Identifiable {
             round.currentCard = next
         } else {
             round.currentCard = nil
-            // Deck empty -> Finish early?
-            // User requirement: "follow a structured 60-second timer"
-            // Usually in Charades, if deck ends, game ends.
-            // We will trigger finish via task cancellation or checking in loop.
-            // For now, setting currentCard nil stops input. The loop will process time or we can force finish.
-            // Let's force finish to be responsive.
-            Task { @MainActor in 
-                self.finishGame() 
-            }
+
         }
     }
     
     // MARK: - Lifecycle
     
     func pause() {
-        guard gameState == .playing else { return }
+        guard gameState == .playing || gameState == .buffer || gameState == .calibrating else { return }
         gameState = .paused
         motionManager.stopMonitoring()
     }
     
     func resume() {
         guard gameState == .paused else { return }
-        gameState = .playing
+        // The phone may have moved during the interruption. Capture a fresh neutral position.
+        gameState = .calibrating
         motionManager.startMonitoring()
-        // Reset lastTick to avoid jumping time
-        // Note: The loop updates lastTick in paused state, so it should be fine.
     }
-    
+
     func handleScenePhase(_ phase: ScenePhase) {
         switch phase {
         case .background, .inactive:
-            if gameState == .playing {
-                pause()
-            }
+            pause()
         default:
             break
         }
     }
     
     func finishGame() {
+        guard gameState != .finished && gameState != .idle else { return }
         // Compute result before finishing
         if let round = currentRound {
             result = GameResult.from(round)
         }
         
-        gameTask?.cancel() 
+        gameTask?.cancel()
+        gameTask = nil
         motionManager.stopMonitoring()
         gameState = .finished
         
@@ -256,4 +249,13 @@ final class GameEngine: Identifiable {
             onGameComplete?(score)
         }
     }
+
+    /// Ends a dismissed view's work without publishing a result or a tournament callback.
+    func stop() {
+        gameTask?.cancel()
+        gameTask = nil
+        motionManager.stopMonitoring()
+        if gameState != .finished { gameState = .idle }
+    }
+
 }

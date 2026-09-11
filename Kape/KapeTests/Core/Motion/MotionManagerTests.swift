@@ -1,6 +1,7 @@
 import XCTest
 @testable import Kape
 
+@MainActor
 final class MotionManagerTests: XCTestCase {
     
     var manager: MotionManager!
@@ -12,26 +13,19 @@ final class MotionManagerTests: XCTestCase {
     // MARK: - Calibration Tests
     
     func testCalibrationCapturesBaseline() async {
-        // GIVEN: A manager at neutral state
-        XCTAssertEqual(manager.state, .neutral)
-        
-        // WHEN: We simulate a weird starting position (e.g. lying down, Z = 0.5)
-        // Note: processGravityZ sets liveGravityZ AND processes it, but calibrate() uses CMMotionManager which we can't easily mock here without protocol.
-        // CHECK: MotionManager code shows calibrate() reads `motionManager.deviceMotion`.
-        // ISSUE: We cannot test `calibrate()` without mocking CMMotionManager or refactoring `calibrate` to accept a value.
-        // FIX: I should refactor `calibrate()` to set baselineZ directly if I want to test it pure, OR expose `setBaselineZ` for testing.
-        // Let's assume for this test we can set it via a workaround or refactor content first.
-        
-        // Actually, looking at the code I wrote:
-        // func calibrate() { guard let motion = ...; self.baselineZ = motion.gravity.z }
-        // This is hard dependency.
-        
-        // STRATEGY update: I will refactor MotionManager to allow injecting baseline or setting it for testability,
-        // OR I will test "processGravityZ" assuming baseline is 0 (default).
-        
-        // Let's test the logic logic first (assuming baseline 0).
+        let provider = TestMotionProvider()
+        let motion = MotionManager(motionProvider: provider)
+        motion.startMonitoring()
+        provider.emit(0.15)
+        XCTAssertTrue(motion.validatePosition())
+        motion.calibrate()
+        provider.emit(0.90) // Only 0.75 radians from baseline: no score.
+        XCTAssertEqual(motion.state, .neutral)
+        provider.emit(1.0)
+        XCTAssertEqual(motion.state, .triggered(.correct))
+        motion.stopMonitoring()
     }
-    
+
     func testTriggerCorrectLowScreen() {
         // GIVEN: Baseline 0.0 (Vertical)
         // Threshold is 0.785 (approx 45 degrees)
@@ -44,6 +38,7 @@ final class MotionManagerTests: XCTestCase {
             for await event in manager.eventStream {
                 events.append(event)
                 exp.fulfill()
+                break
             }
         }
         
@@ -71,6 +66,7 @@ final class MotionManagerTests: XCTestCase {
             for await event in manager.eventStream {
                 events.append(event)
                 exp.fulfill()
+                break
             }
         }
         

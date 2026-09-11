@@ -1,225 +1,75 @@
 # Kape! 🇦🇱
 
-A viral iOS party game designed for the Albanian diaspora - culturally adapted motion-controlled charades with authentic Albanian content.
+An Albanian-language party game: act out or explain a secret word while everyone else guesses. Read it privately, hide it and put the phone down.
 
-## Overview
+## Playing
 
-**Kape!** (Albanian slang for "Got it!") is a fast-paced party game that brings the popular "Heads Up!"-style gameplay to the Albanian community with culturally relevant content. Players hold their iPhone to their forehead while friends give clues - tilt down for correct guesses, tilt up to pass.
+1. Choose a category and a play style, then **Luaj së bashku** (play together) or **Turne me pikë** (tournament).
+2. Pass the phone to the next performer. **Shiko fjalën** reveals their word privately.
+3. **Gati – fshihe fjalën** hides it and gives three seconds to put the phone down.
+4. Act out or explain the word according to the selected rule, for up to 60 seconds. Mark **U gjet** (guessed) or **Nuk u gjet** (not guessed).
+5. Correct the result if necessary, then pass the phone to the next person.
 
-### Key Features
+The introductory instructions are available again from the question-mark button. The app uses a warm coral palette, follows the phone's light/dark appearance and supports an explicit appearance preference. iPhone play uses portrait orientation.
 
-- 🎮 **Motion-Controlled Gameplay** - Tilt mechanics using CoreMotion sensor fusion
-- 🇦🇱 **Authentic Albanian Content** - Cultural references, inside jokes, and diaspora experiences
-- 🎨 **Neon Dark UI** - High-energy design with Albanian youth slang
-- 🔊 **Haptic & Audio Feedback** - Immersive feedback system with <50ms latency
-- 🏆 **Tournament Mode** - Multi-player competitive gameplay
-- 💎 **VIP Content** - Premium decks available via in-app purchase
-- 🔒 **Privacy First** - Fully offline, no data collection
+## Play styles
 
-## Project Structure
+Choose one rule for the whole game. It applies to everyone, including in tournaments:
 
-```
-Kape/
-├── Kape/                          # Main app source
-│   ├── Core/                      # Core systems
-│   │   ├── Audio/                 # Audio service (success.wav, pass.wav, warning.wav)
-│   │   ├── Haptics/              # Haptic feedback service
-│   │   ├── Motion/               # Motion detection (tilt gestures)
-│   │   ├── DesignSystem/         # Colors, components, modifiers
-│   │   └── Store/                # In-app purchase integration
-│   ├── Features/                  # Feature modules
-│   │   ├── Game/                 # Main gameplay (GameScreen, DeckBrowser)
-│   │   ├── Tournament/           # Tournament mode
-│   │   ├── Summary/              # Result screen with share functionality
-│   │   ├── Store/                # Purchase flow
-│   │   └── Settings/             # App settings
-│   └── Data/                      # Data layer
-│       ├── Models/               # Deck, Card, GameResult
-│       ├── Services/             # DeckService, StoreService
-│       └── Resources/            # decks.json, sound files
-├── KapeTests/                     # Unit tests
-├── KapeUITests/                   # UI automation tests
-└── _bmad-output/                  # Project documentation
-    ├── planning-artifacts/        # PRD, architecture, UX specs
-    └── implementation-artifacts/  # Technical documentation
-```
+- **Zgjedhje e lirë — Free choice** (default): choose gestures or explanation for each word, without another screen or button.
+- **Pantomimë — Pantomime:** gestures only, without speech or sounds.
+- **Shpjegim — Explanation:** describe the word without saying it or parts of it.
 
-## Decks
+The selected rule appears during handoff, private reading and play. A game keeps its rule when paused or restored. Older saved games without a play-style field retain pantomime; newly started games use the selected preference. The updated introduction is shown once and can always be reopened.
 
-### Free Decks
-- **Mix Shqip** 🌟 - General Albanian culture (food, music, cities, celebrities)
-- **Gurbet** ✈️ - Diaspora life experiences (work abroad, visas, homesickness)
+## Modes and scoring
 
-### VIP Decks (In-App Purchase)
-- **Muzikë** 🎵 - Albanian music (from tallava to pop)
+- **Together:** take turns, collect one group point per guessed word, and finish when the group wants.
+- **Tournament:** 2–5 people, with 1, 3 or 5 turns each. Each turn has one word. The performer gets one point when the group guesses, otherwise zero. There are no speed bonuses or negative points. Equal scores share a rank.
+- A result can be changed until advancing to the next turn. Repeated taps do not add points.
+- Unknown words can be replaced before starting the timer. They consume no turn and do not reappear in that game.
+- If the word pool runs out before all tournament turns, the game explicitly reports an incomplete tournament without declaring a winner.
 
-## Technical Details
+## Categories
 
-### Requirements
-- **Platform:** iOS 17.0+
-- **Language:** Swift 5.0
-- **Framework:** SwiftUI
-- **Architecture:** MVVM with feature-based organization
+The free **Për të filluar** starter contains 64 actions, animals and everyday activities. The seven themed categories hold 302 words: Mix Shqip, Gurbet, Muzikë, Sport, Humor & TV, Historia, Politikë. The September 2026 content revision replaced 27 outdated, duplicate or mislabeled cards, corrected two card texts and added 36 current cards across all categories; card IDs of retained cards are unchanged. All eight categories are free and can be used with any play style. The current TestFlight gameplay was accepted by a real group, as confirmed by the owner on 5 September 2026.
 
-### Key Technologies
-- **CoreMotion** - Sensor fusion for tilt detection with debounce logic
-- **AVFoundation** - Audio playback with .ambient session
-- **StoreKit 2** - Modern in-app purchases
-- **CoreHaptics** - Tactile feedback
-- **SwiftData** - Tournament persistence
+## Free release and saved games
 
-### Design System
-```swift
-// Colors
-Color.trueBlack          // #000000 - Pure black background
-Color.neonGreen          // #39FF14 - Success actions
-Color.neonRed            // #FF003F - Warnings/Pass
-Color.neonBlue           // #00FFFF - Accents
+The first public release has no purchases, subscription or advertising. The active Charades flow does not initialize StoreKit or check entitlements. Legacy store code and its regression tests remain unconnected; old saved games with a paid-category flag remain readable and playable.
 
-// Components
-KapeCard                 // Card display with neon glow
-NeonButton               // Primary action buttons
-VibeBackground           // Animated gradient backgrounds
+Game content is bundled. A current game is stored locally, including completed results and the paused turn. Leaving the app pauses the timer and hides private content; resuming requires a tap. The app-switcher cover is synchronous UIKit UI. The display stays awake only during countdown and acting. Settings provide sound, appearance, help and privacy links.
+
+Store/account, privacy/support disclosures, real-device behavior and distribution are separate release checks. A simulator pass is not a real StoreKit purchase or App Store approval.
+
+## Privacy declaration
+
+`Kape/Kape/PrivacyInfo.xcprivacy` declares app-local UserDefaults storage (CA92.1) and monotonic timer calculations using systemUptime (35F9.1). The release bundle includes the manifest. It declares no developer data collection or tracking for the current implementation. Reassess these declarations if networking, SDKs or data processing change. A public privacy policy and an accessible in-app link remain separate App Store requirements.
+
+## Development
+
+- iOS 17+, SwiftUI, Observation, AVFoundation.
+- Development checks used Xcode 26.5, Swift language mode 5. The shared `Kape` scheme includes both test targets and archives in Release configuration.
+- App Store archives require a supported **released macOS and Xcode combination**. Xcode 26.5 on macOS 27 beta produced build 18, which Apple rejected with ITMS-90111 despite successful upload and initial review submission. Do not submit archives from that host or edit their build-provenance metadata.
+- The prepared replacement uses Xcode Cloud with Xcode 26.6 (17F113) on macOS 26.6.2 (25G83), App Store distribution preparation, and a fresh build number starting at 19. Verify the actual source commit, tests, archive metadata and App Store processing before claiming acceptance. Preparation is not a completed replacement build.
+- `Kape/Kape/Features/Charades/` owns the current UI and testable session state machine.
+- `ContentView` starts `CharadesHomeView`; there is no motion/forehead mode in navigation.
+- Legacy Game, Tournament, Summary and neon components remain as unconnected code with regression tests. Removing that legacy code is a separate cleanup.
+- Original audio and haptic services are reused; legacy Store services are not connected to the current UI.
+
+```sh
+xcodebuild -project Kape/Kape.xcodeproj -scheme Kape \
+  -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
+
+xcodebuild -project Kape/Kape.xcodeproj -scheme Kape \
+  -destination 'platform=iOS Simulator,id=YOUR_SIMULATOR_UDID' \
+  -parallel-testing-enabled NO CODE_SIGNING_ALLOWED=NO test
 ```
 
-## Building the Project
+Use one simulator at a time. Required profiles: iPhone 17 Pro, iPhone 17 Pro Max and iPhone SE (3rd generation); include maximum Dynamic Type and light/dark appearance. The current UI suite is `CharadesUITests`. It replaces tests that navigated the removed motion flow. Existing business-logic tests remain, alongside `CharadesSessionTests` for privacy, timer, scoring, persistence and migration of formerly restricted categories.
 
-### Prerequisites
-```bash
-# Xcode 15.0 or later
-xcode-select --install
-```
+See [Implementation and QA](docs/PANTOMIME.md) for the current evidence and [earlier stabilization](docs/STABILISIERUNG.md) for the historical motion-based milestone.
 
-### Build & Run
-```bash
-# Clone the repository
-git clone https://github.com/ard14n/Kape.git
-cd Kape
+## Ownership
 
-# Open in Xcode
-open Kape/Kape.xcodeproj
-
-# Build and run (⌘R)
-# Or via command line:
-xcodebuild -project Kape/Kape.xcodeproj -scheme Kape -configuration Debug
-```
-
-### Testing
-```bash
-# Run unit tests
-xcodebuild test -project Kape/Kape.xcodeproj -scheme Kape -destination 'platform=iOS Simulator,name=iPhone 15'
-
-# Run UI tests
-xcodebuild test -project Kape/Kape.xcodeproj -scheme Kape -destination 'platform=iOS Simulator,name=iPhone 15' -only-testing:KapeUITests
-```
-
-## Game Mechanics
-
-### Motion Detection
-- **Correct (Tilt Down):** Roll delta > +0.785 rad (~45° tilt) = Success feedback + next card
-- **Pass (Tilt Up):** Roll delta < -0.785 rad (~45° tilt) = Pass feedback + next card
-- **Debounce:** Returns to neutral range (±0.20 rad / ~11.5°) before next trigger
-- **Auto-Calibration:** Captures baseline position at game start
-
-### Game Flow
-1. **Deck Selection** - Choose from available decks
-2. **Buffer (3-2-1)** - Countdown with haptic pulses
-3. **Gameplay (60s)** - Guess as many cards as possible
-4. **Warning (<10s)** - Red glow + pulsing timer + haptic pulses
-5. **Results** - Score display with share functionality
-
-### Tournament Mode
-- **4-player rounds** - Each player gets one turn
-- **Leaderboard** - Real-time rankings
-- **Persistence** - Resume interrupted tournaments
-
-## Store Integration
-
-### Products
-- **VIP Deck Bundle** (`com.kape.vip`) - $2.99
-  - Unlocks all premium decks
-  - Non-consumable purchase
-  - Restore purchases supported
-
-### Testing In-App Purchases
-Configure StoreKit testing in Xcode:
-1. Select `StoreKitConfiguration.storekit` in scheme settings
-2. Run app in simulator/device
-3. Test purchase flow without actual charges
-
-## Content Guidelines
-
-All cards follow cultural authenticity principles:
-- ✅ Recognizable within Albanian diaspora
-- ✅ Appropriate for family/friends contexts
-- ✅ Bilingual where natural (German loan words accepted)
-- ❌ No politics, religion, or offensive content
-
-## Localization
-
-Currently supports:
-- **Albanian** (Gheg/Kosovar dialect) - Primary UI language
-- Interface text uses colloquial Albanian ("Kape!", "Bishë", "Legjendë")
-
-## Accessibility
-
-- VoiceOver support with semantic labels
-- Reduced motion support (disable card transitions)
-- Dynamic Type for text scaling
-- Persistent system overlays hidden during gameplay
-
-## Performance
-
-- **Target:** 60 FPS during gameplay
-- **Audio Latency:** <50ms feedback response
-- **Motion Latency:** <100ms from tilt to action
-- **Memory:** <100MB typical usage
-
-## Privacy & Security
-
-- ✅ **No tracking** - Zero analytics or telemetry
-- ✅ **Offline-first** - All content bundled locally
-- ✅ **No accounts** - No sign-up required
-- ✅ **Secure purchases** - StoreKit 2 transaction validation
-
-## Contributing
-
-This is a personal project by [@ard14n](https://github.com/ard14n). While not actively seeking external contributions, bug reports and feedback are welcome via GitHub Issues.
-
-### Reporting Issues
-Please include:
-- iOS version
-- Device model
-- Steps to reproduce
-- Expected vs actual behavior
-
-## License
-
-All rights reserved. This is proprietary software.
-
-## Credits
-
-**Developer:** Ardian Jahja ([@ard14n](https://github.com/ard14n))  
-**Created:** January 2026
-
-### Acknowledgments
-- Sound effects: Custom recordings
-- Design inspiration: Albanian diaspora culture
-- Special thanks to the Albanian community for cultural validation
-
-## Roadmap
-
-### Planned Features
-- [ ] Additional VIP decks (Movies, Sports, Albanian Celebrities)
-- [ ] Social share enhancements (Instagram Stories, TikTok)
-- [ ] Multiplayer modes (Pass & Play enhancements)
-- [ ] Custom deck creation
-- [ ] Statistics tracking (personal records)
-
-### Known Issues
-See [GitHub Issues](https://github.com/ard14n/Kape/issues) for current bugs and feature requests.
-
----
-
-**Made with ❤️ for the Albanian diaspora** 🇦🇱
-
+Personal project by Ardian Jahja ([@ard14n](https://github.com/ard14n)), created January 2026. All rights reserved; proprietary software. Feedback can be reported through [GitHub Issues](https://github.com/ard14n/Kape/issues).

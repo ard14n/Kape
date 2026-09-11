@@ -44,6 +44,7 @@ final class GameEngineTests: XCTestCase {
         let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic)
         let deck = DeckFactory.make()
         
+        defer { engine.stop() }
         engine.startRound(with: deck)
         
         // Immediate state should be calibrating (before buffer)
@@ -72,6 +73,7 @@ final class GameEngineTests: XCTestCase {
             CardFactory.make(text: "B")
         ])
         
+        defer { engine.stop() }
         engine.startRound(with: deck)
         
         // Complete calibration and start game
@@ -115,6 +117,7 @@ final class GameEngineTests: XCTestCase {
         let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic, configuration: config)
         let deck = DeckFactory.make()
         
+        defer { engine.stop() }
         engine.startRound(with: deck)
         
         // Complete calibration and start game
@@ -139,6 +142,8 @@ final class GameEngineTests: XCTestCase {
         
         // Resume
         engine.resume()
+        XCTAssertEqual(engine.gameState, .calibrating)
+        engine.onCalibrationComplete()
         XCTAssertEqual(engine.gameState, .playing)
         
         // Wait 0.5s
@@ -157,6 +162,7 @@ final class GameEngineTests: XCTestCase {
         let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic, configuration: config)
         let deck = DeckFactory.make()
         
+        defer { engine.stop() }
         engine.startRound(with: deck)
         
         // Complete calibration and start game
@@ -179,6 +185,7 @@ final class GameEngineTests: XCTestCase {
         let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic, configuration: config)
         let deck = DeckFactory.make()
         
+        defer { engine.stop() }
         engine.startRound(with: deck)
         
         // Complete calibration and start game
@@ -203,6 +210,7 @@ final class GameEngineTests: XCTestCase {
         let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic, configuration: config)
         let deck = DeckFactory.make()
         
+        defer { engine.stop() }
         engine.startRound(with: deck)
         
         // Complete calibration and start game
@@ -228,6 +236,8 @@ final class GameEngineTests: XCTestCase {
         
         // Manual resume
         engine.resume()
+        XCTAssertEqual(engine.gameState, .calibrating)
+        engine.onCalibrationComplete()
         XCTAssertEqual(engine.gameState, .playing)
     }
     func testGameCompletion_GeneratesResult() async {
@@ -239,6 +249,7 @@ final class GameEngineTests: XCTestCase {
         let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic, configuration: config)
         let deck = DeckFactory.make()
         
+        defer { engine.stop() }
         engine.startRound(with: deck)
         
         // Complete calibration and start game
@@ -273,6 +284,7 @@ final class GameEngineTests: XCTestCase {
         let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic, configuration: config)
         let deck = DeckFactory.make()
         
+        defer { engine.stop() }
         engine.startRound(with: deck)
         
         // Complete calibration and start game
@@ -318,6 +330,7 @@ final class GameEngineTests: XCTestCase {
         let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic, configuration: config)
         let deck = DeckFactory.make()
         
+        defer { engine.stop() }
         engine.startRound(with: deck)
         
         // Complete calibration and start game
@@ -345,6 +358,7 @@ final class GameEngineTests: XCTestCase {
         let deck = DeckFactory.make()
         
         // WHEN: Starting a round
+        defer { engine.stop() }
         engine.startRound(with: deck)
         
         // THEN: Game should be in calibrating state
@@ -359,6 +373,7 @@ final class GameEngineTests: XCTestCase {
         let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic)
         let deck = DeckFactory.make()
         
+        defer { engine.stop() }
         engine.startRound(with: deck)
         XCTAssertEqual(engine.gameState, .calibrating)
         
@@ -378,6 +393,7 @@ final class GameEngineTests: XCTestCase {
         let engine = GameEngine(motionManager: motion, audioService: audio, hapticService: haptic, configuration: config)
         let deck = DeckFactory.make()
         
+        defer { engine.stop() }
         engine.startRound(with: deck)
         XCTAssertEqual(engine.gameState, .calibrating)
         

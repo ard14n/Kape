@@ -8,7 +8,10 @@ import SwiftUI
 /// - Implements a strict State Machine to Debounce inputs and prevent accidental triggers.
 /// - Uses Auto-Calibration to capture baseline position when gameplay starts.
 @Observable
+@MainActor
 final class MotionManager {
+    // Avoid the implicit isolated-deinit back-deployment bug (swiftlang/swift#88036).
+    nonisolated deinit {}
     // MARK: - Constants
     
     /// Threshold in Radians (approx 45 degrees)
@@ -47,16 +50,16 @@ final class MotionManager {
     
     // MARK: - Properties
     
-    private let motionManager = CMMotionManager()
+    private let motionProvider: MotionProviding
     
     /// Current state of the motion detection logic.
     private(set) var state: MotionState = .neutral
     
-    /// Current Roll value (for Debugging).
-    private(set) var liveRoll: Double = 0.0
+    /// Current screen tilt angle (for Debugging).
+    private(set) var liveTilt: Double = 0.0
     
-    /// The captured baseline Roll value when gameplay starts.
-    private var baselineRoll: Double = 0.0
+    /// The captured baseline tilt angle when gameplay starts.
+    private var baselineTilt: Double = 0.0
     
     /// Flag to ensure we don't process inputs before calibration.
     private var isCalibrated: Bool = false
@@ -68,8 +71,8 @@ final class MotionManager {
     private let positionTolerance: Double = 0.26
     
     /// Stream of game events.
-    private let eventContinuation: AsyncStream<GameInputEvent>.Continuation
-    let eventStream: AsyncStream<GameInputEvent>
+    private var eventContinuation: AsyncStream<GameInputEvent>.Continuation
+    private(set) var eventStream: AsyncStream<GameInputEvent>
     
     /// Stream of errors.
     private let errorContinuation: AsyncStream<MotionError>.Continuation
@@ -79,7 +82,8 @@ final class MotionManager {
     
     // MARK: - Initialization
     
-    init() {
+    init(motionProvider: MotionProviding? = nil) {
+        self.motionProvider = motionProvider ?? DeviceMotionProvider()
         var eventStreamContinuation: AsyncStream<GameInputEvent>.Continuation!
         self.eventStream = AsyncStream { eventStreamContinuation = $0 }
         self.eventContinuation = eventStreamContinuation
@@ -94,7 +98,7 @@ final class MotionManager {
     func startMonitoring() {
         guard !isMonitoring else { return }
         
-        guard motionManager.isDeviceMotionAvailable else {
+        guard motionProvider.isAvailable else {
             errorContinuation.yield(.notAvailable)
             return
         }
@@ -104,12 +108,9 @@ final class MotionManager {
         isCalibrated = false
         state = .neutral
         
-        motionManager.deviceMotionUpdateInterval = 1.0 / 60.0 // 60Hz
-        
-        // Start updates with a specific reference frame for better stability
-        motionManager.startDeviceMotionUpdates(using: .xArbitraryZVertical, to: .main) { [weak self] motion, error in
-            guard let self = self else { return }
-            
+        motionProvider.start { [weak self] sample, error in
+            guard let self else { return }
+
             if let error = error {
                 if (error as NSError).code == Int(CMErrorMotionActivityNotAuthorized.rawValue) {
                      self.errorContinuation.yield(.permissionDenied)
@@ -119,19 +120,18 @@ final class MotionManager {
                 return
             }
             
-            guard let motion = motion else { return }
-            self.processMotion(motion)
+            guard let sample, sample.isFinite else { return }
+            self.processTilt(sample.tilt)
         }
     }
     
     func stopMonitoring() {
-        guard isMonitoring else { return }
-        motionManager.stopDeviceMotionUpdates()
+        motionProvider.stop()
         isMonitoring = false
         state = .neutral
         isCalibrated = false
-        liveRoll = 0.0
-        baselineRoll = 0.0
+        liveTilt = 0.0
+        baselineTilt = 0.0
         calibrationState = .notStarted
     }
     
@@ -139,17 +139,20 @@ final class MotionManager {
     /// The device should be roughly vertical (on forehead) in landscape orientation.
     /// Returns true if position is valid, false otherwise.
     func validatePosition() -> Bool {
-        guard let motion = motionManager.deviceMotion else { 
+        validate(motionProvider.currentSample)
+    }
+
+    private func validate(_ sample: MotionSample?) -> Bool {
+        guard let sample, sample.isFinite else {
             calibrationState = .invalid(reason: "Sensor data unavailable")
             return false 
         }
         
         calibrationState = .checking
-        let roll = motion.attitude.roll
         
-        // Check if device is roughly upright (roll should be close to 0 when on forehead in landscape)
-        // Allow tolerance of ~15 degrees from vertical
-        if abs(roll) > positionTolerance {
+        // Device-fixed gravity axes work in both landscape orientations.
+        // Screen must be vertical, with the phone's long edge horizontal.
+        if abs(sample.tilt) > positionTolerance || abs(sample.y) > sin(positionTolerance) || abs(sample.x) < 0.9 {
             calibrationState = .invalid(reason: "Device not upright. Place phone on forehead in landscape.")
             return false
         }
@@ -160,24 +163,28 @@ final class MotionManager {
     
     /// Captures the current device attitude as the "Neutral" point.
     /// Should only be called after validatePosition() returns true.
-    func calibrate() {
-        guard let motion = motionManager.deviceMotion else { return }
-        // Use attitude.roll for longitudinal tilt in Landscape (Nodding)
-        self.baselineRoll = motion.attitude.roll
-        self.isCalibrated = true
-        self.calibrationState = .valid
+    @discardableResult
+    func calibrate() -> Bool {
+        let sample = motionProvider.currentSample
+        guard validate(sample), let sample else {
+            isCalibrated = false
+            return false
+        }
+        baselineTilt = sample.tilt
+        isCalibrated = true
+        state = .neutral
+        return true
     }
     
     // MARK: - Processing Logic
     
-    private func processMotion(_ motion: CMDeviceMotion) {
-        let roll = motion.attitude.roll
-        self.liveRoll = roll
+    private func processTilt(_ tilt: Double) {
+        self.liveTilt = tilt
         
         // Ignore inputs until calibrated
         guard isCalibrated else { return }
         
-        let delta = roll - baselineRoll
+        let delta = tilt - baselineTilt
         
         // 2. State Machine
         switch state {
@@ -207,39 +214,73 @@ final class MotionManager {
         eventContinuation.yield(event)
     }
     
+    /// A cancelled AsyncStream consumer terminates its stream. Each round needs a new channel.
+    func prepareForNewRound() {
+        stopMonitoring()
+        _ = beginInputStream()
+    }
+
+    /// Discards calibration/countdown events without losing inputs once gameplay starts.
+    func beginInputStream() -> AsyncStream<GameInputEvent> {
+        eventContinuation.finish()
+        state = .neutral
+        let channel = AsyncStream<GameInputEvent>.makeStream()
+        eventStream = channel.stream
+        eventContinuation = channel.continuation
+        return channel.stream
+    }
+
     // MARK: - Testing Support
-    
-    /// Testing-only method to simulate motion input by directly processing a roll delta value.
-    /// This bypasses CMMotionManager and calibration for unit testing purposes.
-    /// - Parameter rollValue: The simulated roll value in radians
+
+    /// Legacy test hook: injects a calibrated tilt angle in radians through the same production state machine.
     func processGravityZ(_ rollValue: Double) {
-        // For testing, treat rollValue as delta from baseline (baseline assumed 0)
-        let delta = rollValue
-        
-        // Temporarily mark as calibrated for testing
         let wasCalibrated = isCalibrated
+        let previousBaseline = baselineTilt
         isCalibrated = true
-        
-        // Process using same state machine logic
-        switch state {
-        case .neutral:
-            if delta > triggerThreshold {
-                trigger(.correct)
-            } else if delta < -triggerThreshold {
-                trigger(.pass)
+        baselineTilt = 0
+        processTilt(rollValue)
+        isCalibrated = wasCalibrated
+        baselineTilt = previousBaseline
+    }
+}
+
+/// Minimal sensor boundary: deterministic tests use the same calibration and input code as devices.
+@MainActor
+protocol MotionProviding {
+    var isAvailable: Bool { get }
+    var currentSample: MotionSample? { get }
+    func start(_ handler: @escaping @MainActor (MotionSample?, Error?) -> Void)
+    func stop()
+}
+
+final class DeviceMotionProvider: MotionProviding {
+    // Avoid the implicit isolated-deinit back-deployment bug (swiftlang/swift#88036).
+    nonisolated deinit {}
+    private let manager = CMMotionManager()
+    var isAvailable: Bool { manager.isDeviceMotionAvailable }
+    var currentSample: MotionSample? { manager.deviceMotion.map { MotionSample($0.gravity) } }
+
+    func start(_ handler: @escaping @MainActor (MotionSample?, Error?) -> Void) {
+        manager.deviceMotionUpdateInterval = 1.0 / 60.0
+        manager.startDeviceMotionUpdates(using: .xArbitraryZVertical, to: .main) { motion, error in
+            // CoreMotion delivers this closure on OperationQueue.main.
+            MainActor.assumeIsolated {
+                handler(motion.map { MotionSample($0.gravity) }, error)
             }
-            
-        case .triggered, .debouncing:
-            if abs(delta) < neutralThreshold {
-                state = .neutral
-            } else {
-                state = .debouncing
-            }
-        }
-        
-        // Restore calibration state
-        if !wasCalibrated {
-            isCalibrated = wasCalibrated
         }
     }
+
+    func stop() { manager.stopDeviceMotionUpdates() }
+}
+
+/// Gravity is measured in device-fixed axes; positive Z points out of the screen.
+/// Screen toward floor => positive tilt, toward ceiling => negative tilt.
+struct MotionSample: Equatable, Sendable {
+    let x: Double
+    let y: Double
+    let z: Double
+    init(x: Double, y: Double, z: Double) { self.x = x; self.y = y; self.z = z }
+    init(_ gravity: CMAcceleration) { self.init(x: gravity.x, y: gravity.y, z: gravity.z) }
+    var isFinite: Bool { x.isFinite && y.isFinite && z.isFinite }
+    var tilt: Double { asin(max(-1, min(1, z))) }
 }

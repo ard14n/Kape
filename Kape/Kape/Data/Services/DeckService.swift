@@ -4,6 +4,10 @@ import Combine
 /// Service responsible for loading and providing access to game decks.
 /// Uses `ObservableObject` for SwiftUI state management (replaced @Observable to fix physical device crash).
 final class DeckService: ObservableObject {
+    // Explicit nonisolated teardown avoids Swift isolated-deinit back-deployment crashes
+    // on iOS 26.2 and earlier (swiftlang/swift#88036); no actor state is accessed.
+    nonisolated deinit {}
+
     /// All available decks loaded from the bundle
     @Published private(set) var decks: [Deck] = []
     

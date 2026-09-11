@@ -11,23 +11,33 @@ actor StoreService: StoreServiceProtocol {
     
     private var products: [Product] = []
     
-    /// Stream continuation for transaction updates
-    private var transactionContinuation: AsyncStream<String>.Continuation?
-    
-    /// Task to keep the transaction listener alive
+    /// One buffered stream for the lifetime of the service and its single consumer.
+    nonisolated let transactionUpdates: AsyncStream<String>
+    private let transactionContinuation: AsyncStream<String>.Continuation
     private var transactionListenerTask: Task<Void, Never>?
-    
-    // MARK: - Initialization
-    
+
     init() {
-        // Start transaction listener immediately upon initialization
-        startTransactionListener()
+        let channel = AsyncStream<String>.makeStream(bufferingPolicy: .bufferingNewest(16))
+        transactionUpdates = channel.stream
+        transactionContinuation = channel.continuation
+        // Capture only the continuation: the service must not retain itself through this task.
+        transactionListenerTask = Task(priority: .background) { [continuation = channel.continuation] in
+            for await result in Transaction.updates {
+                guard !Task.isCancelled else { break }
+                if case .verified(let transaction) = result,
+                   transaction.productID == Self.vipProductId {
+                    continuation.yield(transaction.productID)
+                    await transaction.finish()
+                }
+            }
+        }
     }
-    
+
     deinit {
         transactionListenerTask?.cancel()
+        transactionContinuation.finish()
     }
-    
+
     // MARK: - Fetch Products
     
     func fetchProducts() async throws -> [KapeProduct] {
@@ -72,7 +82,7 @@ actor StoreService: StoreServiceProtocol {
                     await transaction.finish()
                     
                     // Notify listeners (UI) that a transaction occurred
-                    transactionContinuation?.yield(transaction.productID)
+                    transactionContinuation.yield(transaction.productID)
                     
                     return .success
                     
@@ -117,56 +127,6 @@ actor StoreService: StoreServiceProtocol {
             }
         }
         return false
-    }
-    
-    // MARK: - Transaction Updates Stream
-    
-    nonisolated var transactionUpdates: AsyncStream<String> {
-        AsyncStream { continuation in
-            // Capture the continuation. 
-            // Note: Since 'transactionContinuation' is actor-isolated, we need a way to set it.
-            // The simplified pattern in Dev Notes had a slight race/isolation issue.
-            // Proper way: Store it in the actor via a method or property.
-            // However, AsyncStream builder is synchronous.
-            // We'll use a property that we update. But since this prop is nonisolated computed...
-            // Fix: We need to set the actor's continuation.
-            
-            // Actually, best pattern: The actor *has* the stream.
-            // But strict Swift 6 actor isolation makes sharing the continuation hard.
-            // Let's use the Dev Notes pattern but fix isolation if needed.
-            // We'll call an async method to register the continuation? No, AsyncStream is pull or push.
-            
-            // Alternative: Return a new stream and merge?
-            // Simplest functional approach for Kape MVP:
-            // Just use a static/global broadcast or let the actor manage its own internal stream 
-            // and expose it.
-            
-            // To match the Protocol 'var transactionUpdates: AsyncStream<String>'
-            // We can't strictly share one stream for multiple listeners unless we use multicast.
-            // But StoreViewModel is the main listener.
-            
-            // Implementation:
-            Task {
-                await self.setContinuation(continuation)
-            }
-        }
-    }
-    
-    // Helper to escape isolation for setting continuation
-    private func setContinuation(_ continuation: AsyncStream<String>.Continuation) {
-        self.transactionContinuation = continuation
-    }
-    
-    private func startTransactionListener() {
-        transactionListenerTask = Task(priority: .background) {
-            for await result in Transaction.updates {
-                if case .verified(let transaction) = result {
-                    // Transaction updated (background, asking buy approved, etc.)
-                    await transaction.finish()
-                    transactionContinuation?.yield(transaction.productID)
-                }
-            }
-        }
     }
     
     // MARK: - Restore Purchases

@@ -207,6 +207,22 @@
         {
           "id": "ms-050",
           "text": "Mercedes 190"
+        },
+        {
+          "id": "ms-051",
+          "text": "Diella"
+        },
+        {
+          "id": "ms-052",
+          "text": "Sunny Hill Festival"
+        },
+        {
+          "id": "ms-053",
+          "text": "Lumi Vjosa"
+        },
+        {
+          "id": "ms-054",
+          "text": "Ndalimi i TikTok-ut"
         }
       ]
     },
@@ -280,7 +296,7 @@
         },
         {
           "id": "gb-016",
-          "text": "Deri në Shtator"
+          "text": "Autobusi për Kosovë"
         },
         {
           "id": "gb-017",
@@ -384,7 +400,7 @@
         },
         {
           "id": "gb-042",
-          "text": "Skype"
+          "text": "Vinjeta"
         },
         {
           "id": "gb-043",
@@ -417,6 +433,18 @@
         {
           "id": "gb-050",
           "text": "Diaspora"
+        },
+        {
+          "id": "gb-051",
+          "text": "Vlogu i pushimeve"
+        },
+        {
+          "id": "gb-052",
+          "text": "Kthimi për Bajram"
+        },
+        {
+          "id": "gb-053",
+          "text": "Yoyo"
         }
       ]
     },
@@ -426,7 +454,7 @@
       "description": "Nga tallava te pop – e gjithë muzika shqiptare!",
       "icon_name": "music.mic",
       "difficulty": 1,
-      "is_pro": true,
+      "is_pro": false,
       "cards": [
         {
           "id": "mz-001",
@@ -538,7 +566,7 @@
         },
         {
           "id": "mz-028",
-          "text": "BB Poqi"
+          "text": "Shkodra Elektronike"
         },
         {
           "id": "mz-029",
@@ -558,11 +586,11 @@
         },
         {
           "id": "mz-033",
-          "text": "Rina"
+          "text": "Leonora Jakupi"
         },
         {
           "id": "mz-034",
-          "text": "Melinda"
+          "text": "Nora Istrefi"
         },
         {
           "id": "mz-035",
@@ -618,7 +646,7 @@
         },
         {
           "id": "mz-048",
-          "text": "Këngë për Fëmijë"
+          "text": "Alis"
         },
         {
           "id": "mz-049",
@@ -627,6 +655,38 @@
         {
           "id": "mz-050",
           "text": "Motrat Mustafa"
+        },
+        {
+          "id": "mz-051",
+          "text": "Ervis Behari"
+        },
+        {
+          "id": "mz-052",
+          "text": "Fatima Ymeri"
+        },
+        {
+          "id": "mz-053",
+          "text": "Enca"
+        },
+        {
+          "id": "mz-054",
+          "text": "Olsi Bylyku"
+        },
+        {
+          "id": "mz-055",
+          "text": "Cllevio Serbiano"
+        },
+        {
+          "id": "mz-056",
+          "text": "Finem"
+        },
+        {
+          "id": "mz-057",
+          "text": "Irkenc Hyka"
+        },
+        {
+          "id": "mz-058",
+          "text": "Mateus Frroku"
         }
       ]
     },
@@ -680,7 +740,7 @@
         },
         {
           "id": "sp-011",
-          "text": "Intelektualët"
+          "text": "Edon Zhegrova"
         },
         {
           "id": "sp-012",
@@ -700,7 +760,7 @@
         },
         {
           "id": "sp-016",
-          "text": "Boks"
+          "text": "Fisnik Asllani"
         },
         {
           "id": "sp-017",
@@ -748,7 +808,7 @@
         },
         {
           "id": "sp-028",
-          "text": "Not"
+          "text": "Play-off i Botërorit"
         },
         {
           "id": "sp-029",
@@ -756,7 +816,23 @@
         },
         {
           "id": "sp-030",
-          "text": "Basketboll"
+          "text": "Festimi me shqiponjë"
+        },
+        {
+          "id": "sp-031",
+          "text": "Kristjan Asllani"
+        },
+        {
+          "id": "sp-032",
+          "text": "Berat Gjimshiti"
+        },
+        {
+          "id": "sp-033",
+          "text": "Euro 2024"
+        },
+        {
+          "id": "sp-034",
+          "text": "Arijanet Muric"
         }
       ]
     },
@@ -786,11 +862,11 @@
         },
         {
           "id": "hu-005",
-          "text": "Mahmutovitët"
+          "text": "Mahmutovitët dhe Rexhepovitët"
         },
         {
           "id": "hu-006",
-          "text": "Rexhepovitët"
+          "text": "Fiks Fare"
         },
         {
           "id": "hu-007",
@@ -802,19 +878,19 @@
         },
         {
           "id": "hu-009",
-          "text": "Leci"
+          "text": "Seriali turk"
         },
         {
           "id": "hu-010",
-          "text": "Qumili"
+          "text": "Stand-up"
         },
         {
           "id": "hu-011",
-          "text": "Batjar"
+          "text": "Zyra"
         },
         {
           "id": "hu-012",
-          "text": "Zonja e Vjetër"
+          "text": "Zonja nga qyteti"
         },
         {
           "id": "hu-013",
@@ -822,19 +898,19 @@
         },
         {
           "id": "hu-014",
-          "text": "Diamanti"
+          "text": "Kapedani"
         },
         {
           "id": "hu-015",
-          "text": "Zgjoi"
+          "text": "Pallati 176"
         },
         {
           "id": "hu-016",
-          "text": "Shok"
+          "text": "Reklamat"
         },
         {
           "id": "hu-017",
-          "text": "Martesa"
+          "text": "Telekomanda"
         },
         {
           "id": "hu-018",
@@ -842,7 +918,7 @@
         },
         {
           "id": "hu-019",
-          "text": "Luizi"
+          "text": "Kamera e fshehtë"
         },
         {
           "id": "hu-020",
@@ -874,7 +950,7 @@
         },
         {
           "id": "hu-027",
-          "text": "Gezuar 2024"
+          "text": "Programi i Vitit të Ri"
         },
         {
           "id": "hu-028",
@@ -887,6 +963,26 @@
         {
           "id": "hu-030",
           "text": "Oxygen"
+        },
+        {
+          "id": "hu-031",
+          "text": "Big Brother VIP Kosova"
+        },
+        {
+          "id": "hu-032",
+          "text": "Londrim Mekaj"
+        },
+        {
+          "id": "hu-033",
+          "text": "Bes Kallaku"
+        },
+        {
+          "id": "hu-034",
+          "text": "Salsano Rrapi"
+        },
+        {
+          "id": "hu-035",
+          "text": "Alaudin Hamiti"
         }
       ]
     },
@@ -912,7 +1008,7 @@
         },
         {
           "id": "hi-004",
-          "text": "Pavarësia (2008)"
+          "text": "Naim Frashëri"
         },
         {
           "id": "hi-005",
@@ -1017,6 +1113,18 @@
         {
           "id": "hi-030",
           "text": "Beteja e Kosovës"
+        },
+        {
+          "id": "hi-031",
+          "text": "Rexhep Qosja"
+        },
+        {
+          "id": "hi-032",
+          "text": "Fatos Nano"
+        },
+        {
+          "id": "hi-033",
+          "text": "Bujar Bukoshi"
         }
       ]
     },
@@ -1038,7 +1146,7 @@
         },
         {
           "id": "po-003",
-          "text": "Hashim Thaçi"
+          "text": "Njohjet ndërkombëtare"
         },
         {
           "id": "po-004",
@@ -1054,7 +1162,7 @@
         },
         {
           "id": "po-007",
-          "text": "Glauk Konjufca"
+          "text": "Zgjedhjet lokale"
         },
         {
           "id": "po-008",
@@ -1066,7 +1174,7 @@
         },
         {
           "id": "po-010",
-          "text": "Parlamenti"
+          "text": "Deputeti"
         },
         {
           "id": "po-011",
@@ -1090,7 +1198,7 @@
         },
         {
           "id": "po-016",
-          "text": "Vizat"
+          "text": "Koalicioni"
         },
         {
           "id": "po-017",
@@ -1126,11 +1234,11 @@
         },
         {
           "id": "po-025",
-          "text": "Lista Serbe"
+          "text": "Mocioni i mosbesimit"
         },
         {
           "id": "po-026",
-          "text": "Gazlots lotsjellës"
+          "text": "Gazi lotsjellës"
         },
         {
           "id": "po-027",
@@ -1147,6 +1255,26 @@
         {
           "id": "po-030",
           "text": "Kryetari i Komunës"
+        },
+        {
+          "id": "po-031",
+          "text": "Albulena Haxhiu"
+        },
+        {
+          "id": "po-032",
+          "text": "Vetëvendosje"
+        },
+        {
+          "id": "po-033",
+          "text": "Zgjedhjet e parakohshme"
+        },
+        {
+          "id": "po-034",
+          "text": "Vezët në Kuvend"
+        },
+        {
+          "id": "po-035",
+          "text": "Sherri në Parlament"
         }
       ]
     }

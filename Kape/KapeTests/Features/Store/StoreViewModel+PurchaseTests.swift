@@ -96,6 +96,7 @@ extension StoreViewModelPurchaseTests {
         // Then
         XCTAssertEqual(sut.purchaseState, .idle) // Resets to idle on pending
         XCTAssertNotNil(sut.alertMessage)
-        XCTAssertTrue(sut.alertMessage?.contains("pending") == true)
+        XCTAssertEqual(sut.alertMessage, "Blerja po pritet.")
+        XCTAssertFalse(sut.isVIPUnlocked, "Pending approval must not unlock paid content")
     }
 }

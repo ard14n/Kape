@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct DeckRowView: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     let deck: Deck
     let isSelected: Bool
     var isLocked: Bool = false
@@ -27,7 +28,8 @@ struct DeckRowView: View {
                 Text(deck.description)
                     .font(.caption)
                     .foregroundStyle(Color.textSecondary) // Story 5.1 AC1: High-contrast text
-                    .lineLimit(2)
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 2)
+                    .fixedSize(horizontal: false, vertical: true)
                     .multilineTextAlignment(.leading)
             }
             

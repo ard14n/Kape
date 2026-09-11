@@ -1,0 +1,85 @@
+import SwiftUI
+
+/// The rule for every turn in a session, independent of how points are counted.
+enum CharadesPlayStyle: String, Codable, CaseIterable, Identifiable {
+    case freeChoice, pantomime, explaining
+
+    var id: String { rawValue }
+    var title: String {
+        switch self {
+        case .freeChoice: "Zgjedhje e lirë"
+        case .pantomime: "Pantomimë"
+        case .explaining: "Shpjegim"
+        }
+    }
+    var symbol: String {
+        switch self {
+        case .freeChoice: "sparkles"
+        case .pantomime: "theatermasks"
+        case .explaining: "bubble.left.and.bubble.right"
+        }
+    }
+    var summary: String {
+        switch self {
+        case .freeChoice: "Pantomimë ose shpjegim – ti zgjedh për çdo fjalë."
+        case .pantomime: "Paraqite fjalën vetëm me gjeste, pa folur."
+        case .explaining: "Përshkruaje me fjalë, pa e thënë fjalën apo pjesë të saj."
+        }
+    }
+    var shortSummary: String {
+        switch self {
+        case .freeChoice: "Gjeste ose shpjegim."
+        case .pantomime: "Vetëm me gjeste."
+        case .explaining: "Përshkruaje me fjalë."
+        }
+    }
+    var rule: String {
+        switch self {
+        case .freeChoice: "Zgjidh gjeste pa folur ose shpjegim pa e thënë fjalën apo pjesë të saj."
+        case .pantomime: "Vetëm me gjeste. Mos fol dhe mos bëj tinguj."
+        case .explaining: "Shpjegoje pa e thënë fjalën apo pjesë të saj."
+        }
+    }
+    var action: String {
+        switch self {
+        case .freeChoice: "Ti zgjedh."
+        case .pantomime: "Luaj me gjeste."
+        case .explaining: "Shpjego."
+        }
+    }
+}
+
+struct CharadesStylePicker: View {
+    let selected: CharadesPlayStyle
+    var choose: (CharadesPlayStyle) -> Void
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            CharadesPage {
+                CharadesHeading(eyebrow: "Mënyra e lojës", title: "Si doni të luani?",
+                                detail: "Zgjidhni një rregull për të gjithë, për këtë lojë.")
+                ForEach(CharadesPlayStyle.allCases) { style in
+                    Button { choose(style) } label: {
+                        HStack(alignment: .top, spacing: 14) {
+                            Image(systemName: style.symbol).font(.system(size: 24, weight: .medium))
+                                .foregroundStyle(CharadesTheme.accent).frame(width: 30)
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text(style.title).font(.system(.headline, design: .rounded))
+                                Text(style.summary).font(.subheadline).foregroundStyle(CharadesTheme.muted)
+                            }.frame(maxWidth: .infinity, alignment: .leading)
+                            Image(systemName: selected == style ? "checkmark.circle.fill" : "circle")
+                                .font(.system(size: 20))
+                                .foregroundStyle(selected == style ? CharadesTheme.accent : CharadesTheme.muted)
+                        }.charadesPanel()
+                    }
+                    .buttonStyle(.plain).accessibilityIdentifier("PlayStyle-\(style.rawValue)")
+                    .accessibilityLabel("\(style.title). \(style.summary)")
+                    .accessibilityAddTraits(selected == style ? .isSelected : [])
+                }
+            }
+            .navigationTitle("Mënyra e lojës").navigationBarTitleDisplayMode(.inline)
+            .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("Mbyll") { dismiss() } } }
+        }.tint(CharadesTheme.accent)
+    }
+}

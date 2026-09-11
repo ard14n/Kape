@@ -49,6 +49,8 @@ protocol StoreServiceProtocol: Sendable {
     
     /// Async stream for real-time transaction updates.
     /// Emits the distinct Product ID of the transaction.
+    /// One consumer per service lifetime; each StoreViewModel owns its own service.
+    /// This channel is not a broadcast stream and must not be shared between view models.
     var transactionUpdates: AsyncStream<String> { get }
     
     /// Forces a sync with App Store to restore purchases.

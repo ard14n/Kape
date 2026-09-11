@@ -229,7 +229,9 @@ extension AudioServiceTests {
         ])
         
         engine.startRound(with: deck)
+        engine.onCalibrationComplete()
         engine.startGameLoop()
+        defer { engine.stop() }
         
         // Wait for buffer + margin
         try? await Task.sleep(nanoseconds: 200_000_000)
@@ -260,7 +262,9 @@ extension AudioServiceTests {
         ])
         
         engine.startRound(with: deck)
+        engine.onCalibrationComplete()
         engine.startGameLoop()
+        defer { engine.stop() }
         
         // Wait for buffer + margin
         try? await Task.sleep(nanoseconds: 200_000_000)
@@ -290,7 +294,9 @@ extension AudioServiceTests {
         let deck = Deck(id: "test", title: "Test", description: "Test", iconName: "star", difficulty: 1, isPro: false, cards: [])
         
         engine.startRound(with: deck)
+        engine.onCalibrationComplete()
         engine.startGameLoop()
+        defer { engine.stop() }
         
         // Wait until warning threshold is crossed (~1.1s to reach <1.0s remaining)
         try? await Task.sleep(nanoseconds: 1_200_000_000)
@@ -316,7 +322,9 @@ extension AudioServiceTests {
         ])
         
         engine.startRound(with: deck)
+        engine.onCalibrationComplete()
         engine.startGameLoop()
+        defer { engine.stop() }
         try? await Task.sleep(nanoseconds: 200_000_000)
         
         // When

@@ -155,7 +155,9 @@ extension HapticServiceTests {
         ])
         
         engine.startRound(with: deck)
+        engine.onCalibrationComplete()
         engine.startGameLoop()
+        defer { engine.stop() }
         
         // Wait for buffer + margin
         try? await Task.sleep(nanoseconds: 200_000_000)
@@ -185,7 +187,9 @@ extension HapticServiceTests {
         ])
         
         engine.startRound(with: deck)
+        engine.onCalibrationComplete()
         engine.startGameLoop()
+        defer { engine.stop() }
         
         // Wait for buffer + margin
         try? await Task.sleep(nanoseconds: 200_000_000)
