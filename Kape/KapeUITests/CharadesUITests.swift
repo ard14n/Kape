@@ -216,7 +216,7 @@ final class CharadesUITests: XCTestCase {
 
     func testEveryCategoryCanBeSelectedAndMusicTournamentNeedsNoPurchase() {
         let app = launch()
-        for id in ["mix-shqip", "gurbet", "muzike", "sport", "humor-tv", "historia", "politike"] {
+        for id in ["mix-shqip", "gurbet", "muzike", "sport", "humor-tv", "dasma-tradita", "femijeria", "nena-shqiptare", "historia", "politike"] {
             tap(app, "ChooseCategory")
             XCTAssertFalse(app.buttons.matching(NSPredicate(format: "label CONTAINS 'e kyçur'")).firstMatch.exists)
             tap(app, "Category-" + id)
@@ -231,6 +231,21 @@ final class CharadesUITests: XCTestCase {
         tap(app, "RevealWord")
         XCTAssertTrue(app.staticTexts["SecretWord"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.staticTexts["AccessDenied"].exists)
+    }
+
+    func testSmallCategoryExplainsTournamentLimit() {
+        let app = launch()
+        tap(app, "ChooseCategory")
+        tap(app, "Category-nena-shqiptare")
+        tap(app, "StartTournament")
+        tap(app, "AddPlayer")
+        tap(app, "AddPlayer")
+        tap(app, "5")
+        XCTAssertTrue(app.staticTexts["TournamentTooFewWords"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["ConfirmTournament"].isEnabled)
+        tap(app, "3")
+        XCTAssertFalse(app.staticTexts["TournamentTooFewWords"].exists)
+        XCTAssertTrue(app.buttons["ConfirmTournament"].isEnabled)
     }
 
     func testPantomimeSelectionUsesSilentRulesAndVisibleTimer() {

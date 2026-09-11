@@ -303,6 +303,11 @@ struct CharadesTournamentSetup: View {
                     }.pickerStyle(.segmented).accessibilityIdentifier("RoundsPicker")
                     Text("\(names.count * rounds) fjalë gjithsej · deri në 60 sekonda për fjalë")
                         .font(.subheadline).foregroundStyle(CharadesTheme.muted)
+                    if deck.cards.count < names.count * rounds {
+                        Text("Kjo kategori ka vetëm \(deck.cards.count) fjalë. Zgjidhni më pak radhë ose persona.")
+                            .font(.footnote).foregroundStyle(CharadesTheme.accent)
+                            .accessibilityIdentifier("TournamentTooFewWords")
+                    }
                 }
                 Text("1 fjalë për radhë. Kur grupi e gjen, personi që ka radhën merr 1 pikë. Kur nuk e gjen, 0 pikë. Të gjithë luajnë po aq herë; pikët e barabarta ndajnë të njëjtin vend.")
                     .foregroundStyle(CharadesTheme.muted)

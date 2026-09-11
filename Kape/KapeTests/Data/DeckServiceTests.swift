@@ -488,5 +488,22 @@ final class DeckServiceTests: XCTestCase {
         } else {
             XCTFail("Production decks.json missing 'muzike' deck")
         }
+
+        // 4. September 2026 additions are free and never repeat a word
+        let additions = ["dasma-tradita": 30, "femijeria": 25, "nena-shqiptare": 15]
+        for (id, minimum) in additions {
+            guard let deck = decks.first(where: { $0.id == id }) else {
+                XCTFail("Production decks.json missing '\(id)' deck")
+                continue
+            }
+            XCTAssertFalse(deck.isPro, id)
+            XCTAssertGreaterThanOrEqual(deck.cards.count, minimum, id)
+            XCTAssertEqual(Set(deck.cards.map(\.text)).count, deck.cards.count, id + " must not repeat a word")
+        }
+
+        // 5. Saved sessions identify cards by ID, so IDs stay unique across every category
+        let cardIDs = decks.flatMap(\.cards).map(\.id) + CharadesCatalog.starter.cards.map(\.id)
+        XCTAssertEqual(Set(cardIDs).count, cardIDs.count, "Card IDs must be unique across all categories")
+        XCTAssertEqual(Set(decks.map(\.id)).count, decks.count, "Category IDs must be unique")
     }
 }

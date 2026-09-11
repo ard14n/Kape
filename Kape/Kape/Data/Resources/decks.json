@@ -987,6 +987,316 @@
       ]
     },
     {
+      "id": "dasma-tradita",
+      "title": "Dasma & Tradita",
+      "description": "Nga fejesa te dasma – zakonet që i njeh çdo familje.",
+      "icon_name": "heart",
+      "difficulty": 1,
+      "is_pro": false,
+      "cards": [
+        {
+          "id": "dt-001",
+          "text": "Fejesa"
+        },
+        {
+          "id": "dt-002",
+          "text": "Kërkimi i nuses"
+        },
+        {
+          "id": "dt-003",
+          "text": "Nusja në derë"
+        },
+        {
+          "id": "dt-004",
+          "text": "Kumbara"
+        },
+        {
+          "id": "dt-005",
+          "text": "Krushqit"
+        },
+        {
+          "id": "dt-006",
+          "text": "Vallja e nuses"
+        },
+        {
+          "id": "dt-007",
+          "text": "Hedhja e parave"
+        },
+        {
+          "id": "dt-008",
+          "text": "Tepsia"
+        },
+        {
+          "id": "dt-009",
+          "text": "Duvaku"
+        },
+        {
+          "id": "dt-010",
+          "text": "Kanagjeqi"
+        },
+        {
+          "id": "dt-011",
+          "text": "Byrek i nuses"
+        },
+        {
+          "id": "dt-012",
+          "text": "Dhëndri"
+        },
+        {
+          "id": "dt-013",
+          "text": "Vjehrra"
+        },
+        {
+          "id": "dt-014",
+          "text": "Kulla"
+        },
+        {
+          "id": "dt-015",
+          "text": "Oda e burrave"
+        },
+        {
+          "id": "dt-016",
+          "text": "Rakia e shtëpisë"
+        },
+        {
+          "id": "dt-017",
+          "text": "Dita e Verës"
+        },
+        {
+          "id": "dt-018",
+          "text": "Bajrami"
+        },
+        {
+          "id": "dt-019",
+          "text": "Nata e Vitit të Ri"
+        },
+        {
+          "id": "dt-020",
+          "text": "Synetia"
+        },
+        {
+          "id": "dt-021",
+          "text": "Pagëzimi"
+        },
+        {
+          "id": "dt-022",
+          "text": "Vizita e të sëmurit"
+        },
+        {
+          "id": "dt-023",
+          "text": "Ngushëllimi"
+        },
+        {
+          "id": "dt-024",
+          "text": "Kafeja e mëngjesit"
+        },
+        {
+          "id": "dt-025",
+          "text": "Mysafirët e papritur"
+        },
+        {
+          "id": "dt-026",
+          "text": "Këpucët në derë"
+        },
+        {
+          "id": "dt-027",
+          "text": "Puthja e dorës"
+        },
+        {
+          "id": "dt-028",
+          "text": "Bakllavaja e dasmës"
+        },
+        {
+          "id": "dt-029",
+          "text": "Fotografi me familjen"
+        },
+        {
+          "id": "dt-030",
+          "text": "Dhurata për fëmijët"
+        }
+      ]
+    },
+    {
+      "id": "femijeria",
+      "title": "Fëmijëria",
+      "description": "Nostalgji e viteve ’90 dhe 2000 – lojëra, shkolla dhe ëmbëlsira.",
+      "icon_name": "gamecontroller",
+      "difficulty": 1,
+      "is_pro": false,
+      "cards": [
+        {
+          "id": "fe-001",
+          "text": "Fanta Shokata"
+        },
+        {
+          "id": "fe-002",
+          "text": "Çokollata Eurokrem"
+        },
+        {
+          "id": "fe-003",
+          "text": "Tetris"
+        },
+        {
+          "id": "fe-004",
+          "text": "Bicikleta BMX"
+        },
+        {
+          "id": "fe-005",
+          "text": "Loja me gogla"
+        },
+        {
+          "id": "fe-006",
+          "text": "Kukafshehthi"
+        },
+        {
+          "id": "fe-007",
+          "text": "Litarthi"
+        },
+        {
+          "id": "fe-008",
+          "text": "Shkolla fillore"
+        },
+        {
+          "id": "fe-009",
+          "text": "Abetarja"
+        },
+        {
+          "id": "fe-010",
+          "text": "Uniforma e shkollës"
+        },
+        {
+          "id": "fe-011",
+          "text": "Ora e edukatës fizike"
+        },
+        {
+          "id": "fe-012",
+          "text": "Kasetat VHS"
+        },
+        {
+          "id": "fe-013",
+          "text": "Tom & Jerry"
+        },
+        {
+          "id": "fe-014",
+          "text": "Kaseta e muzikës"
+        },
+        {
+          "id": "fe-015",
+          "text": "Telefoni me tel"
+        },
+        {
+          "id": "fe-016",
+          "text": "Fotografitë Polaroid"
+        },
+        {
+          "id": "fe-017",
+          "text": "Pushimet te gjyshja"
+        },
+        {
+          "id": "fe-018",
+          "text": "Lopa e gjyshit"
+        },
+        {
+          "id": "fe-019",
+          "text": "Ujitja e bahçes"
+        },
+        {
+          "id": "fe-020",
+          "text": "Autobusi për në shkollë"
+        },
+        {
+          "id": "fe-021",
+          "text": "Detyrat e shtëpisë"
+        },
+        {
+          "id": "fe-022",
+          "text": "Gomat e fshirjes me erë"
+        },
+        {
+          "id": "fe-023",
+          "text": "Bonbonet Lokum"
+        },
+        {
+          "id": "fe-024",
+          "text": "Lojërat në rrugë"
+        },
+        {
+          "id": "fe-025",
+          "text": "Futbolli me shishe"
+        }
+      ]
+    },
+    {
+      "id": "nena-shqiptare",
+      "title": "Nëna shqiptare",
+      "description": "Fjalët dhe zakonet që i njeh çdo fëmijë shqiptar.",
+      "icon_name": "house",
+      "difficulty": 1,
+      "is_pro": false,
+      "cards": [
+        {
+          "id": "ns-001",
+          "text": "Vish xhaketën"
+        },
+        {
+          "id": "ns-002",
+          "text": "Ke ngrënë?"
+        },
+        {
+          "id": "ns-003",
+          "text": "Mos rri para kompjuterit"
+        },
+        {
+          "id": "ns-004",
+          "text": "Papuçet e nënës"
+        },
+        {
+          "id": "ns-005",
+          "text": "Pjata e dytë"
+        },
+        {
+          "id": "ns-006",
+          "text": "Ruaje qesen"
+        },
+        {
+          "id": "ns-007",
+          "text": "Mbylle derën"
+        },
+        {
+          "id": "ns-008",
+          "text": "Ku ishe?"
+        },
+        {
+          "id": "ns-009",
+          "text": "Hajde në shtëpi"
+        },
+        {
+          "id": "ns-010",
+          "text": "Ftohja nga dritarja"
+        },
+        {
+          "id": "ns-011",
+          "text": "Çaji me limon"
+        },
+        {
+          "id": "ns-012",
+          "text": "Rakia si ilaç"
+        },
+        {
+          "id": "ns-013",
+          "text": "Ushqimi për rrugë"
+        },
+        {
+          "id": "ns-014",
+          "text": "Telefonata në orën 7"
+        },
+        {
+          "id": "ns-015",
+          "text": "Kush është ai/ajo?"
+        }
+      ]
+    },
+    {
       "id": "historia",
       "title": "Historia",
       "description": "Nga Ilirët te Pavarësia – sa mirë e njeh të kaluarën?",
