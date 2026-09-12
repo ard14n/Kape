@@ -29,7 +29,8 @@ final class CharadesUITests: XCTestCase {
         XCTAssertTrue(button.waitForExistence(timeout: 5), id, file: file, line: line)
         for _ in 0..<10 {
             let footer: String? = ["ChooseCategory", "ChoosePlayStyle"].contains(id) ? "StartTogether"
-                : id == "CorrectResult" ? "NextTurn" : nil
+                : id == "CorrectResult" ? "NextTurn"
+                : id != "ConfirmTournament" && app.buttons["ConfirmTournament"].exists ? "ConfirmTournament" : nil
             let visibleBottom = min(footer.map { app.buttons[$0].frame.minY - 14 } ?? app.frame.maxY, app.frame.maxY)
             if button.isHittable && button.frame.maxY <= visibleBottom { break }
             scroll(app)
@@ -41,8 +42,25 @@ final class CharadesUITests: XCTestCase {
         }
         button.tap()
     }
+    private func selectRounds(_ rounds: String, _ app: XCUIApplication, file: StaticString = #filePath, line: UInt = #line) {
+        let picker = app.segmentedControls["RoundsPicker"]
+        let footer = app.buttons["ConfirmTournament"]
+        // XCTest can report a control behind a pinned button as hittable. Scroll it fully
+        // into the sheet's reading area before tapping, then verify the actual selection.
+        for _ in 0..<12 {
+            if picker.exists && picker.isHittable && picker.frame.maxY <= footer.frame.minY - 14 { break }
+            scroll(app)
+        }
+        XCTAssertTrue(picker.exists && picker.isHittable, file: file, line: line)
+        XCTAssertLessThanOrEqual(picker.frame.maxY, footer.frame.minY - 14, file: file, line: line)
+        picker.buttons[rounds].tap()
+        XCTAssertTrue(picker.buttons[rounds].isSelected, file: file, line: line)
+        XCTAssertTrue(footer.exists, "Selecting rounds must keep the setup open.", file: file, line: line)
+    }
     private func scroll(_ app: XCUIApplication) {
-        let scroll = app.scrollViews.allElementsBoundByIndex.first { $0.isHittable }
+        // The home scroll view remains in the hierarchy behind an iPad sheet.
+        // Use the frontmost scroll view so a swipe cannot hit the sheet's pinned CTA.
+        let scroll = app.scrollViews.allElementsBoundByIndex.last { $0.isHittable }
         // Begin inside the reading area, above fixed bottom actions.
         if let scroll {
             let footerIDs = ["NextTurn", "HideWord", "RevealWord", "StartTogether", "ConfirmTournament", "CloseInstructions", "ResumeGame", "ReturnHome"]
@@ -58,7 +76,7 @@ final class CharadesUITests: XCTestCase {
             }
             let top = max(scroll.frame.minY, app.navigationBars.allElementsBoundByIndex.filter(\.isHittable).map { $0.frame.maxY }.max() ?? app.frame.minY)
             guard bottom > top + 44 else { return }
-            let start = CGPoint(x: app.frame.midX, y: top + (bottom - top) * 0.78)
+            let start = CGPoint(x: scroll.frame.midX, y: top + (bottom - top) * 0.78)
             let end = CGPoint(x: start.x, y: top + (bottom - top) * 0.18)
             let origin = app.coordinate(withNormalizedOffset: .zero)
             origin.withOffset(CGVector(dx: start.x - app.frame.minX, dy: start.y - app.frame.minY))
@@ -290,9 +308,7 @@ final class CharadesUITests: XCTestCase {
     private func tournament(_ app: XCUIApplication, game: Int, extraPlayers: Int, rounds: String) {
         tap(app, "StartTournament")
         for _ in 0..<extraPlayers { tap(app, "AddPlayer") }
-        let picker = app.segmentedControls["RoundsPicker"]
-        for _ in 0..<12 { if picker.isHittable { break }; scroll(app) }
-        picker.buttons[rounds].tap()
+        selectRounds(rounds, app)
         capture("g\(game)-tournament-setup", app)
         tap(app, "ConfirmTournament")
         XCTAssertTrue(app.buttons["RevealWord"].waitForExistence(timeout: 5))
@@ -300,6 +316,8 @@ final class CharadesUITests: XCTestCase {
     }
 
     func testTenGamePlaythroughForReview() {
+        // Ten complete games with screenshots take more than Cloud's default ten minutes.
+        executionTimeAllowance = 1200
         playStart = Date()
 
         // 1 · together, default deck (Mix Shqip), free choice: guessed, missed, guessed
@@ -452,10 +470,7 @@ final class CharadesUITests: XCTestCase {
     func testTournamentCompletesEqualTurnsAndSharesTie() {
         let app = launch()
         tap(app, "StartTournament")
-        let picker = app.segmentedControls["RoundsPicker"]
-        for _ in 0..<8 { if picker.isHittable { break }; scroll(app) }
-        XCTAssertTrue(picker.buttons["1"].exists)
-        picker.buttons["1"].tap()
+        selectRounds("1", app)
         capture("12-tournament-setup", app)
         tap(app, "ConfirmTournament")
         capture("13-tournament-handoff", app)
@@ -576,10 +591,10 @@ final class CharadesUITests: XCTestCase {
         tap(app, "StartTournament")
         tap(app, "AddPlayer")
         tap(app, "AddPlayer")
-        tap(app, "5")
+        selectRounds("5", app)
         XCTAssertTrue(app.staticTexts["TournamentTooFewWords"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["ConfirmTournament"].isEnabled)
-        tap(app, "3")
+        selectRounds("3", app)
         XCTAssertFalse(app.staticTexts["TournamentTooFewWords"].exists)
         XCTAssertTrue(app.buttons["ConfirmTournament"].isEnabled)
     }
@@ -638,9 +653,7 @@ final class CharadesUITests: XCTestCase {
         tap(app, "ChoosePlayStyle"); tap(app, "PlayStyle-explaining")
         tap(app, "StartTournament")
         XCTAssertEqual(app.staticTexts["TournamentPlayStyle"].label, "Shpjegim")
-        let picker = app.segmentedControls["RoundsPicker"]
-        for _ in 0..<12 { if picker.isHittable { break }; scroll(app) }
-        picker.buttons["1"].tap()
+        selectRounds("1", app)
         tap(app, "ConfirmTournament")
         _ = revealAndAct(app)
         XCTAssertEqual(app.staticTexts["ActingPlayStyle"].label, "Shpjegim")
@@ -736,9 +749,7 @@ final class CharadesUITests: XCTestCase {
         tap(app, "StartTournament")
         XCTAssertTrue(app.buttons["ConfirmTournament"].waitForExistence(timeout: 5))
         capture("store-04-tournament", app)
-        let picker = app.segmentedControls["RoundsPicker"]
-        for _ in 0..<12 { if picker.isHittable { break }; scroll(app) }
-        picker.buttons["1"].tap()
+        selectRounds("1", app)
         tap(app, "ConfirmTournament")
         _ = revealAndAct(app)
         capture("store-05-acting", app)
