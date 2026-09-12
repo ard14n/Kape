@@ -5,7 +5,6 @@ struct CharadesHomeView: View {
     @Environment(\.dynamicTypeSize) private var typeSize
     @EnvironmentObject private var decks: DeckService
     @AppStorage("kape.intro.play-styles.seen") private var introSeen = false
-    @AppStorage("kape.appearance") private var appearance = "system"
     @AppStorage("kape.play-style") private var playStyleRaw = CharadesPlayStyle.freeChoice.rawValue
     private var selectedStyle: CharadesPlayStyle { CharadesPlayStyle(rawValue: playStyleRaw) ?? .freeChoice }
     @State private var selectedDeck = CharadesCatalog.starter
@@ -14,58 +13,40 @@ struct CharadesHomeView: View {
     @State private var showingGame = false
     @State private var pendingGame = false
     @State private var loaded = false
+    @State private var discardSaved = false
 
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
-                CharadesPage {
-                    if !typeSize.isAccessibilitySize && geometry.size.height >= 700 {
-                        CharadesHeading(eyebrow: "Gjeni fjalën në shqip", title: "Një fjalë.\nPlot të qeshura.",
-                                        detail: "Me gjeste apo me fjalë?\nZgjidhni si doni të luani.", symbol: "hands.sparkles")
-                    }
+                CharadesPage(stretched: true, party: true) {
+                    logo(compact: typeSize.isAccessibilitySize || geometry.size.height < 630)
+                    Spacer(minLength: 0)
                     if session != nil {
                         VStack(alignment: .leading, spacing: 12) {
-                            Label("Loja juaj është ruajtur", systemImage: "pause.circle").font(.headline)
-                            Text("Vazhdoni aty ku e latë. Fjala mbetet e fshehur.").foregroundStyle(CharadesTheme.muted)
+                            Label("Loja jote u ruajt", systemImage: "pause.circle").font(.headline).foregroundStyle(CharadesTheme.action)
+                            Text("Vazhdo aty ku e le. Fjala mbetet e fshehtë.").foregroundStyle(CharadesTheme.muted)
                             if let session { Label(session.playStyle.title, systemImage: session.playStyle.symbol).font(.subheadline.bold()) }
                             Button("Vazhdo lojën") { showingGame = true }
                                 .buttonStyle(CharadesButtonStyle()).accessibilityIdentifier("ResumeSavedGame")
-                        }.charadesPanel()
+                            // Without this a new game could only be started by resuming the old one and leaving it.
+                            Button("Lojë e re") { discardSaved = true }
+                                .buttonStyle(CharadesButtonStyle(prominent: false)).accessibilityIdentifier("StartFreshGame")
+                        }.charadesPanel(CharadesTheme.action)
                     } else {
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text("KATEGORIA").font(.caption.bold()).foregroundStyle(CharadesTheme.muted)
-                            Button { sheet = .categories } label: {
-                                HStack(spacing: 16) {
-                                    Image(systemName: selectedDeck.iconName).font(.system(size: 24, weight: .medium)).foregroundStyle(CharadesTheme.accent)
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text(selectedDeck.title).font(.system(.title3, design: .rounded, weight: .bold))
-                                        Text(typeSize.isAccessibilitySize ? "\(selectedDeck.cards.count) fjalë" : "\(selectedDeck.cards.count) fjalë · Ndrysho").font(.subheadline).foregroundStyle(CharadesTheme.muted)
-                                    }
-                                    Spacer(minLength: 0)
-                                    Image(systemName: "chevron.right").font(.system(size: 14, weight: .semibold)).foregroundStyle(CharadesTheme.muted)
-                                }.charadesPanel()
-                            }.buttonStyle(.plain).accessibilityIdentifier("ChooseCategory")
-                            .accessibilityLabel("Kategoria: \(selectedDeck.title). Ndrysho kategorinë")
-                        }
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text("MËNYRA E LOJËS").font(.caption.bold()).foregroundStyle(CharadesTheme.muted)
-                            Button { sheet = .playStyle } label: {
-                                HStack(spacing: 16) {
-                                    Image(systemName: selectedStyle.symbol).font(.system(size: 24, weight: .medium)).foregroundStyle(CharadesTheme.accent)
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text(selectedStyle.title).font(.system(.title3, design: .rounded, weight: .bold))
-                                        Text(typeSize.isAccessibilitySize ? selectedStyle.shortSummary : selectedStyle.summary).font(.subheadline).foregroundStyle(CharadesTheme.muted)
-                                    }
-                                    Spacer(minLength: 0)
-                                    Image(systemName: "chevron.right").font(.system(size: 14, weight: .semibold)).foregroundStyle(CharadesTheme.muted)
-                                }.charadesPanel()
-                            }.buttonStyle(.plain).accessibilityIdentifier("ChoosePlayStyle")
+                        VStack(spacing: 12) {
+                            Button { sheet = .categories } label: { categoryCard }
+                                .buttonStyle(.plain).accessibilityIdentifier("ChooseCategory")
+                                .accessibilityLabel("Kategoria: \(selectedDeck.title). Ndrysho kategorinë")
+                            Button { sheet = .playStyle } label: { styleRow }
+                                .buttonStyle(.plain).accessibilityIdentifier("ChoosePlayStyle")
                                 .accessibilityLabel("Mënyra e lojës. Ndrysho")
                                 .accessibilityValue(selectedStyle.title)
                         }
                     }
+                    Spacer(minLength: 0)
                     if session == nil && typeSize.isAccessibilitySize { startButtons }
                 }
+                .scrollBounceBehavior(.basedOnSize, axes: .vertical)
                 .safeAreaInset(edge: .bottom, spacing: 0) {
                     if session == nil && !typeSize.isAccessibilitySize {
                         startButtons.frame(maxWidth: 560).padding(.horizontal, 24).padding(.vertical, 14)
@@ -73,8 +54,8 @@ struct CharadesHomeView: View {
                     }
                 }
             }
-            .navigationTitle("Kape!")
             .navigationBarTitleDisplayMode(.inline)
+            .charadesNavigationBar()
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button { sheet = .help } label: { Image(systemName: "questionmark.circle").frame(minWidth: 44, minHeight: 44) }
@@ -103,17 +84,24 @@ struct CharadesHomeView: View {
                     }
                 }
             }
+            // Alert, not a confirmation dialog, see CharadesPlayView.
+            .alert("A don me nisë një lojë të re?", isPresented: $discardSaved) {
+                Button("Fshije lojën e ruajtun", role: .destructive) { session = nil; CharadesArchive.clear() }
+                Button("Rri këtu", role: .cancel) {}
+            } message: {
+                Text("Loja e ruajtun fshihet dhe nis prej fillimit.")
+            }
             .fullScreenCover(isPresented: $showingGame) {
                 if let session {
-                    CharadesPlayView(session: session) { discard in
+                    CharadesPlayView(session: session, close: { discard in
                         if discard { self.session = nil; CharadesArchive.clear() }
                         showingGame = false
-                    }
+                    }, replay: { replay(session) })
                 }
             }
         }
         .tint(CharadesTheme.accent)
-        .preferredColorScheme(appearance == "light" ? .light : appearance == "dark" ? .dark : nil)
+        .preferredColorScheme(.dark)
         .background(CharadesPrivacyCover {
             if showingGame { session?.pause() }
             UIApplication.shared.isIdleTimerDisabled = false
@@ -121,6 +109,8 @@ struct CharadesHomeView: View {
         .task {
             guard !loaded else { return }
             loaded = true
+            // Owner decision: Mix Shqip is the category the app opens with.
+            if let mix = decks.decks.first(where: { $0.id == "mix-shqip" }) { selectedDeck = mix }
             if let restored = CharadesArchive.load() {
                 restored.save = { CharadesArchive.save($0) }
                 session = restored
@@ -129,12 +119,99 @@ struct CharadesHomeView: View {
         }
     }
 
+    private func logo(compact: Bool) -> some View {
+        VStack(spacing: compact ? 10 : 18) {
+            Text("KAPE!").font(CharadesTheme.logoFont(size: compact ? 46 : 72))
+                .foregroundStyle(CharadesTheme.ink)
+                .shadow(color: CharadesTheme.brandShadow, radius: 0, x: 4, y: 5)
+                .rotationEffect(.degrees(-2))
+                .lineLimit(1).minimumScaleFactor(0.5)
+            Text("Një fjalë.\nPlot të qeshura.")
+                .font(.system(compact ? .subheadline : .headline, design: .rounded, weight: .heavy))
+                .multilineTextAlignment(.center).foregroundStyle(CharadesTheme.ink)
+        }
+        .padding(.horizontal, 14).padding(.top, compact ? 18 : 38).padding(.bottom, compact ? 32 : 48)
+        .frame(maxWidth: .infinity)
+        .background {
+            RoundedRectangle(cornerRadius: 24).fill(CharadesTheme.hero)
+                .shadow(color: CharadesTheme.brandShadow, radius: 0, x: 5, y: 7)
+                .rotationEffect(.degrees(-3))
+        }
+        .overlay(alignment: .bottom) {
+            Text("HAJDE, LUJMË!").font(.system(.caption, design: .rounded, weight: .black)).tracking(2)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 8).padding(.vertical, 10).frame(maxWidth: .infinity)
+                .foregroundStyle(CharadesTheme.onAccent)
+                .background {
+                    RoundedRectangle(cornerRadius: 3).fill(CharadesTheme.action)
+                        .shadow(color: CharadesTheme.onAccent, radius: 0, x: 3, y: 3)
+                }
+                .overlay(RoundedRectangle(cornerRadius: 3).stroke(CharadesTheme.onAccent, lineWidth: 2))
+                .rotationEffect(.degrees(3)).padding(.horizontal, 18).offset(y: 10)
+        }
+        .overlay(alignment: .topTrailing) {
+            Image(systemName: "sparkles").font(.system(size: compact ? 34 : 42, weight: .black))
+                .foregroundStyle(CharadesTheme.action)
+                .shadow(color: CharadesTheme.onAccent, radius: 0, x: 2, y: 2)
+                .rotationEffect(.degrees(12)).offset(x: -4, y: -14)
+        }
+        .padding(.horizontal, 6).padding(.top, compact ? 14 : 18).padding(.bottom, compact ? 16 : 20)
+        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Kape! Një fjalë. Plot të qeshura.").accessibilityAddTraits(.isHeader)
+    }
+
+    /// The category is the one thing a group really chooses, so it owns the screen: named as a
+    /// category, in its own colour, with the word count and "Ndrysho" as the only explanation.
+    private var categoryCard: some View {
+        // Label, name and word count share one left edge; only the symbol stands beside them.
+        return HStack(spacing: 16) {
+            Image(systemName: selectedDeck.iconName).font(.system(size: 28, weight: .bold))
+                .foregroundStyle(CharadesTheme.onAccent).frame(width: 38, height: 44)
+            VStack(alignment: .leading, spacing: 4) {
+                if !typeSize.isAccessibilitySize {
+                    Text("KATEGORIA").font(.system(.caption, design: .rounded, weight: .heavy)).tracking(1.5)
+                        .foregroundStyle(CharadesTheme.cardMuted)
+                }
+                Text(selectedDeck.title).font(.system(.title2, design: .rounded, weight: .heavy)).foregroundStyle(CharadesTheme.onAccent)
+                    .lineLimit(2).minimumScaleFactor(0.6).fixedSize(horizontal: false, vertical: true)
+                Text("\(selectedDeck.cards.count) fjalë")
+                    .font(.subheadline.weight(.semibold)).foregroundStyle(CharadesTheme.cardMuted)
+            }
+            Spacer(minLength: 0)
+            Image(systemName: "chevron.right").font(.system(size: 16, weight: .bold)).foregroundStyle(CharadesTheme.onAccent)
+        }
+        .padding(18).frame(maxWidth: .infinity, alignment: .leading)
+        .background {
+            RoundedRectangle(cornerRadius: 20).fill(CharadesTheme.card)
+                .shadow(color: CharadesTheme.brandShadow, radius: 0, x: 4, y: 5)
+        }
+        .overlay(RoundedRectangle(cornerRadius: 20).stroke(CharadesTheme.onAccent, lineWidth: 2))
+    }
+
+    /// The rule is set once and rarely changed: one quiet line instead of a second big card.
+    private var styleRow: some View {
+        HStack(spacing: 10) {
+            Image(systemName: selectedStyle.symbol).font(.system(size: 20, weight: .bold)).frame(width: 24)
+            Text(selectedStyle.title).font(.system(.subheadline, design: .rounded, weight: .bold))
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+            Image(systemName: "chevron.right").font(.system(size: 13, weight: .bold))
+        }
+        .foregroundStyle(CharadesTheme.accent)
+        .padding(.horizontal, 4).padding(.vertical, 10).frame(minHeight: 44)
+        .contentShape(Rectangle())
+    }
+
     private var startButtons: some View {
         VStack(spacing: 10) {
-            Button("Luaj së bashku") { start(mode: .together) }
+            Button("Lujmë bashkë") { start(mode: .together) }
                 .buttonStyle(CharadesButtonStyle()).accessibilityIdentifier("StartTogether")
-            Button("Turne me pikë") { sheet = .tournament }
-                .buttonStyle(CharadesButtonStyle(prominent: false)).accessibilityIdentifier("StartTournament")
+            // One framed button only: two neon frames below each other fought for the same attention.
+            Button { sheet = .tournament } label: {
+                Label("Turne me pikë", systemImage: "trophy.fill")
+            }
+            .buttonStyle(CharadesButtonStyle(prominent: false, bare: true)).accessibilityIdentifier("StartTournament")
         }
     }
 
@@ -154,36 +231,46 @@ struct CharadesHomeView: View {
         session = newSession
         if fromSheet { pendingGame = true; sheet = nil } else { showingGame = true }
     }
+
+    /// Same people, rules and category after a finished game; the words are shuffled anew.
+    private func replay(_ finished: CharadesSession) {
+        let old = finished.snapshot
+        let next = CharadesSession(mode: old.mode, playStyle: finished.playStyle, names: old.names, rounds: old.rounds, deck: old.deck,
+                                   turnDuration: old.turnDuration, countdownDuration: old.countdownDuration)
+        next.save = { CharadesArchive.save($0) }
+        CharadesArchive.save(next.snapshot)
+        session = next
+    }
 }
 
 struct CharadesInstructions: View {
     var firstTime = false
     var close: () -> Void
+    @Environment(\.dynamicTypeSize) private var typeSize
     var body: some View {
         NavigationStack {
             CharadesPage {
-                CharadesHeading(eyebrow: "Si luhet?", title: "Telefoni në tavolinë.\nDuart të lira.",
-                                detail: "Mjaftojnë 3 hapa për të filluar.", symbol: "theatermasks")
+                CharadesHeading(eyebrow: "3 hapa", title: "Telefoni në tavolinë.\nDuart të lira.", detail: "")
                 VStack(alignment: .leading, spacing: 24) {
-                    step("1", "Lexoje vetëm ti", "Shiko fjalën fshehurazi. Të tjerët nuk duhet ta shohin.")
-                    step("2", "Fshihe dhe lëre telefonin", "Shtyp «Gati». Fjala fshihet dhe ke 3 sekonda për ta lënë telefonin mbi tavolinë.")
-                    step("3", "Ndihmo grupin ta gjejë", "Luaj me gjeste ose shpjego, sipas mënyrës që keni zgjedhur. Grupi ka 60 sekonda për ta gjetur. Shënoni rezultatin dhe kalojani telefonin personit tjetër.")
-                }.charadesPanel()
-                VStack(alignment: .leading, spacing: 18) {
-                    Text("Ju zgjidhni si luhet").font(.title2.bold()).accessibilityAddTraits(.isHeader)
+                    step("eye.slash.fill", "Lexoje vetëm ti", "Të tjerët s’duhet me e pa fjalën.")
+                    step("iphone", "Fshihe dhe lëshoje telefonin", "Shtype Gati – fshihe. I ke 3 sekonda me e lanë telefonin në tavolinë.")
+                    step("theatermasks.fill", "Ndihmo grupin me e gjetë", "Gjeste ose shpjegim. Grupi ka 60 sekonda.")
+                }
+                if !firstTime { VStack(alignment: .leading, spacing: 18) {
+                    Text("Ti e zgjedh si luhet").font(.system(.title2, design: .rounded, weight: .heavy)).accessibilityAddTraits(.isHeader)
                     ForEach(CharadesPlayStyle.allCases) { style in
                         VStack(alignment: .leading, spacing: 6) {
                             Label { Text(style.title) } icon: {
-                                Image(systemName: style.symbol).font(.system(size: 24, weight: .medium))
+                                Image(systemName: style.symbol).font(.system(size: 24, weight: .bold)).foregroundStyle(CharadesTheme.accent)
                             }.font(.headline)
                             Text(style.summary).foregroundStyle(CharadesTheme.muted)
                         }.accessibilityElement(children: .combine)
                             .accessibilityIdentifier("HelpStyle-\(style.rawValue)")
                     }
-                }.charadesPanel()
+                }.padding(.top, 12) }
             }
             .safeAreaInset(edge: .bottom, spacing: 0) {
-                Button(firstTime ? "E kuptova – le të luajmë" : "U kuptua", action: close)
+                Button(firstTime ? (typeSize.isAccessibilitySize ? "Hajde me lujt" : "E kuptova – hajde me lujt") : "U kuptua", action: close)
                     .buttonStyle(CharadesButtonStyle()).accessibilityIdentifier("CloseInstructions")
                     .frame(maxWidth: 560).padding(.horizontal, 24).padding(.vertical, 14)
                     .frame(maxWidth: .infinity).background(CharadesTheme.background)
@@ -197,13 +284,13 @@ struct CharadesInstructions: View {
         }.tint(CharadesTheme.accent)
     }
 
-    private func step(_ number: String, _ title: String, _ detail: String) -> some View {
+    private func step(_ symbol: String, _ title: String, _ detail: String) -> some View {
         HStack(alignment: .top, spacing: 14) {
-            Text(number).font(.system(size: 18, weight: .bold, design: .rounded))
-                .foregroundStyle(CharadesTheme.accent).frame(width: 32, height: 32)
-                .background(CharadesTheme.soft, in: Circle()).accessibilityHidden(true)
+            Image(systemName: symbol).font(.system(size: 23, weight: .bold))
+                .foregroundStyle(CharadesTheme.accent).frame(width: 38, height: 38)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 6) {
-                Text(title).font(.system(.headline, design: .rounded))
+                Text(title).font(.system(.headline, design: .rounded, weight: .heavy))
                 Text(detail).foregroundStyle(CharadesTheme.muted).fixedSize(horizontal: false, vertical: true)
             }
         }.accessibilityElement(children: .combine)
@@ -214,39 +301,63 @@ struct CharadesCategories: View {
     let decks: [Deck]
     @Binding var selected: Deck
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.dynamicTypeSize) private var typeSize
     var body: some View {
         NavigationStack {
             CharadesPage {
-                CharadesHeading(eyebrow: "Zgjidhni fjalët", title: "Nga e lehta\nte sfida.", detail: "Filloni me veprime e kafshë, ose zgjidhni një temë që ju pëlqen.")
-                row(CharadesCatalog.starter)
-                Text("Kategoritë e tjera").font(.title2.bold()).accessibilityAddTraits(.isHeader)
-                Text("Emra dhe tema shqiptare për pantomimë ose shpjegim.")
-                    .foregroundStyle(CharadesTheme.muted)
-                ForEach(decks) { row($0) }
+                Text("Zgjedhi fjalët.").font(.system(.title, design: .rounded, weight: .heavy)).accessibilityAddTraits(.isHeader)
+                LazyVGrid(columns: columns, spacing: 14) {
+                    ForEach(availableDecks) { tile($0, featured: false) }
+                }
             }
             .navigationTitle("Kategoritë").navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("Mbyll") { dismiss() } } }
         }.tint(CharadesTheme.accent)
     }
-    private func row(_ deck: Deck) -> some View {
+    private var availableDecks: [Deck] {
+        let all = decks.filter { $0.id != CharadesCatalog.starter.id } + [CharadesCatalog.starter]
+        return all.filter { $0.id == "mix-shqip" } + all.filter { $0.id != "mix-shqip" }
+    }
+    private var columns: [GridItem] {
+        Array(repeating: GridItem(.flexible(), spacing: 14, alignment: .top), count: typeSize.isAccessibilitySize ? 1 : 2)
+    }
+    private func tile(_ deck: Deck, featured: Bool) -> some View {
+        let color = CharadesTheme.deckColor(deck.id)
+        let isSelected = selected.id == deck.id
+        let isNew = deck.isNew == true
         return Button {
             selected = deck
             dismiss()
         } label: {
-            HStack(alignment: .top, spacing: 14) {
-                Image(systemName: deck.iconName).font(.system(size: 24, weight: .medium)).foregroundStyle(CharadesTheme.accent).frame(width: 30)
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(deck.title).font(.system(.headline, design: .rounded))
-                    Text(deck.description).font(.subheadline).foregroundStyle(CharadesTheme.muted)
-                    Text("\(deck.cards.count) fjalë").font(.caption.bold()).foregroundStyle(CharadesTheme.accent)
-                }.frame(maxWidth: .infinity, alignment: .leading)
-                Image(systemName: selected.id == deck.id ? "checkmark.circle.fill" : "circle")
-                    .font(.system(size: 20))
-                    .foregroundStyle(selected.id == deck.id ? CharadesTheme.accent : CharadesTheme.muted)
-            }.charadesPanel()
+            VStack(alignment: .leading, spacing: 10) {
+                HStack(alignment: .top, spacing: 6) {
+                    Image(systemName: deck.iconName).font(.system(size: 28, weight: .bold)).foregroundStyle(CharadesTheme.onAccent)
+                    Spacer(minLength: 0)
+                    if isNew {
+                        Text("E RE").font(.system(.caption2, design: .rounded, weight: .heavy)).foregroundStyle(CharadesTheme.ink)
+                            .padding(.horizontal, 7).padding(.vertical, 3).background(CharadesTheme.onAccent, in: Capsule())
+                    }
+                    if isSelected {
+                        Image(systemName: "checkmark.circle.fill").font(.system(size: 22)).foregroundStyle(CharadesTheme.onAccent)
+                    }
+                }
+                Text(deck.title).font(.system(.headline, design: .rounded, weight: .heavy)).foregroundStyle(CharadesTheme.onAccent)
+                    .fixedSize(horizontal: false, vertical: true)
+                if featured || typeSize.isAccessibilitySize {
+                    Text(deck.description).font(.subheadline).foregroundStyle(CharadesTheme.onAccent).fixedSize(horizontal: false, vertical: true)
+                }
+                Text("\(deck.cards.count) fjalë").font(.caption.bold()).foregroundStyle(CharadesTheme.cardMuted)
+            }
+            .padding(16).frame(maxWidth: .infinity, minHeight: featured ? 0 : 124, alignment: .topLeading)
+            .background {
+                RoundedRectangle(cornerRadius: 18).fill(color)
+                    .shadow(color: isSelected ? CharadesTheme.action : CharadesTheme.brandShadow, radius: 0, x: 3, y: 4)
+            }
+            .overlay(RoundedRectangle(cornerRadius: 18).stroke(CharadesTheme.onAccent, lineWidth: isSelected ? 3 : 2))
         }.buttonStyle(.plain).accessibilityIdentifier("Category-\(deck.id)")
-        .accessibilityLabel("\(deck.title), \(deck.cards.count) fjalë" + (selected.id == deck.id ? ", e zgjedhur" : ""))
-        .accessibilityAddTraits(selected.id == deck.id ? .isSelected : [])
+        .accessibilityLabel("\(deck.title), \(deck.cards.count) fjalë" + (isNew ? ", e re" : "") + (isSelected ? ", e zgjedhur" : ""))
+        .accessibilityHint(deck.description)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 
@@ -263,20 +374,34 @@ struct CharadesTournamentSetup: View {
     private var names: [String] { players.map(\.name) }
     @State private var rounds = 3
     private var valid: Bool { CharadesSession.validNames(names) && deck.cards.count >= names.count * rounds }
+    /// The rounds picker is the app's only segmented control; give it the neon colours once.
+    private static let neonPicker: Void = {
+        let control = UISegmentedControl.appearance()
+        control.selectedSegmentTintColor = UIColor(CharadesTheme.action)
+        control.backgroundColor = UIColor(CharadesTheme.panel)
+        control.setTitleTextAttributes([.foregroundColor: UIColor(CharadesTheme.onAccent),
+                                        .font: UIFont.systemFont(ofSize: 17, weight: .heavy)], for: .selected)
+        control.setTitleTextAttributes([.foregroundColor: UIColor(CharadesTheme.ink),
+                                        .font: UIFont.systemFont(ofSize: 17, weight: .bold)], for: .normal)
+    }()
     var body: some View {
+        let _ = Self.neonPicker
         NavigationStack {
             CharadesPage {
-                CharadesHeading(eyebrow: "Turne me pikë", title: "Kush do të luajë?", detail: "2–5 persona · \(deck.title)", symbol: "person.2")
-                Label(playStyle.title, systemImage: playStyle.symbol).font(.headline)
+                CharadesHeading(eyebrow: "Turne me pikë", title: "Kush don me lujt?", detail: "2–5 persona · \(deck.title)",
+                                symbol: "trophy.fill", color: CharadesTheme.action)
+                Label(playStyle.title, systemImage: playStyle.symbol).font(.headline).foregroundStyle(CharadesTheme.accent)
                     .accessibilityIdentifier("TournamentPlayStyle")
-                Text(playStyle.summary).foregroundStyle(CharadesTheme.muted)
                 VStack(alignment: .leading, spacing: 14) {
                     ForEach(players) { player in
                         let index = players.firstIndex { $0.id == player.id } ?? 0
                         HStack(alignment: .firstTextBaseline, spacing: 10) {
-                            Text("\(index + 1)").font(.headline).foregroundStyle(CharadesTheme.accent).frame(width: 24)
+                            Text("\(index + 1)").font(.headline).foregroundStyle(CharadesTheme.action).frame(width: 24)
                             TextField("Emri", text: nameBinding(for: player.id)).textInputAutocapitalization(.words)
-                                .autocorrectionDisabled().textFieldStyle(.roundedBorder)
+                                .autocorrectionDisabled().font(.system(.body, design: .rounded, weight: .bold))
+                                .padding(.horizontal, 12).padding(.vertical, 10)
+                                .background(CharadesTheme.background, in: RoundedRectangle(cornerRadius: 12))
+                                .overlay(RoundedRectangle(cornerRadius: 12).stroke(CharadesTheme.action.opacity(0.7), lineWidth: 1.5))
                                 .accessibilityLabel("Emri i lojtarit \(index + 1)").accessibilityIdentifier("PlayerName-\(index)")
                             if names.count > 2 {
                                 Button { players.removeAll { $0.id == player.id } } label: { Image(systemName: "minus.circle").frame(minWidth: 44, minHeight: 44) }
@@ -293,9 +418,9 @@ struct CharadesTournamentSetup: View {
                             .accessibilityIdentifier("AddPlayer")
                     }
                     if !CharadesSession.validNames(names) {
-                        Text("Shkruani emra të ndryshëm, me 1–24 shkronja.").font(.footnote).foregroundStyle(CharadesTheme.accent)
+                        Text("Shkruj emra të ndryshëm, me 1–24 shkronja.").font(.footnote).foregroundStyle(CharadesTheme.warning)
                     }
-                }.charadesPanel()
+                }.charadesPanel(CharadesTheme.action)
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Radhë për person").font(.headline)
                     Picker("Radhë për person", selection: $rounds) {
@@ -303,11 +428,20 @@ struct CharadesTournamentSetup: View {
                     }.pickerStyle(.segmented).accessibilityIdentifier("RoundsPicker")
                     Text("\(names.count * rounds) fjalë gjithsej · deri në 60 sekonda për fjalë")
                         .font(.subheadline).foregroundStyle(CharadesTheme.muted)
+                    if deck.cards.count < names.count * rounds {
+                        Text("Kjo kategori ka vetëm \(deck.cards.count) fjalë. Zgjedh ma pak radhë ose persona.")
+                            .font(.footnote).foregroundStyle(CharadesTheme.warning)
+                            .accessibilityIdentifier("TournamentTooFewWords")
+                    }
                 }
-                Text("1 fjalë për radhë. Kur grupi e gjen, personi që ka radhën merr 1 pikë. Kur nuk e gjen, 0 pikë. Të gjithë luajnë po aq herë; pikët e barabarta ndajnë të njëjtin vend.")
-                    .foregroundStyle(CharadesTheme.muted)
+            }
+            // Pinned like the start buttons on the home screen: with five players the start button
+            // used to scroll out of reach.
+            .safeAreaInset(edge: .bottom, spacing: 0) {
                 Button("Fillo turneun") { start(names, rounds) }
                     .buttonStyle(CharadesButtonStyle()).disabled(!valid).accessibilityIdentifier("ConfirmTournament")
+                    .frame(maxWidth: 560).padding(.horizontal, 24).padding(.vertical, 14)
+                    .frame(maxWidth: .infinity).background(CharadesTheme.background)
             }
             .scrollDismissesKeyboard(.interactively)
             .navigationTitle("Turne").navigationBarTitleDisplayMode(.inline)

@@ -3,21 +3,15 @@ import SwiftUI
 struct CharadesSettings: View {
     @Environment(\.dismiss) private var dismiss
     @AppStorage("kape.sound") private var sound = true
-    @AppStorage("kape.appearance") private var appearance = "system"
     @State private var help = false
     var body: some View {
         NavigationStack {
             CharadesPage {
-                CharadesHeading(eyebrow: "Cilësimet", title: "Sipas dëshirës.", detail: "Rregullojeni për grupin tuaj.")
+                CharadesHeading(eyebrow: "Cilësimet", title: "Sipas dëshirës.", detail: "Rregulloje për grupin tand.")
                 VStack(alignment: .leading, spacing: 20) {
-                    Toggle("Tingujt e lojës", isOn: $sound).accessibilityIdentifier("SoundToggle")
-                    Text("Tingull kur fillon ose mbaron koha. Respekton mënyrën pa zë të telefonit.")
+                    Toggle("Tingujt e lojës", isOn: $sound).tint(CharadesTheme.success).accessibilityIdentifier("SoundToggle")
+                    Text("Dëgjon tingull kur nis ose mbaron koha. Kur telefoni është pa zë, loja s’bon zhurmë.")
                         .font(.footnote).foregroundStyle(CharadesTheme.muted)
-                    Picker("Pamja", selection: $appearance) {
-                        Text("Si telefoni").tag("system")
-                        Text("E çelët").tag("light")
-                        Text("E errët").tag("dark")
-                    }.pickerStyle(.menu).accessibilityIdentifier("AppearancePicker")
                 }.charadesPanel()
                 Button("Si luhet?") { help = true }.buttonStyle(CharadesButtonStyle(prominent: false))
                 VStack(alignment: .leading, spacing: 16) {

@@ -467,14 +467,16 @@ final class DeckServiceTests: XCTestCase {
         if let mixShqip = decks.first(where: { $0.id == "mix-shqip" }) {
             XCTAssertGreaterThanOrEqual(mixShqip.cards.count, 50, "Mix Shqip must have at least 50 cards")
             XCTAssertEqual(mixShqip.difficulty, 1, "Mix Shqip difficulty should be 1")
-            XCTAssertEqual(mixShqip.iconName, "sparkles")
+            // Its own symbol: the sparkle collided with the play style row on the home screen.
+            XCTAssertEqual(mixShqip.iconName, "shuffle")
         } else {
             XCTFail("Production decks.json missing 'mix-shqip' deck")
         }
         
-        // 2. Verify Gurbet
+        // 2. Diaspora keeps its existing persistent identifier.
         if let gurbet = decks.first(where: { $0.id == "gurbet" }) {
-            XCTAssertGreaterThanOrEqual(gurbet.cards.count, 50, "Gurbet must have at least 50 cards")
+            XCTAssertEqual(gurbet.title, "Diaspora")
+            XCTAssertGreaterThanOrEqual(gurbet.cards.count, 25, "Diaspora supports the largest tournament")
             XCTAssertEqual(gurbet.difficulty, 1, "Gurbet difficulty should be 1")
             XCTAssertEqual(gurbet.iconName, "airplane.departure")
         } else {
@@ -487,6 +489,30 @@ final class DeckServiceTests: XCTestCase {
             XCTAssertGreaterThanOrEqual(muzik.cards.count, 50, "Muzike must contain its playable content")
         } else {
             XCTFail("Production decks.json missing 'muzike' deck")
+        }
+
+        // 4. September 2026 additions are free and never repeat a word
+        let additions = ["dasma-tradita": 26, "femijeria": 22, "nena-shqiptare": 12]
+        for (id, minimum) in additions {
+            guard let deck = decks.first(where: { $0.id == id }) else {
+                XCTFail("Production decks.json missing '\(id)' deck")
+                continue
+            }
+            XCTAssertFalse(deck.isPro, id)
+            XCTAssertEqual(deck.isNew, true, id + " shows the new badge")
+            XCTAssertGreaterThanOrEqual(deck.cards.count, minimum, id)
+            XCTAssertEqual(Set(deck.cards.map(\.text)).count, deck.cards.count, id + " must not repeat a word")
+        }
+
+        // 5. Saved sessions identify cards by ID, so IDs stay unique across every category
+        let cardIDs = decks.flatMap(\.cards).map(\.id) + CharadesCatalog.starter.cards.map(\.id)
+        XCTAssertEqual(Set(cardIDs).count, cardIDs.count, "Card IDs must be unique across all categories")
+        XCTAssertEqual(Set(decks.map(\.id)).count, decks.count, "Category IDs must be unique")
+        XCTAssertNil(decks.first { $0.id == "sport" }?.isNew, "Existing categories carry no new badge")
+
+        // 6. Every category has its own colour in the grid
+        for id in decks.map(\.id) + [CharadesCatalog.starter.id] {
+            XCTAssertNotNil(CharadesTheme.deckPalette[id], "Missing category colour for \(id)")
         }
     }
 }

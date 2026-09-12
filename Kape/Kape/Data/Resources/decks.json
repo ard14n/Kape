@@ -3,8 +3,8 @@
     {
       "id": "mix-shqip",
       "title": "Mix Shqip",
-      "description": "Gjithçka shqip – filma, muzikë, ushqim!",
-      "icon_name": "sparkles",
+      "description": "Krejt shqip – qytete, muzikë, ushqim!",
+      "icon_name": "shuffle",
       "difficulty": 1,
       "is_pro": false,
       "cards": [
@@ -138,7 +138,7 @@
         },
         {
           "id": "ms-033",
-          "text": "Kafe Turke"
+          "text": "Kafja turke"
         },
         {
           "id": "ms-034",
@@ -154,7 +154,7 @@
         },
         {
           "id": "ms-037",
-          "text": "Speca me Mazë"
+          "text": "Speca me maz"
         },
         {
           "id": "ms-038",
@@ -219,24 +219,20 @@
         {
           "id": "ms-053",
           "text": "Lumi Vjosa"
-        },
-        {
-          "id": "ms-054",
-          "text": "Ndalimi i TikTok-ut"
         }
       ]
     },
     {
       "id": "gurbet",
-      "title": "Gurbet",
-      "description": "Jeta në mërgim – malli, puna, dhe dasmat në verë.",
+      "title": "Diaspora",
+      "description": "Jeta e diasporës – puna jashtë, malli për shpi e kthimi n’verë.",
       "icon_name": "airplane.departure",
       "difficulty": 1,
       "is_pro": false,
       "cards": [
         {
           "id": "gb-001",
-          "text": "Baustelle"
+          "text": "Baushtell"
         },
         {
           "id": "gb-002",
@@ -292,7 +288,7 @@
         },
         {
           "id": "gb-015",
-          "text": "Mergata"
+          "text": "Mërgata"
         },
         {
           "id": "gb-016",
@@ -311,12 +307,8 @@
           "text": "Kolona"
         },
         {
-          "id": "gb-020",
-          "text": "Feriboti"
-        },
-        {
           "id": "gb-021",
-          "text": "Dasma në Verë"
+          "text": "Dasma n’verë"
         },
         {
           "id": "gb-022",
@@ -324,7 +316,7 @@
         },
         {
           "id": "gb-023",
-          "text": "Muzika Live"
+          "text": "Muzika live"
         },
         {
           "id": "gb-024",
@@ -352,15 +344,15 @@
         },
         {
           "id": "gb-030",
-          "text": "Targat e Huaja"
+          "text": "Tabelat e huaja"
         },
         {
           "id": "gb-031",
-          "text": "Shtëpia në Kosovë"
+          "text": "Shpija n’Kosovë"
         },
         {
           "id": "gb-032",
-          "text": "Banesa në Prishtinë"
+          "text": "Banesa n’Prishtinë"
         },
         {
           "id": "gb-033",
@@ -384,11 +376,11 @@
         },
         {
           "id": "gb-038",
-          "text": "Shkolla Shqipe"
+          "text": "Shkolla shqipe"
         },
         {
           "id": "gb-039",
-          "text": "Fëmijët"
+          "text": "Fmijt"
         },
         {
           "id": "gb-040",
@@ -433,25 +425,13 @@
         {
           "id": "gb-050",
           "text": "Diaspora"
-        },
-        {
-          "id": "gb-051",
-          "text": "Vlogu i pushimeve"
-        },
-        {
-          "id": "gb-052",
-          "text": "Kthimi për Bajram"
-        },
-        {
-          "id": "gb-053",
-          "text": "Yoyo"
         }
       ]
     },
     {
       "id": "muzike",
       "title": "Muzikë",
-      "description": "Nga tallava te pop – e gjithë muzika shqiptare!",
+      "description": "Prej tallavës te popi – krejt muzika shqipe!",
       "icon_name": "music.mic",
       "difficulty": 1,
       "is_pro": false,
@@ -618,7 +598,7 @@
         },
         {
           "id": "mz-041",
-          "text": "Alban Skenderaj"
+          "text": "Alban Skënderaj"
         },
         {
           "id": "mz-042",
@@ -650,7 +630,7 @@
         },
         {
           "id": "mz-049",
-          "text": "Rep Shqip"
+          "text": "Rep shqip"
         },
         {
           "id": "mz-050",
@@ -673,10 +653,6 @@
           "text": "Olsi Bylyku"
         },
         {
-          "id": "mz-055",
-          "text": "Cllevio Serbiano"
-        },
-        {
           "id": "mz-056",
           "text": "Finem"
         },
@@ -693,7 +669,7 @@
     {
       "id": "sport",
       "title": "Sport",
-      "description": "Heronjtë tanë – nga futbolli te xhudo!",
+      "description": "Heronjt tonë – prej futbollit te xhudoja!",
       "icon_name": "sportscourt",
       "difficulty": 1,
       "is_pro": false,
@@ -815,10 +791,6 @@
           "text": "Volejboll"
         },
         {
-          "id": "sp-030",
-          "text": "Festimi me shqiponjë"
-        },
-        {
           "id": "sp-031",
           "text": "Kristjan Asllani"
         },
@@ -839,7 +811,7 @@
     {
       "id": "humor-tv",
       "title": "Humor & TV",
-      "description": "Serialet, show-t dhe batutat legjendare.",
+      "description": "Serialet, show-t e batutat legjendare.",
       "icon_name": "tv",
       "difficulty": 1,
       "is_pro": false,
@@ -950,7 +922,7 @@
         },
         {
           "id": "hu-027",
-          "text": "Programi i Vitit të Ri"
+          "text": "Programi i Vitit t’Ri"
         },
         {
           "id": "hu-028",
@@ -987,9 +959,282 @@
       ]
     },
     {
+      "id": "dasma-tradita",
+      "title": "Dasma & Tradita",
+      "description": "Prej fejesës te dasma – adetet që i njeh çdo familje.",
+      "icon_name": "heart",
+      "difficulty": 1,
+      "is_pro": false,
+      "is_new": true,
+      "cards": [
+        {
+          "id": "dt-001",
+          "text": "Fejesa"
+        },
+        {
+          "id": "dt-002",
+          "text": "Me lyp nusen"
+        },
+        {
+          "id": "dt-003",
+          "text": "Nusja në derë"
+        },
+        {
+          "id": "dt-005",
+          "text": "Krushqit"
+        },
+        {
+          "id": "dt-006",
+          "text": "Vallja e nuses"
+        },
+        {
+          "id": "dt-007",
+          "text": "Me hjedhë pare"
+        },
+        {
+          "id": "dt-008",
+          "text": "Tepsia"
+        },
+        {
+          "id": "dt-009",
+          "text": "Duvaku"
+        },
+        {
+          "id": "dt-010",
+          "text": "Kanagjeqi"
+        },
+        {
+          "id": "dt-012",
+          "text": "Dhandri"
+        },
+        {
+          "id": "dt-013",
+          "text": "Vjehrra"
+        },
+        {
+          "id": "dt-014",
+          "text": "Kulla"
+        },
+        {
+          "id": "dt-015",
+          "text": "Oda e burrave"
+        },
+        {
+          "id": "dt-016",
+          "text": "Rakia e shpisë"
+        },
+        {
+          "id": "dt-017",
+          "text": "Dita e Verës"
+        },
+        {
+          "id": "dt-018",
+          "text": "Bajrami"
+        },
+        {
+          "id": "dt-019",
+          "text": "Nata e Vitit t’Ri"
+        },
+        {
+          "id": "dt-020",
+          "text": "Synetia"
+        },
+        {
+          "id": "dt-021",
+          "text": "Pagëzimi"
+        },
+        {
+          "id": "dt-023",
+          "text": "Ngushëllimi"
+        },
+        {
+          "id": "dt-024",
+          "text": "Kafja e mëngjesit"
+        },
+        {
+          "id": "dt-025",
+          "text": "Mysafirët e papritur"
+        },
+        {
+          "id": "dt-026",
+          "text": "Këpucët te dera"
+        },
+        {
+          "id": "dt-027",
+          "text": "Me ia puthë dorën"
+        },
+        {
+          "id": "dt-029",
+          "text": "Foto me familje"
+        },
+        {
+          "id": "dt-030",
+          "text": "Dhurata për fmi"
+        }
+      ]
+    },
+    {
+      "id": "femijeria",
+      "title": "Fëmijëria",
+      "description": "Nostalgji e viteve ’90 e 2000 – lojna, shkolla e ëmbëlsira.",
+      "icon_name": "gamecontroller",
+      "difficulty": 1,
+      "is_pro": false,
+      "is_new": true,
+      "cards": [
+        {
+          "id": "fe-001",
+          "text": "Fanta Shokata"
+        },
+        {
+          "id": "fe-002",
+          "text": "Çokollata Eurokrem"
+        },
+        {
+          "id": "fe-003",
+          "text": "Tetris"
+        },
+        {
+          "id": "fe-005",
+          "text": "Loja me gogla"
+        },
+        {
+          "id": "fe-006",
+          "text": "Kukafshehthi"
+        },
+        {
+          "id": "fe-007",
+          "text": "Litarthi"
+        },
+        {
+          "id": "fe-008",
+          "text": "Shkolla fillore"
+        },
+        {
+          "id": "fe-009",
+          "text": "Abetarja"
+        },
+        {
+          "id": "fe-010",
+          "text": "Uniforma e shkollës"
+        },
+        {
+          "id": "fe-011",
+          "text": "Ora e fizkulturës"
+        },
+        {
+          "id": "fe-012",
+          "text": "Videokasetat"
+        },
+        {
+          "id": "fe-013",
+          "text": "Tom & Jerry"
+        },
+        {
+          "id": "fe-014",
+          "text": "Kaseta e muzikës"
+        },
+        {
+          "id": "fe-015",
+          "text": "Telefoni me tel"
+        },
+        {
+          "id": "fe-016",
+          "text": "Fotografitë Polaroid"
+        },
+        {
+          "id": "fe-017",
+          "text": "Pushimet te gjyshja"
+        },
+        {
+          "id": "fe-018",
+          "text": "Lopa e gjyshit"
+        },
+        {
+          "id": "fe-019",
+          "text": "Me ujit bahçen"
+        },
+        {
+          "id": "fe-020",
+          "text": "Autobusi për n’shkollë"
+        },
+        {
+          "id": "fe-021",
+          "text": "Detyrat e shpisë"
+        },
+        {
+          "id": "fe-024",
+          "text": "Lojnat n’rrugë"
+        },
+        {
+          "id": "fe-025",
+          "text": "Futbolli me shishe"
+        }
+      ]
+    },
+    {
+      "id": "nena-shqiptare",
+      "title": "Nana shqiptare",
+      "description": "Fjalët që i ka ndi çdo fmi shqiptar.",
+      "icon_name": "house",
+      "difficulty": 1,
+      "is_pro": false,
+      "is_new": true,
+      "cards": [
+        {
+          "id": "ns-001",
+          "text": "Vishe jaknën!"
+        },
+        {
+          "id": "ns-002",
+          "text": "A ke hangër?"
+        },
+        {
+          "id": "ns-003",
+          "text": "Mos rri te kompjuteri"
+        },
+        {
+          "id": "ns-004",
+          "text": "Papuçet e nanës"
+        },
+        {
+          "id": "ns-005",
+          "text": "Pjata e dytë"
+        },
+        {
+          "id": "ns-006",
+          "text": "Ruje qesen"
+        },
+        {
+          "id": "ns-007",
+          "text": "Mshele derën"
+        },
+        {
+          "id": "ns-008",
+          "text": "Ku je kane ?"
+        },
+        {
+          "id": "ns-009",
+          "text": "Hajde n’shpi"
+        },
+        {
+          "id": "ns-011",
+          "text": "Çaji me limon"
+        },
+        {
+          "id": "ns-013",
+          "text": "Ushqimi për rrugë"
+        },
+        {
+          "id": "ns-015",
+          "text": "Kush o ai/ajo?"
+        }
+      ]
+    },
+    {
       "id": "historia",
       "title": "Historia",
-      "description": "Nga Ilirët te Pavarësia – sa mirë e njeh të kaluarën?",
+      "description": "Prej Ilirëve te Pavarësia – sa mirë e njeh historinë?",
       "icon_name": "scroll",
       "difficulty": 2,
       "is_pro": false,
@@ -1131,7 +1376,7 @@
     {
       "id": "politike",
       "title": "Politikë",
-      "description": "Skandale, premtime dhe 'Të fala Parisit'!",
+      "description": "Skandale, premtime e zgjedhje!",
       "icon_name": "building.columns",
       "difficulty": 2,
       "is_pro": false,
@@ -1186,7 +1431,7 @@
         },
         {
           "id": "po-013",
-          "text": "Fushata Zgjedhore"
+          "text": "Fushata zgjedhore"
         },
         {
           "id": "po-014",
@@ -1254,7 +1499,7 @@
         },
         {
           "id": "po-030",
-          "text": "Kryetari i Komunës"
+          "text": "Kryetari i komunës"
         },
         {
           "id": "po-031",
@@ -1274,7 +1519,178 @@
         },
         {
           "id": "po-035",
-          "text": "Sherri në Parlament"
+          "text": "Sherri n’Kuvend"
+        }
+      ]
+    },
+    {
+      "id": "social-media",
+      "title": "Social Media",
+      "description": "Reels, trende e emra që i njeh prej rrjeteve.",
+      "icon_name": "bubble.left.and.bubble.right.fill",
+      "difficulty": 2,
+      "is_pro": false,
+      "is_new": true,
+      "cards": [
+        {
+          "id": "sm-001",
+          "text": "Story në Instagram"
+        },
+        {
+          "id": "sm-002",
+          "text": "Reels"
+        },
+        {
+          "id": "sm-003",
+          "text": "Me dalë live"
+        },
+        {
+          "id": "sm-004",
+          "text": "Selfie para pasqyrës"
+        },
+        {
+          "id": "sm-005",
+          "text": "Me bo like"
+        },
+        {
+          "id": "sm-006",
+          "text": "Me shkru koment"
+        },
+        {
+          "id": "sm-007",
+          "text": "Me bo share"
+        },
+        {
+          "id": "sm-008",
+          "text": "Me bo tag një shok"
+        },
+        {
+          "id": "sm-009",
+          "text": "Hashtag"
+        },
+        {
+          "id": "sm-010",
+          "text": "Linku në bio"
+        },
+        {
+          "id": "sm-011",
+          "text": "Mesazhi privat (DM)"
+        },
+        {
+          "id": "sm-012",
+          "text": "Me bo follow"
+        },
+        {
+          "id": "sm-013",
+          "text": "Me bo repost"
+        },
+        {
+          "id": "sm-014",
+          "text": "Filtri i fytyrës"
+        },
+        {
+          "id": "sm-015",
+          "text": "Video me muzikë"
+        },
+        {
+          "id": "sm-016",
+          "text": "Me bo duet në TikTok"
+        },
+        {
+          "id": "sm-017",
+          "text": "Stitch në TikTok"
+        },
+        {
+          "id": "sm-018",
+          "text": "Me kërcy një trend"
+        },
+        {
+          "id": "sm-019",
+          "text": "Video virale"
+        },
+        {
+          "id": "sm-020",
+          "text": "Influenceri"
+        },
+        {
+          "id": "sm-021",
+          "text": "Reklama e sponsorizuar"
+        },
+        {
+          "id": "sm-022",
+          "text": "Get Ready With Me (GRWM)"
+        },
+        {
+          "id": "sm-023",
+          "text": "Close Friends"
+        },
+        {
+          "id": "sm-024",
+          "text": "Foto karusel"
+        },
+        {
+          "id": "sm-025",
+          "text": "Me bo tutorial"
+        },
+        {
+          "id": "sm-026",
+          "text": "Me ndërru zërin"
+        },
+        {
+          "id": "sm-027",
+          "text": "House tour"
+        },
+        {
+          "id": "sm-028",
+          "text": "Me shtu sticker"
+        },
+        {
+          "id": "sm-029",
+          "text": "Me ruajt videon si draft"
+        },
+        {
+          "id": "sm-030",
+          "text": "Kolaborim në Instagram"
+        },
+        {
+          "id": "sm-031",
+          "text": "Me shtu lokacionin"
+        },
+        {
+          "id": "sm-032",
+          "text": "Sfida në TikTok"
+        },
+        {
+          "id": "sm-033",
+          "text": "Megi Pojani"
+        },
+        {
+          "id": "sm-034",
+          "text": "Oriola Marashi"
+        },
+        {
+          "id": "sm-035",
+          "text": "Bes Kallaku"
+        },
+        {
+          "id": "sm-036",
+          "text": "Olsi Bylyku"
+        },
+        {
+          "id": "sm-037",
+          "text": "Khaby Lame"
+        },
+        {
+          "id": "sm-038",
+          "text": "MrBeast"
+        },
+        {
+          "id": "sm-039",
+          "text": "Charli D’Amelio"
+        },
+        {
+          "id": "sm-040",
+          "text": "Addison Rae"
         }
       ]
     }

@@ -32,8 +32,9 @@ struct CharadesPrivacyCover: UIViewRepresentable {
             shield.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             shield.backgroundColor = UIColor(CharadesTheme.background)
             let label = UILabel()
-            label.text = "Kape!"
-            label.font = .systemFont(ofSize: 34, weight: .bold)
+            _ = CharadesTheme.logoFontRegistered
+            label.text = "KAPE!"
+            label.font = UIFont(name: "Bungee-Regular", size: 48) ?? .systemFont(ofSize: 34, weight: .bold)
             label.textColor = UIColor(CharadesTheme.accent)
             label.translatesAutoresizingMaskIntoConstraints = false
             shield.addSubview(label)
