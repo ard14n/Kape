@@ -10,7 +10,7 @@ An Albanian-language party game: act out or explain a secret word while everyone
 4. Act out or explain the word according to the selected rule, for up to 60 seconds. Mark **U gjet** (guessed) or **Nuk u gjet** (not guessed).
 5. Correct the result if necessary, then pass the phone to the next person.
 
-The introductory instructions are available again from the question-mark button. The app uses a warm coral palette, follows the phone's light/dark appearance and supports an explicit appearance preference. iPhone play uses portrait orientation.
+The introductory instructions are available again from the question-mark button. The app uses the Kuq e Flakë palette: a dark background, red accents, warm yellow actions, neon outlines and a glowing timer. Found and not-found results use green and red. The app has a dedicated dark appearance. iPhone play uses portrait orientation.
 
 ## Play styles
 
@@ -32,13 +32,15 @@ The selected rule appears during handoff, private reading and play. A game keeps
 
 ## Categories
 
-The free **Për të filluar** starter contains 64 actions, animals and everyday activities. The seven themed categories hold 302 words: Mix Shqip, Gurbet, Muzikë, Sport, Humor & TV, Historia, Politikë. The September 2026 content revision replaced 27 outdated, duplicate or mislabeled cards, corrected two card texts and added 36 current cards across all categories; card IDs of retained cards are unchanged. All eight categories are free and can be used with any play style. The current TestFlight gameplay was accepted by a real group, as confirmed by the owner on 5 September 2026.
+The free **Sa për fillim** starter contains 57 everyday actions and animals. Eleven themed categories contain another 395 cards: Mix Shqip, Diaspora, Muzikë, Sport, Humor & TV, Social Media, Dasma & Tradita, Fëmijëria, Nana shqiptare, Historia and Politikë. All twelve categories and 452 cards are free and work with every play style. The Albanian wording uses the Gheg dialect of Kosovo. A tournament needs one card per turn; setup explains when a category cannot cover the selected number of players and rounds.
+
+The September 12 revision removed 24 distinct cards, renamed Diaspora and the starter, corrected selected card text and replaced the app icon with the selected party-card design. Retained card IDs are stable. Existing saved games keep their original card snapshot; start a new game to use the revised catalog.
 
 ## Free release and saved games
 
 The first public release has no purchases, subscription or advertising. The active Charades flow does not initialize StoreKit or check entitlements. Legacy store code and its regression tests remain unconnected; old saved games with a paid-category flag remain readable and playable.
 
-Game content is bundled. A current game is stored locally, including completed results and the paused turn. Leaving the app pauses the timer and hides private content; resuming requires a tap. The app-switcher cover is synchronous UIKit UI. The display stays awake only during countdown and acting. Settings provide sound, appearance, help and privacy links.
+Game content is bundled. A current game is stored locally, including completed results and the paused turn. Leaving the app pauses the timer and hides private content; resuming requires a tap. The app-switcher cover is synchronous UIKit UI. The display stays awake only during countdown and acting. Settings provide sound, help and privacy links.
 
 Store/account, privacy/support disclosures, real-device behavior and distribution are separate release checks. A simulator pass is not a real StoreKit purchase or App Store approval.
 
@@ -51,7 +53,7 @@ Store/account, privacy/support disclosures, real-device behavior and distributio
 - iOS 17+, SwiftUI, Observation, AVFoundation.
 - Development checks used Xcode 26.5, Swift language mode 5. The shared `Kape` scheme includes both test targets and archives in Release configuration.
 - App Store archives require a supported **released macOS and Xcode combination**. Xcode 26.5 on macOS 27 beta produced build 18, which Apple rejected with ITMS-90111 despite successful upload and initial review submission. Do not submit archives from that host or edit their build-provenance metadata.
-- The prepared replacement uses Xcode Cloud with Xcode 26.6 (17F113) on macOS 26.6.2 (25G83), App Store distribution preparation, and a fresh build number starting at 19. Verify the actual source commit, tests, archive metadata and App Store processing before claiming acceptance. Preparation is not a completed replacement build.
+- The successful first release used Xcode Cloud with Xcode 26.6 (17F113) on macOS 26.6.2 (25G83), App Store Connect distribution preparation and build 20. Version 1.1 is prepared locally with build 22 matching the next Xcode Cloud run observed on September 12. Xcode Cloud replaces the build number with its run counter; verify the current Apple maximum and Cloud counter before starting the next run. The same App Store-eligible build is intended for internal TestFlight and the subsequent App Store update. Do not use an Internal Only workflow for that candidate.
 - `Kape/Kape/Features/Charades/` owns the current UI and testable session state machine.
 - `ContentView` starts `CharadesHomeView`; there is no motion/forehead mode in navigation.
 - Legacy Game, Tournament, Summary and neon components remain as unconnected code with regression tests. Removing that legacy code is a separate cleanup.

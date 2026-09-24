@@ -23,11 +23,15 @@ struct Deck: Identifiable, Codable, Equatable {
     
     /// Cards contained in this deck
     let cards: [Card]
-    
+
+    /// Marks a recently added category with an "E re" badge in the category grid
+    var isNew: Bool? = nil
+
     enum CodingKeys: String, CodingKey {
         case id, title, description, cards, difficulty
         case iconName = "icon_name"
         case isPro = "is_pro"
+        case isNew = "is_new"
     }
 }
 
