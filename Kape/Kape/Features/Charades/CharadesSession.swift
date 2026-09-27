@@ -32,11 +32,15 @@ final class CharadesSession: Identifiable {
         var remaining: TimeInterval = 60
         var turnDuration: TimeInterval = 60
         var countdownDuration: TimeInterval = 3
+        // Optional fields preserve decoding of all v1 saves, including skipped words.
+        var usedWordKeys: Set<String>? = nil
+        var lastCategoryID: String? = nil
     }
 
     private(set) var snapshot: Snapshot
     @ObservationIgnored private var deadline: TimeInterval?
     @ObservationIgnored private let now: () -> TimeInterval
+    @ObservationIgnored private let chooseIndex: (Int) -> Int
     @ObservationIgnored var save: (Snapshot) -> Void = { _ in }
 
     var id: UUID { snapshot.id }
@@ -44,6 +48,9 @@ final class CharadesSession: Identifiable {
     var playStyle: CharadesPlayStyle { snapshot.playStyle ?? .pantomime }
     var isClockRunning: Bool { phase == .countdown || phase == .acting }
     var isTournament: Bool { snapshot.mode == .tournament }
+    var isMixed: Bool { snapshot.deck.id == CharadesCatalog.mixedID }
+    /// Category is private for the same phases as the word itself.
+    var currentCategory: Card.Category? { phase == .reading ? snapshot.current?.category : nil }
     var turnIndex: Int { snapshot.outcomes.count }
     var performerIndex: Int { turnIndex % snapshot.names.count }
     var performer: String { isTournament ? snapshot.names[performerIndex] : "Personi që ka me lujt" }
@@ -75,18 +82,22 @@ final class CharadesSession: Identifiable {
 
     init(mode: Mode, playStyle: CharadesPlayStyle = .freeChoice, names: [String] = ["Së bashku"], rounds: Int = 3, deck: Deck,
          shuffled: Bool = true, turnDuration: TimeInterval = 60, countdownDuration: TimeInterval = 3,
-         now: @escaping () -> TimeInterval = { ProcessInfo.processInfo.systemUptime }) {
+         now: @escaping () -> TimeInterval = { ProcessInfo.processInfo.systemUptime },
+         chooseIndex: @escaping (Int) -> Int = { Int.random(in: 0..<$0) }) {
         let players = mode == .tournament ? names.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) } : ["Së bashku"]
         precondition(Self.validNames(players, tournament: mode == .tournament))
         precondition([1, 3, 5].contains(rounds))
+        let unique = CharadesCatalog.uniqueCards(deck.cards)
         snapshot = Snapshot(mode: mode, playStyle: playStyle, names: players, rounds: rounds, deck: deck,
-                            pool: shuffled ? deck.cards.shuffled() : deck.cards,
+                            pool: shuffled ? unique.shuffled() : unique,
                             remaining: turnDuration, turnDuration: turnDuration,
-                            countdownDuration: countdownDuration)
+                            countdownDuration: countdownDuration, usedWordKeys: [])
         self.now = now
+        self.chooseIndex = chooseIndex
     }
 
-    init?(restoring state: Snapshot, now: @escaping () -> TimeInterval = { ProcessInfo.processInfo.systemUptime }) {
+    init?(restoring state: Snapshot, now: @escaping () -> TimeInterval = { ProcessInfo.processInfo.systemUptime },
+          chooseIndex: @escaping (Int) -> Int = { Int.random(in: 0..<$0) }) {
         guard state.version == 1, Self.validNames(state.names, tournament: state.mode == .tournament),
               [1, 3, 5].contains(state.rounds),
               state.turnDuration > 0, state.turnDuration <= 60,
@@ -103,6 +114,17 @@ final class CharadesSession: Identifiable {
         else { return nil }
         snapshot = state
         self.now = now
+        self.chooseIndex = chooseIndex
+        // Old saves had only a shrinking pool. Cards absent from it were already seen,
+        // including replacements that never produced a scored outcome.
+        let remainingIDs = Set(state.pool.map(\.id))
+        var used = state.usedWordKeys ?? Set(state.deck.cards.filter { !remainingIDs.contains($0.id) }
+            .map { CharadesCatalog.wordKey($0.text) })
+        used.formUnion(state.outcomes.map { CharadesCatalog.wordKey($0.word) })
+        if let current = state.current { used.insert(CharadesCatalog.wordKey(current.text)) }
+        snapshot.usedWordKeys = used
+        snapshot.pool = CharadesCatalog.uniqueCards(state.pool).filter { !used.contains(CharadesCatalog.wordKey($0.text)) }
+        if snapshot.lastCategoryID == nil { snapshot.lastCategoryID = state.current?.category?.id }
         // A restored word is always behind an explicit privacy/resume gate.
         if [.reading, .countdown, .acting, .timeUp, .result].contains(state.phase) {
             snapshot.resumePhase = state.phase
@@ -136,7 +158,27 @@ final class CharadesSession: Identifiable {
             changed()
             return
         }
-        snapshot.current = snapshot.pool.removeFirst()
+        var index = 0
+        if isMixed {
+            // Pick categories equally, not in proportion to their number of remaining cards.
+            var categories: [String] = []
+            var seen = Set<String>()
+            for card in snapshot.pool {
+                if let id = card.category?.id, seen.insert(id).inserted { categories.append(id) }
+            }
+            let alternatives = categories.filter { $0 != snapshot.lastCategoryID }
+            let eligible = alternatives.isEmpty ? categories : alternatives
+            if !eligible.isEmpty {
+                let category = eligible[chooseIndex(eligible.count)]
+                index = snapshot.pool.firstIndex { $0.category?.id == category } ?? 0
+            }
+        }
+        let card = snapshot.pool.remove(at: index)
+        let key = CharadesCatalog.wordKey(card.text)
+        snapshot.usedWordKeys?.insert(key)
+        snapshot.pool.removeAll { CharadesCatalog.wordKey($0.text) == key }
+        snapshot.current = card
+        snapshot.lastCategoryID = card.category?.id
         snapshot.remaining = snapshot.turnDuration
         snapshot.phase = .reading
         changed()

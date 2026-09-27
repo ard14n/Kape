@@ -191,12 +191,23 @@ struct CharadesPlayView: View {
                 Text(session.score == 1 ? "1 fjalë e gjetur deri tani" : "\(session.score) fjalë të gjetura deri tani").font(.headline).foregroundStyle(CharadesTheme.success)
             }
         case .reading:
-            Label("Vetëm për ty", systemImage: "eye.slash")
-                .font(.subheadline.bold()).foregroundStyle(CharadesTheme.accent).accessibilityAddTraits(.isHeader)
+            VStack(spacing: 8) {
+                Label("Vetëm për ty", systemImage: "eye.slash")
+                    .font(.subheadline.bold()).foregroundStyle(CharadesTheme.accent).accessibilityAddTraits(.isHeader)
+                if session.isMixed, let category = session.currentCategory {
+                    Label(category.title, systemImage: category.iconName)
+                        .font(.headline).foregroundStyle(CharadesTheme.deckColor(category.id))
+                        .accessibilityIdentifier("ReadingCategory")
+                }
+            }
+            // Keep supporting labels compact so the secret word remains visible above the
+            // fixed actions on small phones, including the largest accessibility text size.
+            .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
             if let word = session.visibleWord {
-                Text(word).font(.system(size: wordSize, weight: .heavy, design: .rounded))
-                    .lineLimit(4).minimumScaleFactor(0.5).multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity, minHeight: typeSize.isAccessibilitySize ? 120 : 200)
+                Text(word).font(.system(size: typeSize.isAccessibilitySize ? min(wordSize, 64) : wordSize, weight: .heavy, design: .rounded))
+                    .lineLimit(4).minimumScaleFactor(typeSize.isAccessibilitySize ? 0.35 : 0.5).multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: typeSize.isAccessibilitySize ? 120 : 200)
                     .charadesPanel()
                     .accessibilityIdentifier("SecretWord")
             }
@@ -224,8 +235,8 @@ struct CharadesPlayView: View {
                             symbol: "trophy.fill", celebrate: true, color: CharadesTheme.success)
             if session.isTournament { leaderboard(final: true) }
         case .exhausted:
-            CharadesHeading(eyebrow: "Kategoria mbaroi", title: "I pamë krejt fjalët.",
-                            detail: session.isTournament ? "Turneu mbeti i papërfunduar. Nuk shpallim fitues, sepse nuk u lujtën krejt radhët." : "Fjalët s’përsëriten në të njëjtën lojë. Zgjedhe një kategori tjetër dhe nise një lojë të re.",
+            CharadesHeading(eyebrow: "Fjalët mbaruan", title: "I pamë krejt fjalët.",
+                            detail: session.isTournament ? "Turneu mbeti i papërfunduar. Nuk shpallim fitues, sepse nuk u lujtën krejt radhët." : "Fjalët s’përsëriten në të njëjtën lojë. Nise një lojë të re për me lujtë prapë.",
                             symbol: "rectangle.stack")
             if session.isTournament { leaderboard(final: false) }
         }
@@ -278,6 +289,7 @@ struct CharadesPlayView: View {
         let layout = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .center, spacing: 8)) : AnyLayout(HStackLayout(spacing: 18))
         return layout {
             chip(session.snapshot.deck.title, symbol: session.snapshot.deck.iconName, color: deckColor)
+                .accessibilityIdentifier("SessionCategory")
             chip(session.playStyle.title, symbol: session.playStyle.symbol, color: CharadesTheme.accent)
                 .accessibilityIdentifier("SessionPlayStyle")
         }

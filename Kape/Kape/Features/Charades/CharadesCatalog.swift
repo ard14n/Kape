@@ -2,6 +2,45 @@ import Foundation
 
 /// A separate, free starter set; original decks and purchase identifiers are preserved.
 enum CharadesCatalog {
+    static let mixedID = "all-categories"
+
+    /// Keep Albanian letters distinct, but treat typography, case and spacing as the same word.
+    static func wordKey(_ text: String) -> String {
+        text.precomposedStringWithCanonicalMapping
+            .replacingOccurrences(of: "’", with: "'")
+            .replacingOccurrences(of: "‘", with: "'")
+            .lowercased(with: Locale(identifier: "sq"))
+            .split(whereSeparator: { $0.isWhitespace }).joined(separator: " ")
+    }
+
+    static func uniqueCards(_ cards: [Card]) -> [Card] {
+        var words = Set<String>()
+        var ids = Set<String>()
+        return cards.filter {
+            let key = wordKey($0.text)
+            guard !key.isEmpty, !words.contains(key), !ids.contains($0.id) else { return false }
+            words.insert(key)
+            ids.insert($0.id)
+            return true
+        }
+    }
+
+    static func mixedDeck(from decks: [Deck]) -> Deck {
+        var categories = Set<String>()
+        let source = (decks + [starter]).filter { $0.id != mixedID && categories.insert($0.id).inserted }
+        let cards = source.flatMap { deck in
+            deck.cards.map { card in
+                // Prefix with the category so locally reused card IDs cannot collide.
+                Card(id: "\(deck.id.count):\(deck.id):\(card.id)", text: card.text,
+                     category: Card.Category(id: deck.id, title: deck.title, iconName: deck.iconName))
+            }
+        }
+        return Deck(id: mixedID, title: "Krejt kategoritë",
+                    description: "Kategoria ndërron vetë. Fjalët s’përsëriten në këtë lojë.",
+                    iconName: "shuffle", difficulty: 1, isPro: false,
+                    cards: uniqueCards(cards), isNew: true)
+    }
+
     static let starter = Deck(
         id: "pantomime", title: "Sa për fillim", description: "Fjalë të lehta për me hy n’lojë.",
         iconName: "theatermasks", difficulty: 1, isPro: false,

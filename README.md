@@ -36,6 +36,14 @@ The free **Sa për fillim** starter contains 57 everyday actions and animals. El
 
 The September 12 revision removed 24 distinct cards, renamed Diaspora and the starter, corrected selected card text and replaced the app icon with the selected party-card design. Retained card IDs are stable. Existing saved games keep their original card snapshot; start a new game to use the revised catalog.
 
+### Mixed categories (iOS 1.2)
+
+**Krejt kategoritë** is the initial selection at the top of the category picker and plays with all twelve categories. The current catalog contributes 443 distinct words from 452 cards; words shared by several categories appear only once. Individual categories remain available, and continuing a saved game preserves its original category.
+
+Each reveal or replacement randomly chooses an available category other than the previous one. Categories have equal selection probability regardless of their remaining size. If only one category still has words, play continues from it. The source category is shown only during private reading, then hidden together with the word.
+
+Words are consumed when revealed, including skipped, missed and timed-out words. The same history applies to all players and rounds in a game, survives saving and relaunching, and is reset only by starting a new game (including Play Again). Capitalization, whitespace, Unicode composition and curly/straight apostrophes do not create separate words; distinct Albanian letters remain distinct. Single-category games use the same duplicate protection. Older saves infer seen and skipped words from their remaining pool. Exhausted pools end explicitly without refilling or declaring an incomplete tournament winner.
+
 ## Free release and saved games
 
 The first public release has no purchases, subscription or advertising. The active Charades flow does not initialize StoreKit or check entitlements. Legacy store code and its regression tests remain unconnected; old saved games with a paid-category flag remain readable and playable.
@@ -53,7 +61,7 @@ Store/account, privacy/support disclosures, real-device behavior and distributio
 - iOS 17+, SwiftUI, Observation, AVFoundation.
 - Development checks used Xcode 26.5, Swift language mode 5. The shared `Kape` scheme includes both test targets and archives in Release configuration.
 - App Store archives require a supported **released macOS and Xcode combination**. Xcode 26.5 on macOS 27 beta produced build 18, which Apple rejected with ITMS-90111 despite successful upload and initial review submission. Do not submit archives from that host or edit their build-provenance metadata.
-- The successful first release used Xcode Cloud with Xcode 26.6 (17F113) on macOS 26.6.2 (25G83), App Store Connect distribution preparation and build 20. Version 1.1 is prepared locally with build 22 matching the next Xcode Cloud run observed on September 12. Xcode Cloud replaces the build number with its run counter; verify the current Apple maximum and Cloud counter before starting the next run. The same App Store-eligible build is intended for internal TestFlight and the subsequent App Store update. Do not use an Internal Only workflow for that candidate.
+- The successful first release used Xcode Cloud with Xcode 26.6 (17F113) on macOS 26.6.2 (25G83), App Store Connect distribution preparation and build 20. Version 1.1 (22) was released on September 13. The iOS 1.2 update adds mixed categories as the default selection and prevents repeated words within a game. Its source build number is prepared as 24. Xcode Cloud replaces the build number with its run counter; verify the current Apple maximum and Cloud counter before starting the next run. The same App Store-eligible build is intended for internal TestFlight and the subsequent App Store update. Do not use an Internal Only workflow for that candidate.
 - `Kape/Kape/Features/Charades/` owns the current UI and testable session state machine.
 - `ContentView` starts `CharadesHomeView`; there is no motion/forehead mode in navigation.
 - Legacy Game, Tournament, Summary and neon components remain as unconnected code with regression tests. Removing that legacy code is a separate cleanup.

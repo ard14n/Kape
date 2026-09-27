@@ -110,8 +110,7 @@ final class CharadesUITests: XCTestCase {
     func testPrivateLoopAndVisibleResultCorrection() {
         let app = launch()
         capture("01-home", app)
-        // Owner decision: the app opens with Mix Shqip preselected.
-        XCTAssertTrue(app.buttons["ChooseCategory"].label.contains("Mix Shqip"))
+        XCTAssertTrue(app.buttons["ChooseCategory"].label.contains("Krejt kategoritë"))
         XCTAssertEqual(app.buttons["ChoosePlayStyle"].value as? String, "Zgjedhje e lirë")
         start(app)
         XCTAssertEqual(app.staticTexts["SessionPlayStyle"].label, "Zgjedhje e lirë")
@@ -148,6 +147,84 @@ final class CharadesUITests: XCTestCase {
         XCTAssertTrue(app.buttons["PlayAgain"].exists)
         tap(app, "ReturnHome")
         XCTAssertTrue(app.buttons["StartTogether"].waitForExistence(timeout: 5))
+    }
+
+    func testMixedCategoriesSwitchWithoutRepeatsAndStayPrivate() {
+        let app = launch()
+        XCTAssertTrue(app.buttons["ChooseCategory"].label.contains("Krejt kategoritë"))
+        // Use the real countdown so its privacy state can be inspected before acting begins.
+        app.terminate()
+        app.launchArguments = []
+        app.launchEnvironment = [:]
+        app.launch()
+        tap(app, "ChooseCategory")
+        XCTAssertTrue(app.buttons["Category-all-categories"].waitForExistence(timeout: 5))
+        capture("mixed-01-category-picker", app)
+        tap(app, "Category-all-categories")
+        XCTAssertTrue(app.buttons["ChooseCategory"].label.contains("Krejt kategoritë"))
+        XCTAssertTrue(app.staticTexts["MixedCategoryExplanation"].exists)
+        capture("mixed-02-home", app)
+        start(app)
+        XCTAssertEqual(app.staticTexts["SessionCategory"].label, "Krejt kategoritë")
+        XCTAssertFalse(app.staticTexts["ReadingCategory"].exists)
+        tap(app, "RevealWord")
+        var words = Set<String>()
+        var previousCategory: String?
+        for index in 0..<5 {
+            XCTAssertTrue(app.staticTexts["SecretWord"].waitForExistence(timeout: 5))
+            let word = app.staticTexts["SecretWord"].label
+            let category = app.staticTexts["ReadingCategory"].label
+            XCTAssertFalse(category.isEmpty)
+            XCTAssertNotEqual(category, "Krejt kategoritë")
+            XCTAssertTrue(words.insert(word).inserted, "A skipped word must remain used for this game.")
+            if let previousCategory { XCTAssertNotEqual(category, previousCategory) }
+            previousCategory = category
+            if index < 4 { tap(app, "AnotherWord") }
+        }
+        capture("mixed-03-private-category", app)
+        XCTAssertLessThanOrEqual(app.staticTexts["SecretWord"].frame.maxY, app.buttons["HideWord"].frame.minY,
+                                 "The whole secret word must be visible above the fixed actions, even at maximum text size.")
+        XCTAssertGreaterThanOrEqual(app.staticTexts["SecretWord"].frame.minY, app.navigationBars.firstMatch.frame.maxY)
+        let lastWord = app.staticTexts["SecretWord"].label
+        let lastCategory = app.staticTexts["ReadingCategory"].label
+        tap(app, "HideWord")
+        XCTAssertFalse(app.staticTexts["ReadingCategory"].exists)
+        XCTAssertFalse(app.staticTexts["SecretWord"].exists)
+        XCTAssertTrue(app.staticTexts["Fjala u fsheh"].exists)
+        capture("mixed-04-countdown-private", app)
+        XCTAssertTrue(app.buttons["Guessed"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts[lastWord].exists)
+        XCTAssertFalse(app.staticTexts[lastCategory].exists)
+        tap(app, "PauseGame")
+        XCTAssertTrue(app.buttons["ResumeGame"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["ReadingCategory"].exists)
+        XCTAssertFalse(app.staticTexts[lastWord].exists)
+        XCTAssertFalse(app.staticTexts[lastCategory].exists)
+        tap(app, "ResumeGame")
+        tap(app, "Guessed")
+        tap(app, "NextTurn")
+        tap(app, "RevealWord")
+        XCTAssertTrue(words.insert(app.staticTexts["SecretWord"].label).inserted)
+        XCTAssertNotEqual(app.staticTexts["ReadingCategory"].label, lastCategory)
+    }
+
+    func testMixedCategoriesReplayKeepsTheSelectedMode() {
+        let app = launch()
+        tap(app, "ChooseCategory")
+        tap(app, "Category-all-categories")
+        start(app)
+        _ = revealAndAct(app)
+        tap(app, "Guessed")
+        tap(app, "FinishTogether")
+        tap(app, "PlayAgain")
+        XCTAssertTrue(app.buttons["RevealWord"].waitForExistence(timeout: 5))
+        XCTAssertEqual(app.staticTexts["SessionCategory"].label, "Krejt kategoritë")
+        XCTAssertFalse(app.staticTexts["ReadingCategory"].exists)
+        tap(app, "RevealWord")
+        XCTAssertTrue(app.staticTexts["ReadingCategory"].exists)
+        XCTAssertFalse(app.staticTexts["ReadingCategory"].label.isEmpty)
+        XCTAssertTrue(app.staticTexts["SecretWord"].exists)
+        capture("mixed-05-replay", app)
     }
 
     private func assertClockAndAnswersVisible(_ app: XCUIApplication, file: StaticString = #filePath, line: UInt = #line) {
@@ -320,10 +397,10 @@ final class CharadesUITests: XCTestCase {
         executionTimeAllowance = 1200
         playStart = Date()
 
-        // 1 · together, default deck (Mix Shqip), free choice: guessed, missed, guessed
+        // 1 · together, default deck (Krejt kategoritë), free choice: guessed, missed, guessed
         var app = launch()
         capture("g1-home", app)
-        note("Spiel 1: Lujmë bashkë · Mix Shqip (Standard) · Zgjedhje e lirë")
+        note("Spiel 1: Lujmë bashkë · Krejt kategoritë (Standard) · Zgjedhje e lirë")
         start(app); capture("g1-handoff", app)
         turn(app, game: 1, index: 1, guessed: true); tap(app, "NextTurn")
         turn(app, game: 1, index: 2, guessed: false); tap(app, "NextTurn")

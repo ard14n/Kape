@@ -7,7 +7,7 @@ struct CharadesHomeView: View {
     @AppStorage("kape.intro.play-styles.seen") private var introSeen = false
     @AppStorage("kape.play-style") private var playStyleRaw = CharadesPlayStyle.freeChoice.rawValue
     private var selectedStyle: CharadesPlayStyle { CharadesPlayStyle(rawValue: playStyleRaw) ?? .freeChoice }
-    @State private var selectedDeck = CharadesCatalog.starter
+    @State private var selectedDeck = CharadesCatalog.mixedDeck(from: [])
     @State private var sheet: Sheet?
     @State private var session: CharadesSession?
     @State private var showingGame = false
@@ -37,6 +37,13 @@ struct CharadesHomeView: View {
                             Button { sheet = .categories } label: { categoryCard }
                                 .buttonStyle(.plain).accessibilityIdentifier("ChooseCategory")
                                 .accessibilityLabel("Kategoria: \(selectedDeck.title). Ndrysho kategorinë")
+                            if selectedDeck.id == "all-categories" {
+                                Text(selectedDeck.description)
+                                    .font(.subheadline).foregroundStyle(CharadesTheme.muted)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .accessibilityIdentifier("MixedCategoryExplanation")
+                            }
                             Button { sheet = .playStyle } label: { styleRow }
                                 .buttonStyle(.plain).accessibilityIdentifier("ChoosePlayStyle")
                                 .accessibilityLabel("Mënyra e lojës. Ndrysho")
@@ -109,8 +116,7 @@ struct CharadesHomeView: View {
         .task {
             guard !loaded else { return }
             loaded = true
-            // Owner decision: Mix Shqip is the category the app opens with.
-            if let mix = decks.decks.first(where: { $0.id == "mix-shqip" }) { selectedDeck = mix }
+            selectedDeck = CharadesCatalog.mixedDeck(from: decks.decks)
             if let restored = CharadesArchive.load() {
                 restored.save = { CharadesArchive.save($0) }
                 session = restored
@@ -175,7 +181,7 @@ struct CharadesHomeView: View {
                 }
                 Text(selectedDeck.title).font(.system(.title2, design: .rounded, weight: .heavy)).foregroundStyle(CharadesTheme.onAccent)
                     .lineLimit(2).minimumScaleFactor(0.6).fixedSize(horizontal: false, vertical: true)
-                Text("\(selectedDeck.cards.count) fjalë")
+                Text("\(CharadesCatalog.uniqueCards(selectedDeck.cards).count) fjalë")
                     .font(.subheadline.weight(.semibold)).foregroundStyle(CharadesTheme.cardMuted)
             }
             Spacer(minLength: 0)
@@ -306,6 +312,9 @@ struct CharadesCategories: View {
         NavigationStack {
             CharadesPage {
                 Text("Zgjedhi fjalët.").font(.system(.title, design: .rounded, weight: .heavy)).accessibilityAddTraits(.isHeader)
+                tile(CharadesCatalog.mixedDeck(from: decks), featured: true)
+                Text("Ose zgjedhe një kategori")
+                    .font(.headline).foregroundStyle(CharadesTheme.muted).accessibilityAddTraits(.isHeader)
                 LazyVGrid(columns: columns, spacing: 14) {
                     ForEach(availableDecks) { tile($0, featured: false) }
                 }
@@ -315,7 +324,7 @@ struct CharadesCategories: View {
         }.tint(CharadesTheme.accent)
     }
     private var availableDecks: [Deck] {
-        let all = decks.filter { $0.id != CharadesCatalog.starter.id } + [CharadesCatalog.starter]
+        let all = decks.filter { $0.id != CharadesCatalog.starter.id && $0.id != "all-categories" } + [CharadesCatalog.starter]
         return all.filter { $0.id == "mix-shqip" } + all.filter { $0.id != "mix-shqip" }
     }
     private var columns: [GridItem] {
@@ -325,6 +334,7 @@ struct CharadesCategories: View {
         let color = CharadesTheme.deckColor(deck.id)
         let isSelected = selected.id == deck.id
         let isNew = deck.isNew == true
+        let wordCount = CharadesCatalog.uniqueCards(deck.cards).count
         return Button {
             selected = deck
             dismiss()
@@ -346,7 +356,7 @@ struct CharadesCategories: View {
                 if featured || typeSize.isAccessibilitySize {
                     Text(deck.description).font(.subheadline).foregroundStyle(CharadesTheme.onAccent).fixedSize(horizontal: false, vertical: true)
                 }
-                Text("\(deck.cards.count) fjalë").font(.caption.bold()).foregroundStyle(CharadesTheme.cardMuted)
+                Text("\(wordCount) fjalë").font(.caption.bold()).foregroundStyle(CharadesTheme.cardMuted)
             }
             .padding(16).frame(maxWidth: .infinity, minHeight: featured ? 0 : 124, alignment: .topLeading)
             .background {
@@ -355,7 +365,7 @@ struct CharadesCategories: View {
             }
             .overlay(RoundedRectangle(cornerRadius: 18).stroke(CharadesTheme.onAccent, lineWidth: isSelected ? 3 : 2))
         }.buttonStyle(.plain).accessibilityIdentifier("Category-\(deck.id)")
-        .accessibilityLabel("\(deck.title), \(deck.cards.count) fjalë" + (isNew ? ", e re" : "") + (isSelected ? ", e zgjedhur" : ""))
+        .accessibilityLabel("\(deck.title), \(wordCount) fjalë" + (isNew ? ", e re" : "") + (isSelected ? ", e zgjedhur" : ""))
         .accessibilityHint(deck.description)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
@@ -373,7 +383,8 @@ struct CharadesTournamentSetup: View {
     @State private var players = [Player(name: "Lojtari 1"), Player(name: "Lojtari 2")]
     private var names: [String] { players.map(\.name) }
     @State private var rounds = 3
-    private var valid: Bool { CharadesSession.validNames(names) && deck.cards.count >= names.count * rounds }
+    private var wordCount: Int { CharadesCatalog.uniqueCards(deck.cards).count }
+    private var valid: Bool { CharadesSession.validNames(names) && wordCount >= names.count * rounds }
     /// The rounds picker is the app's only segmented control; give it the neon colours once.
     private static let neonPicker: Void = {
         let control = UISegmentedControl.appearance()
@@ -428,8 +439,8 @@ struct CharadesTournamentSetup: View {
                     }.pickerStyle(.segmented).accessibilityIdentifier("RoundsPicker")
                     Text("\(names.count * rounds) fjalë gjithsej · deri në 60 sekonda për fjalë")
                         .font(.subheadline).foregroundStyle(CharadesTheme.muted)
-                    if deck.cards.count < names.count * rounds {
-                        Text("Kjo kategori ka vetëm \(deck.cards.count) fjalë. Zgjedh ma pak radhë ose persona.")
+                    if wordCount < names.count * rounds {
+                        Text("Kjo kategori ka vetëm \(wordCount) fjalë. Zgjedh ma pak radhë ose persona.")
                             .font(.footnote).foregroundStyle(CharadesTheme.warning)
                             .accessibilityIdentifier("TournamentTooFewWords")
                     }

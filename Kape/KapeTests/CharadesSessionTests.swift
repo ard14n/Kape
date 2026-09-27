@@ -19,6 +19,190 @@ final class CharadesSessionTests: XCTestCase {
         XCTAssertEqual(game.phase, .acting)
     }
 
+    private func mixedFixture() -> Deck {
+        let cards = ["a", "b", "c"].flatMap { category in
+            (0..<4).map { n in
+                Card(id: "\(category)-\(n)", text: "\(category) word \(n)",
+                     category: Card.Category(id: category, title: category, iconName: "star"))
+            }
+        }
+        return Deck(id: CharadesCatalog.mixedID, title: "Mixed", description: "", iconName: "shuffle",
+                    difficulty: 1, isPro: false, cards: cards)
+    }
+
+    func testMixedSkipsSwitchCategoriesAndExhaustWithoutRepeating() throws {
+        let deck = mixedFixture()
+        let s = CharadesSession(mode: .together, deck: deck, shuffled: false, chooseIndex: { _ in 0 })
+        var words = Set<String>()
+        var previous: String?
+        s.reveal()
+        while s.phase == .reading {
+            let card = try XCTUnwrap(s.snapshot.current)
+            let category = try XCTUnwrap(s.currentCategory?.id)
+            XCTAssertTrue(words.insert(card.text).inserted)
+            if category == previous {
+                XCTAssertTrue(s.snapshot.pool.allSatisfy { $0.category?.id == category }, "Repeat category only when no alternative remains")
+            }
+            previous = category
+            s.anotherWord()
+        }
+        XCTAssertEqual(words.count, deck.cards.count)
+        XCTAssertEqual(s.phase, .exhausted)
+        XCTAssertEqual(s.turnIndex, 0)
+        XCTAssertNil(s.currentCategory)
+        s.reveal(); s.anotherWord()
+        XCTAssertEqual(s.phase, .exhausted)
+    }
+
+    func testMixedDrawChoosesAmongCategoriesNotCards() {
+        var choices: [Int] = []
+        let s = CharadesSession(mode: .together, deck: mixedFixture(), shuffled: false, chooseIndex: {
+            choices.append($0)
+            return $0 - 1
+        })
+        s.reveal()
+        XCTAssertEqual(s.currentCategory?.id, "c")
+        s.anotherWord()
+        XCTAssertEqual(s.currentCategory?.id, "b")
+        s.anotherWord()
+        XCTAssertEqual(s.currentCategory?.id, "c")
+        XCTAssertEqual(choices, [3, 2, 2])
+    }
+
+    func testDuplicateWordsAcrossIDsAndCategoriesAreUsedOnlyOnce() {
+        let category = Card.Category(id: "a", title: "A", iconName: "star")
+        let other = Card.Category(id: "b", title: "B", iconName: "star")
+        let cards = [Card(id: "1", text: "  NJË   Fjalë  ", category: category),
+                     Card(id: "2", text: "një fjalë", category: other),
+                     Card(id: "3", text: "nj\u{0065}\u{0308} fjalë", category: other),
+                     Card(id: "4", text: "N’lojë", category: category),
+                     Card(id: "5", text: "n'lojë", category: other),
+                     Card(id: "6", text: "Nje fjale", category: other)]
+        let deck = Deck(id: CharadesCatalog.mixedID, title: "Test", description: "", iconName: "shuffle",
+                        difficulty: 1, isPro: false, cards: cards)
+        let s = CharadesSession(mode: .together, deck: deck, shuffled: false, chooseIndex: { _ in 0 })
+        XCTAssertEqual(s.snapshot.pool.count, 3, "Accented Albanian letters remain distinct")
+        s.reveal()
+        var seen = Set<String>()
+        while let word = s.visibleWord {
+            XCTAssertTrue(seen.insert(CharadesCatalog.wordKey(word)).inserted)
+            s.anotherWord()
+        }
+        XCTAssertEqual(seen.count, 3)
+        XCTAssertEqual(s.snapshot.usedWordKeys?.count, 3)
+        XCTAssertEqual(s.phase, .exhausted)
+    }
+
+    func testMixedHistorySurvivesSkipScoreCorrectionHandoffAndRestore() throws {
+        let s = CharadesSession(mode: .tournament, names: ["A", "B"], rounds: 3,
+                               deck: mixedFixture(), shuffled: false, now: { self.clock }, chooseIndex: { _ in 0 })
+        s.reveal()
+        let skipped = try XCTUnwrap(s.visibleWord)
+        s.anotherWord()
+        let played = try XCTUnwrap(s.visibleWord)
+        let category = s.currentCategory?.id
+        s.ready(); clock += 3; s.tick()
+        XCTAssertNil(s.currentCategory)
+        s.record(guessed: true); s.correctLastResult(); s.next()
+        let encoded = try JSONEncoder().encode(s.snapshot)
+        let decoded = try JSONDecoder().decode(CharadesSession.Snapshot.self, from: encoded)
+        let restored = try XCTUnwrap(CharadesSession(restoring: decoded, chooseIndex: { _ in 0 }))
+        XCTAssertEqual(restored.performerIndex, 1)
+        XCTAssertEqual(restored.score, 0)
+        restored.reveal()
+        XCTAssertNotEqual(restored.currentCategory?.id, category)
+        var seen = Set([skipped, played])
+        while let word = restored.visibleWord {
+            XCTAssertTrue(seen.insert(word).inserted)
+            restored.anotherWord()
+        }
+        XCTAssertEqual(seen.count, mixedFixture().cards.count)
+        XCTAssertFalse(restored.isComplete)
+    }
+
+    func testMixedReadingRestoreKeepsPrivateWordAndThenChangesCategory() throws {
+        let s = CharadesSession(mode: .together, deck: mixedFixture(), chooseIndex: { _ in 0 })
+        s.reveal(); s.anotherWord()
+        let word = s.visibleWord
+        let category = s.currentCategory
+        let data = try JSONEncoder().encode(s.snapshot)
+        let restored = try XCTUnwrap(CharadesSession(restoring: JSONDecoder().decode(CharadesSession.Snapshot.self, from: data), chooseIndex: { _ in 0 }))
+        XCTAssertNil(restored.visibleWord)
+        XCTAssertNil(restored.currentCategory)
+        restored.resume()
+        XCTAssertEqual(restored.visibleWord, word)
+        XCTAssertEqual(restored.currentCategory, category)
+        restored.anotherWord()
+        XCTAssertNotEqual(restored.visibleWord, word)
+        XCTAssertNotEqual(restored.currentCategory?.id, category?.id)
+    }
+
+    func testLegacySaveInfersSkippedDuplicateWordsFromShrinkingPool() throws {
+        let deck = Deck(id: "legacy", title: "Legacy", description: "", iconName: "star", difficulty: 1, isPro: false,
+                        cards: [Card(id: "1", text: "Fjalë"), Card(id: "2", text: "fjalë"), Card(id: "3", text: "Tjetër")])
+        var state = CharadesSession(mode: .together, deck: deck, shuffled: false).snapshot
+        state.pool = Array(deck.cards.dropFirst()) // The first card was skipped by the old app.
+        let data = try JSONEncoder().encode(state)
+        var json = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        json.removeValue(forKey: "usedWordKeys")
+        json.removeValue(forKey: "lastCategoryID")
+        let legacy = try JSONDecoder().decode(CharadesSession.Snapshot.self, from: JSONSerialization.data(withJSONObject: json))
+        let restored = try XCTUnwrap(CharadesSession(restoring: legacy))
+        restored.reveal()
+        XCTAssertEqual(restored.visibleWord, "Tjetër")
+        restored.anotherWord()
+        XCTAssertEqual(restored.phase, .exhausted)
+    }
+
+    func testNewMixedGameResetsHistoryAndUsesSameCategories() {
+        let s = CharadesSession(mode: .together, deck: mixedFixture(), shuffled: false, chooseIndex: { _ in 0 })
+        s.reveal()
+        let first = s.visibleWord
+        s.anotherWord()
+        let next = CharadesSession(mode: .together, deck: s.snapshot.deck, shuffled: false, chooseIndex: { _ in 0 })
+        XCTAssertNotEqual(next.id, s.id)
+        XCTAssertEqual(next.snapshot.pool.count, mixedFixture().cards.count)
+        XCTAssertEqual(next.snapshot.usedWordKeys, [])
+        next.reveal()
+        XCTAssertEqual(next.visibleWord, first)
+    }
+
+    func testMixedCatalogRetainsSourcesDeduplicatesAndIncludesStarterOnce() {
+        let source = Deck(id: "source", title: "Source", description: "", iconName: "star", difficulty: 1, isPro: false,
+                          cards: [Card(id: "1", text: "Futboll"), Card(id: "2", text: "Unique term")])
+        let mixed = CharadesCatalog.mixedDeck(from: [source, source, CharadesCatalog.starter])
+        XCTAssertEqual(mixed.id, CharadesCatalog.mixedID)
+        XCTAssertEqual(mixed.cards.count, CharadesCatalog.starter.cards.count + 1)
+        XCTAssertEqual(Set(mixed.cards.map(\.id)).count, mixed.cards.count)
+        XCTAssertEqual(Set(mixed.cards.compactMap { $0.category?.id }), [source.id, CharadesCatalog.starter.id])
+        XCTAssertEqual(mixed.cards.first { $0.text == "Unique term" }?.category?.title, "Source")
+        XCTAssertEqual(mixed.cards.filter { $0.text == "Futboll" }.count, 1)
+    }
+
+    func testRealMixedCatalogNeverRepeatsAcrossCompleteRandomRuns() throws {
+        let service = DeckService()
+        XCTAssertFalse(service.decks.isEmpty)
+        let deck = CharadesCatalog.mixedDeck(from: service.decks)
+        XCTAssertGreaterThan(deck.cards.count, 400)
+        XCTAssertEqual(Set(deck.cards.compactMap { $0.category?.id }).count, 12)
+        for _ in 0..<10 {
+            let s = CharadesSession(mode: .together, deck: deck)
+            var seen = Set<String>()
+            var previous: String?
+            while !s.snapshot.pool.isEmpty {
+                let available = Set(s.snapshot.pool.compactMap { $0.category?.id })
+                if s.phase == .handoff { s.reveal() } else { s.anotherWord() }
+                let category = try XCTUnwrap(s.currentCategory?.id)
+                if available.subtracting([previous ?? ""]).count > 0 { XCTAssertNotEqual(category, previous) }
+                XCTAssertTrue(seen.insert(CharadesCatalog.wordKey(try XCTUnwrap(s.visibleWord))).inserted)
+                previous = category
+            }
+            XCTAssertEqual(seen.count, deck.cards.count)
+            s.anotherWord()
+            XCTAssertEqual(s.phase, .exhausted)
+        }
+    }
+
     func testPrivateHandoffAndReadyNeverExposeTheWordToGuessers() {
         let s = game()
         XCTAssertNil(s.visibleWord)

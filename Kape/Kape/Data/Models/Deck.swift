@@ -37,11 +37,19 @@ struct Deck: Identifiable, Codable, Equatable {
 
 /// Represents a single card with a word or phrase to guess.
 struct Card: Identifiable, Codable, Equatable {
+    /// Origin of a card in a mixed game. Optional for existing catalogs and saved games.
+    struct Category: Codable, Equatable {
+        let id: String
+        let title: String
+        let iconName: String
+    }
     /// Unique identifier for the card
     let id: String
     
     /// The word or phrase displayed on the card
     let text: String
+
+    var category: Category? = nil
 }
 
 /// Wrapper struct for decoding the JSON root object
