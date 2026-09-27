@@ -1,4 +1,5 @@
 import XCTest
+import UIKit
 
 /// Public UI only. State reset and shortened timers are DEBUG fixtures; gameplay has no store dependency.
 final class CharadesUITests: XCTestCase {
@@ -788,7 +789,9 @@ final class CharadesUITests: XCTestCase {
         XCTAssertTrue(app.buttons["RevealWord"].waitForExistence(timeout: 5))
         capture("21-five-person-handoff", app)
     }
-    func testTabletRotationKeepsTheWordPrivateAndTheGamePlayable() {
+    func testTabletRotationKeepsTheWordPrivateAndTheGamePlayable() throws {
+        try XCTSkipIf(UIDevice.current.userInterfaceIdiom != .pad,
+                      "iPad-only rotation test; iPhone intentionally supports portrait only.")
         let app = launch(intro: true)
         capture("ipad-01-intro-portrait", app)
         tap(app, "CloseInstructions")
